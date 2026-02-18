@@ -1,7 +1,0 @@
-{
-  "name": "Jeeva Raksha - Unified Hospital Information System",
-  "description": "ಜೀವರಕ್ಷ (Jeeva Raksha) - ಜೀವ ಉಳಿಸುವ ತಂತ್ರಜ್ಞಾನ. A trust-driven, AI-powered digital backbone for hospitals, combining clinical intelligence with healing-centric design.",
-  "requestFramePermissions": [
-    "camera"
-  ]
-}

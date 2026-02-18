@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RadiologyResult } from '../types';
-import { geminiService } from '../geminiService';
+import { aiService } from '../aiService';
 import api from '../api';
 
 const RadiologyResults: React.FC = () => {
@@ -71,8 +71,8 @@ const RadiologyResults: React.FC = () => {
     if (!selectedResult) return;
     setIsAnalyzing(true);
     try {
-      // Analyze the image using the Gemini API through the geminiService
-      const aiResponse = await geminiService.analyzeRadiologyScan(selectedResult.imageUrls[0], selectedResult.modality);
+      // Analyze the image using the AI service
+      const aiResponse = await aiService.analyzeRadiologyScan(selectedResult.imageUrls[0], selectedResult.modality);
       setSelectedResult({
         ...selectedResult,
         aiSummary: aiResponse.aiSummary,

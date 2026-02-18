@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { geminiService } from '../geminiService';
+import { aiService } from '../aiService';
 // Removed unused and non-existent RoundRecord import
 import { WardPatient } from '../types';
 import api from '../api';
@@ -113,8 +113,8 @@ const DoctorPad: React.FC = () => {
       const canvas = canvasRefs.progressNotes.current;
       if (canvas) {
         const base64 = canvas.toDataURL('image/png').split(',')[1];
-        // We could use Gemini to digitize if needed
-        // await geminiService.processConsultationNotes(base64);
+        // We could use AI to digitize if needed
+        // await aiService.processConsultationNotes(base64);
       }
 
       // Update local state to show patient as "seen"
@@ -208,7 +208,7 @@ const DoctorPad: React.FC = () => {
                   <div className="flex justify-between items-center mt-3">
                     <p className="text-[10px] font-bold text-slate-400">{p.age}y • {p.gender}</p>
                     <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${p.acuity === 'High' ? 'bg-danger/10 text-danger' :
-                        p.acuity === 'Medium' ? 'bg-warning/10 text-warning' : 'bg-success/10 text-success'
+                      p.acuity === 'Medium' ? 'bg-warning/10 text-warning' : 'bg-success/10 text-success'
                       }`}>
                       {p.acuity} Acuity
                     </span>
@@ -299,7 +299,7 @@ const DoctorPad: React.FC = () => {
                             setMeds(newMeds);
                           }}
                           className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border outline-none focus:ring-2 focus:ring-primary/20 ${med.status === 'Continued' ? 'bg-success/5 text-success border-success/20' :
-                              med.status === 'Changed' ? 'bg-warning/5 text-warning border-warning/20' : 'bg-danger/5 text-danger border-danger/20'
+                            med.status === 'Changed' ? 'bg-warning/5 text-warning border-warning/20' : 'bg-danger/5 text-danger border-danger/20'
                             }`}
                         >
                           <option value="Continued">Continued</option>

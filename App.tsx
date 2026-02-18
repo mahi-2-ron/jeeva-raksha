@@ -33,31 +33,10 @@ const AppContent: React.FC = () => {
   const { user, currentPermissions, overrideState, remainingOverrideTime, deactivateOverride, changeRole } = useAuth();
 
   useEffect(() => {
-    const checkKey = async () => {
-      if (window.aistudio) {
-        try {
-          const selected = await window.aistudio.hasSelectedApiKey();
-          setHasKey(selected);
-        } catch (e) {
-          setHasKey(true);
-        }
-      } else {
-        setHasKey(true);
-      }
-    };
-    checkKey();
+    setHasKey(true);
   }, []);
 
-  const handleSelectKey = async () => {
-    if (window.aistudio) {
-      try {
-        await window.aistudio.openSelectKey();
-        setHasKey(true);
-      } catch (err) {
-        console.error('Failed to open key selector', err);
-      }
-    }
-  };
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -98,33 +77,8 @@ const AppContent: React.FC = () => {
 
   const isHome = activeView === 'HOME';
 
-  if (hasKey === false) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 text-center">
-        <div className="max-w-md w-full bg-white rounded-[3rem] p-12 shadow-2xl space-y-8 animate-in">
-          <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner">🔑</div>
-          <div className="space-y-4">
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">API Configuration Required</h1>
-            <p className="text-sm text-slate-500 font-medium leading-relaxed">
-              To access Jeeva Raksha's high-quality clinical AI and safety modules, please select your paid Gemini API key.
-            </p>
-          </div>
-          <button
-            onClick={handleSelectKey}
-            className="w-full py-5 bg-primary text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 shadow-xl shadow-primary/20 transition-all active:scale-95"
-          >
-            Select API Key
-          </button>
-        </div>
-      </div>
-    );
-  }
 
-  if (hasKey === null) return (
-    <div className="min-h-screen bg-hospital-bg flex items-center justify-center">
-      <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-    </div>
-  );
+
 
   return (
     <div className="flex min-h-screen bg-hospital-bg font-sans">

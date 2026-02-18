@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { geminiService } from '../geminiService';
+import { aiService } from '../aiService';
 import api from '../api';
 
 const OPDManagement: React.FC = () => {
@@ -58,7 +58,7 @@ const OPDManagement: React.FC = () => {
     reader.onloadend = async () => {
       const base64 = (reader.result as string).split(',')[1];
       try {
-        const extracted = await geminiService.extractPatientFromID(base64);
+        const extracted = await aiService.extractPatientFromID(base64);
         setPatientData(prev => ({ ...prev, ...extracted }));
       } catch (err) {
         console.error(err);
@@ -101,7 +101,7 @@ const OPDManagement: React.FC = () => {
     setShowCamera(false);
 
     try {
-      const extracted = await geminiService.extractPatientFromID(base64);
+      const extracted = await aiService.extractPatientFromID(base64);
       setPatientData(prev => ({ ...prev, ...extracted }));
     } catch (err) {
       console.error(err);
