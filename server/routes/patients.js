@@ -125,7 +125,7 @@ router.get('/:id', async (req, res) => {
 
 // ─── POST /api/patients — register new patient ──────────────
 router.post('/',
-    authorize('admin', 'doctor', 'receptionist'),
+    authorize('admin'),
     validateRequired(['name', 'date_of_birth', 'gender']),
     async (req, res) => {
         try {
@@ -212,7 +212,7 @@ router.post('/',
 
 // ─── PATCH /api/patients/:id — update patient ────────────────
 router.patch('/:id',
-    authorize('admin', 'doctor', 'receptionist'),
+    authorize('admin'),
     async (req, res) => {
         try {
             const { id } = req.params;
@@ -256,7 +256,7 @@ router.patch('/:id',
 
 // ─── DELETE /api/patients/:id — soft delete (or hard for admin) ─
 router.delete('/:id',
-    authorize('admin', 'doctor'),
+    authorize('admin'),
     async (req, res) => {
         try {
             const { id } = req.params;

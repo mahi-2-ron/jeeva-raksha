@@ -61,9 +61,9 @@ router.post('/login', async (req, res) => {
 
         // Find user by email
         const result = await pool.query(
-            `SELECT u.*, d.name as department_name
+            `SELECT u.*, r.role_name as role, u.department as department_name
              FROM users u
-             LEFT JOIN departments d ON u.department_id = d.id
+             LEFT JOIN roles r ON u.role_id = r.id
              WHERE u.email = $1`,
             [email.toLowerCase().trim()]
         );
@@ -134,7 +134,7 @@ router.post('/login', async (req, res) => {
         // ── Success ──
         // Reset login attempts, update last_login
         await pool.query(
-            'UPDATE users SET login_attempts = 0, locked_until = NULL, last_login = NOW() WHERE id = $1',
+            'UPDATE users SET login_attempts = 0, locked_until = NULL, last_login_at = NOW() WHERE id = $1',
             [user.id]
         );
 
@@ -167,10 +167,10 @@ router.post('/demo', async (req, res) => {
 
         // Find a user with the requested role for demo purposes
         const result = await pool.query(
-            `SELECT u.*, d.name as department_name
+            `SELECT u.*, r.role_name as role, u.department as department_name
              FROM users u
-             LEFT JOIN departments d ON u.department_id = d.id
-             WHERE u.role = $1 AND u.status = 'active'
+             LEFT JOIN roles r ON u.role_id = r.id
+             WHERE (r.role_name ILIKE $1 OR u.designation ILIKE $1) AND u.status = 'active'
              ORDER BY u.created_at ASC LIMIT 1`,
             [targetRole]
         );
@@ -217,9 +217,9 @@ router.get('/me', async (req, res) => {
 
         // Fetch fresh user data
         const result = await pool.query(
-            `SELECT u.*, d.name as department_name
+            `SELECT u.*, r.role_name as role, u.department as department_name
              FROM users u
-             LEFT JOIN departments d ON u.department_id = d.id
+             LEFT JOIN roles r ON u.role_id = r.id
              WHERE u.id = $1 AND u.status != 'deleted'`,
             [decoded.id]
         );

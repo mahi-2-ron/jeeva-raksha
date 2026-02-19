@@ -17,11 +17,10 @@ const pool = new pg.Pool({
 });
 
 const DEMO_ACCOUNTS = [
-    { email: 'admin@jeevaraksha.in', password: 'admin123' },
+    { email: 'rajesh.kumar@jeevaraksha.in', password: 'admin123' },
     { email: 'aditi.sharma@jeevaraksha.in', password: 'doctor123' },
-    { email: 'pharmacist@jeevaraksha.in', password: 'pharma123' },
-    { email: 'patient@jeevaraksha.in', password: 'patient123' },
-    { email: 'demo@jeevaraksha.in', password: 'demo123' },
+    { email: 'karthik.iyer@jeevaraksha.in', password: 'pharma123' },
+    { email: 'meera.nair@jeevaraksha.in', password: 'patient123' },
 ];
 
 async function seed() {
@@ -30,12 +29,12 @@ async function seed() {
     for (const account of DEMO_ACCOUNTS) {
         const hash = await bcrypt.hash(account.password, 10);
         const result = await pool.query(
-            'UPDATE users SET password_hash = $1 WHERE email = $2 RETURNING employee_id, name, role',
+            'UPDATE users SET password_hash = $1 WHERE email = $2 RETURNING employee_id, name',
             [hash, account.email]
         );
         if (result.rows.length > 0) {
             const u = result.rows[0];
-            console.log(`  ✅ ${u.name} (${u.role}) — ${account.email} / ${account.password}`);
+            console.log(`  ✅ ${u.name} — ${account.email} / ${account.password}`);
         } else {
             console.log(`  ⚠️  No user found for ${account.email}`);
         }

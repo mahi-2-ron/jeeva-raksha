@@ -79,13 +79,31 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, error, isLo
 
     const handleRoleSelect = (roleId: string) => {
         setSelectedRole(roleId);
-        // Pre-fill demo credentials if demo role selected
-        if (roleId === 'demo') {
-            setEmail('admin@demo.com');
-            setPassword('demo123');
-        } else {
-            setEmail('');
-            setPassword('');
+        // Pre-fill seeded credentials for the role
+        switch (roleId) {
+            case 'admin':
+                setEmail('rajesh.kumar@jeevaraksha.in');
+                setPassword('admin123');
+                break;
+            case 'doctor':
+                setEmail('aditi.sharma@jeevaraksha.in');
+                setPassword('doctor123');
+                break;
+            case 'pharmacist':
+                setEmail('karthik.iyer@jeevaraksha.in');
+                setPassword('pharma123');
+                break;
+            case 'patient':
+                setEmail('meera.nair@jeevaraksha.in');
+                setPassword('patient123');
+                break;
+            case 'demo':
+                setEmail('rajesh.kumar@jeevaraksha.in');
+                setPassword('admin123'); // Default demo to admin
+                break;
+            default:
+                setEmail('');
+                setPassword('');
         }
     };
 
