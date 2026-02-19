@@ -1,8 +1,14 @@
-
 import React from 'react';
 import { ViewType } from '../types.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
-import { useAuth, ROLES, Role } from '../context/AuthContext.tsx';
+import { useAuth } from '../context/AuthContext.tsx';
+import {
+  LayoutDashboard, Stethoscope, Bed, Activity, Scissors,
+  FileText, ClipboardList, Globe, Users, TestTube,
+  ScanLine, Pill, Package, CreditCard, Shield,
+  UserCog, BedDouble, BarChart3, CheckCircle2,
+  Cpu, Landmark, Home, Lock
+} from 'lucide-react';
 
 interface SidebarProps {
   activeView: ViewType;
@@ -11,7 +17,7 @@ interface SidebarProps {
 
 interface NavCategory {
   titleKey: string;
-  items: { id: ViewType; icon: string }[];
+  items: { id: ViewType; icon: React.ReactNode }[];
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
@@ -22,62 +28,62 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
     {
       titleKey: 'categories.CLINICAL_OPS',
       items: [
-        { id: 'DASHBOARD', icon: '📊' },
-        { id: 'OPD', icon: '🏥' },
-        { id: 'IPD', icon: '🛌' },
-        { id: 'EMERGENCY', icon: '🚨' },
-        { id: 'OT', icon: '🔪' },
+        { id: 'DASHBOARD', icon: <LayoutDashboard size={18} /> },
+        { id: 'OPD', icon: <Stethoscope size={18} /> },
+        { id: 'IPD', icon: <Bed size={18} /> },
+        { id: 'EMERGENCY', icon: <Activity size={18} /> },
+        { id: 'OT', icon: <Scissors size={18} /> },
       ]
     },
     {
       titleKey: 'categories.PATIENT_CARE',
       items: [
-        { id: 'EMR', icon: '📁' },
-        { id: 'ROUNDS', icon: '🖋️' },
-        { id: 'PORTAL', icon: '🌐' },
-        { id: 'PATIENTS', icon: '👥' },
+        { id: 'EMR', icon: <FileText size={18} /> },
+        { id: 'ROUNDS', icon: <ClipboardList size={18} /> },
+        { id: 'PORTAL', icon: <Globe size={18} /> },
+        { id: 'PATIENTS', icon: <Users size={18} /> },
       ]
     },
     {
       titleKey: 'categories.DIAGNOSTICS',
       items: [
-        { id: 'LABORATORY', icon: '🔬' },
-        { id: 'RADIOLOGY', icon: '🩻' },
+        { id: 'LABORATORY', icon: <TestTube size={18} /> },
+        { id: 'RADIOLOGY', icon: <ScanLine size={18} /> },
       ]
     },
     {
       titleKey: 'categories.PHARMACY_SUPPLIES',
       items: [
-        { id: 'PHARMACY', icon: '💊' },
-        { id: 'INVENTORY', icon: '📦' },
+        { id: 'PHARMACY', icon: <Pill size={18} /> },
+        { id: 'INVENTORY', icon: <Package size={18} /> },
       ]
     },
     {
       titleKey: 'categories.FINANCIAL_OPS',
       items: [
-        { id: 'BILLING', icon: '💰' },
-        { id: 'INSURANCE', icon: '📑' },
+        { id: 'BILLING', icon: <CreditCard size={18} /> },
+        { id: 'INSURANCE', icon: <Shield size={18} /> },
       ]
     },
     {
       titleKey: 'categories.WORKFORCE_ADMIN',
       items: [
-        { id: 'HR', icon: '👥' },
-        { id: 'BEDS', icon: '🛏️' },
+        { id: 'HR', icon: <UserCog size={18} /> },
+        { id: 'BEDS', icon: <BedDouble size={18} /> },
       ]
     },
     {
       titleKey: 'categories.INSIGHTS_GOV',
       items: [
-        { id: 'ANALYTICS', icon: '📉' },
-        { id: 'QUALITY', icon: '✅' },
+        { id: 'ANALYTICS', icon: <BarChart3 size={18} /> },
+        { id: 'QUALITY', icon: <CheckCircle2 size={18} /> },
       ]
     },
     {
       titleKey: 'categories.INTEGRATIONS',
       items: [
-        { id: 'INTEGRATIONS_DEVICES', icon: '🔌' },
-        { id: 'INTEGRATIONS_GOVT', icon: '🏛️' },
+        { id: 'INTEGRATIONS_DEVICES', icon: <Cpu size={18} /> },
+        { id: 'INTEGRATIONS_GOVT', icon: <Landmark size={18} /> },
       ]
     }
   ];
@@ -90,26 +96,24 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   };
 
   return (
-    <aside className="w-64 bg-white text-slate-600 flex flex-col border-r border-slate-200 h-screen transition-all duration-300 z-50">
+    <aside className="w-64 bg-hospital-card text-slate-600 flex flex-col border-r border-hospital-border h-screen transition-all duration-300 z-50 shadow-sm">
       <div
         onClick={() => setActiveView('HOME')}
-        className="p-6 flex items-center gap-3 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors"
+        className="h-16 flex items-center gap-3 px-6 border-b border-hospital-border cursor-pointer hover:bg-hospital-bg transition-colors"
       >
-        <div className="h-10 w-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="#1E88E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <div className="h-8 w-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 text-primary">
+          <Home size={18} />
         </div>
         <div className="overflow-hidden">
-          <h2 className="text-slate-900 font-black text-sm tracking-tight leading-none truncate">{t('brand')}</h2>
-          <p className="text-[8px] font-bold text-success mt-1 font-kannada whitespace-nowrap uppercase tracking-widest">ಜೀವರಕ್ಷ</p>
+          <h2 className="text-text-main font-bold text-sm tracking-tight leading-none truncate">{t('brand')}</h2>
+          <p className="text-[10px] font-medium text-primary mt-0.5 font-kannada whitespace-nowrap tracking-wide">Unified HIS</p>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto custom-scrollbar pt-4 pb-10">
         {categories.map((cat, idx) => (
           <div key={idx} className="mb-6">
-            <h3 className="px-6 mb-2 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
+            <h3 className="px-6 mb-2 text-[10px] font-bold text-text-muted uppercase tracking-wider">
               {t(cat.titleKey)}
             </h3>
             <div className="px-3 space-y-0.5">
@@ -124,19 +128,19 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
                     onClick={() => handleNavClick(item.id)}
                     disabled={!accessible}
                     title={!accessible ? `Requires ${requiredLevel} access` : undefined}
-                    className={`w-full group relative flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${!accessible
-                        ? 'opacity-40 cursor-not-allowed'
-                        : activeView === item.id
-                          ? 'bg-primary/10 text-primary font-bold shadow-inner'
-                          : 'hover:bg-slate-50 text-slate-500'
+                    className={`w-full group relative flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ${!accessible
+                      ? 'opacity-40 cursor-not-allowed'
+                      : activeView === item.id
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'hover:bg-hospital-bg text-text-body hover:text-text-main'
                       }`}
                   >
-                    <span className={`text-lg ${accessible ? 'opacity-70 group-hover:opacity-100' : 'grayscale'}`}>{item.icon}</span>
-                    <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap overflow-hidden flex-1 text-left">
+                    <span className={`${accessible ? 'opacity-80 group-hover:opacity-100' : 'grayscale'}`}>{item.icon}</span>
+                    <span className="text-xs font-medium whitespace-nowrap overflow-hidden flex-1 text-left">
                       {label}
                     </span>
                     {!accessible && (
-                      <span className="text-[10px] opacity-60">🔒</span>
+                      <Lock size={12} className="opacity-40" />
                     )}
                   </button>
                 );

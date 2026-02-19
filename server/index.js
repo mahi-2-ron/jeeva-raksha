@@ -1,6 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
+const logPath = path.resolve(projectRoot, 'debug_root.log');
 
 import { authenticate, demoGuard } from './middleware/authMiddleware.js';
 import { healthCheck } from './db.js';
@@ -26,6 +34,18 @@ const PORT = process.env.API_PORT || 5000;
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
+// Request logging middleware - MOVED TO TOP
+app.use((req, _res, next) => {
+    const user = req.user?.id || 'anon';
+    const demo = req.user?.isDemo ? ' [DEMO]' : '';
+    const msg = `[API] ${req.method} ${req.url}  (user: ${user}${demo})`;
+    console.log(msg);
+    try {
+        fs.appendFileSync(logPath, `[${new Date().toISOString()}] ${msg}\n`);
+    } catch (e) { }
+    next();
+});
+
 // Auth routes BEFORE authentication middleware (login doesn't need auth)
 app.use('/api/auth', authRouter);
 
@@ -35,13 +55,9 @@ app.use(authenticate);
 // Block mutations for demo users
 app.use(demoGuard);
 
-// Request logging
-app.use((req, _res, next) => {
-    const user = req.user?.id || 'anon';
-    const demo = req.user?.isDemo ? ' [DEMO]' : '';
-    console.log(`[API] ${req.method} ${req.url}  (user: ${user}${demo})`);
-    next();
-});
+// ... (imports)
+
+// Request logging middleware (Removed duplicate)
 
 // ─── Routes ─────────────────────────────────────────────────
 app.use('/api/auth', authRouter); // Redundant here but safe

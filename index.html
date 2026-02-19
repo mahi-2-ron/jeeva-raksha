@@ -9,33 +9,43 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Kannada:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap"
     rel="stylesheet">
-  <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#1E88E5',   // Hospital Blue
-            success: '#2E7D32',   // Healing Green
-            accent: '#26A69A',    // AI Teal
-            danger: '#D32F2F',    // Medical Red
-            warning: '#FFB300',   // Amber
+            // Enterprise Medical Palette
+            primary: '#0f766e',   // Teal-700 (Primary Action)
+            secondary: '#334155', // Slate-700 (Secondary Text/UI)
+            accent: '#0ea5e9',    // Sky-500 (Highlights)
+            danger: '#ef4444',    // Red-500 (Alerts)
+            success: '#10b981',   // Emerald-500 (Success)
+            warning: '#f59e0b',   // Amber-500 (Warning)
+            
+            // Backgrounds
             hospital: {
-              bg: '#F9FBFD',
-              blue: '#1E88E5',
-              green: '#2E7D32',
-              teal: '#26A69A',
-              slate: '#607D8B'
+              bg: '#f1f5f9',      // Slate-100 (App Background)
+              card: '#ffffff',    // White (Card Background)
+              input: '#f8fafc',   // Slate-50 (Input Background)
+              border: '#e2e8f0',  // Slate-200 (Borders)
+            },
+            
+            // Text
+            text: {
+              main: '#0f172a',    // Slate-900 (Headings)
+              body: '#475569',    // Slate-600 (Body)
+              muted: '#94a3b8',   // Slate-400 (Muted)
             }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
-            kannada: ['"Noto Sans Kannada"', 'sans-serif'],
-            hindi: ['"Noto Sans Devanagari"', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+            'card-hover': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
           }
         }
       }
     }
-  </script>
   <style>
     body {
       font-family: 'Inter', sans-serif;

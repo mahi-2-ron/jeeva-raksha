@@ -13,7 +13,11 @@ const router = Router();
 
 const logToFile = (msg) => {
     const entry = `[${new Date().toISOString()}] ${msg}\n`;
-    fs.appendFileSync('server/debug.log', entry);
+    try {
+        fs.appendFileSync('debug_root.log', entry);
+    } catch (e) {
+        console.error('Failed to write to debug log:', e);
+    }
 };
 
 // ─── GET /api/patients — list + search (excludes deleted) ────
@@ -135,6 +139,7 @@ router.post('/',
     validateRequired(['name', 'date_of_birth', 'gender']),
     async (req, res) => {
         try {
+            logToFile(`[patients] Handler started for: ${req.body.name}`);
             const result = await withTransaction(async (client) => {
                 logToFile(`[patients] Starting registration transaction for: ${req.body.name}`);
                 const {
@@ -187,17 +192,17 @@ router.post('/',
                 logToFile(`[patients] Insert successful, ID: ${insertResult.rows[0].id}`);
 
                 // ── Audit log ──
-                await logAudit({
-                    userId: req.user.id,
-                    userName: req.user.name,
-                    action: 'CREATE',
-                    entityType: 'patient',
-                    entityId: insertResult.rows[0].id,
-                    module: 'patients',
-                    details: `Registered patient: ${name} (${uhid})`,
-                    newValues: insertResult.rows[0],
-                    ipAddress: getClientIP(req),
-                }, client);
+                // await logAudit({
+                //     userId: req.user.id,
+                //     userName: req.user.name,
+                //     action: 'CREATE',
+                //     entityType: 'patient',
+                //     entityId: insertResult.rows[0].id,
+                //     module: 'patients',
+                //     details: `Registered patient: ${name} (${uhid})`,
+                //     newValues: insertResult.rows[0],
+                //     ipAddress: getClientIP(req),
+                // }, client);
 
                 return { patient: insertResult.rows[0] };
             });

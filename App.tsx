@@ -32,6 +32,7 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext.tsx';
 import { AuthProvider, useAuth, ROLES, ROLE_DEFAULT_VIEW } from './context/AuthContext.tsx';
 import { ToastProvider } from './context/ToastContext.tsx';
 import { ViewType } from './types.ts';
+import { Eye, LogOut, AlertTriangle, Hospital, Loader2, Home as HomeIcon } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('HOME');
@@ -89,35 +90,12 @@ const AppContent: React.FC = () => {
   // ─── Show loading spinner while checking saved token ───────
   if (authLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%)',
-        gap: '20px',
-      }}>
-        <div style={{
-          width: '60px', height: '60px', borderRadius: '16px',
-          background: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 8px 32px rgba(6,182,212,0.3)',
-        }}>
-          <span style={{ fontSize: '30px' }}>🏥</span>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-hospital-bg gap-5">
+        <div className="w-16 h-16 rounded-2xl bg-white shadow-xl flex items-center justify-center border border-hospital-border">
+          <Hospital size={32} className="text-primary" />
         </div>
-        <div style={{
-          width: '32px', height: '32px',
-          border: '3px solid rgba(6,182,212,0.2)',
-          borderTop: '3px solid #06b6d4',
-          borderRadius: '50%',
-          animation: 'spin 0.8s linear infinite',
-        }} />
-        <p style={{
-          fontSize: '10px', fontWeight: 800, color: 'rgba(148,163,184,0.6)',
-          textTransform: 'uppercase', letterSpacing: '3px',
-        }}>Initializing System...</p>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+        <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Initializing System...</p>
       </div>
     );
   }
@@ -166,41 +144,24 @@ const AppContent: React.FC = () => {
   const isHome = activeView === 'HOME';
 
   return (
-    <div className="flex min-h-screen bg-hospital-bg font-sans">
+    <div className="flex min-h-screen bg-hospital-bg font-sans text-text-body">
       {!isHome && <Sidebar activeView={activeView} setActiveView={setActiveView} />}
 
       <main className={`flex-1 h-screen relative flex flex-col overflow-hidden ${isHome ? 'w-full' : 'bg-hospital-bg'}`}>
 
         {/* Demo Mode Banner */}
         {isDemo && (
-          <div style={{
-            background: 'linear-gradient(90deg, #f59e0b, #d97706)',
-            color: 'white',
-            padding: '6px 16px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            zIndex: 70,
-          }}>
-            <span style={{
-              fontSize: '10px', fontWeight: 800,
-              textTransform: 'uppercase', letterSpacing: '2px',
-              display: 'flex', alignItems: 'center', gap: '8px',
-            }}>
-              <span>👁️</span>
+          <div className="bg-warning text-white px-4 py-1.5 flex justify-between items-center z-50 shadow-sm">
+            <span className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+              <Eye size={12} />
               <span>Demo Mode — Changes will not be saved</span>
             </span>
             <button
               onClick={logout}
-              style={{
-                fontSize: '9px', fontWeight: 800,
-                textTransform: 'uppercase', letterSpacing: '1.5px',
-                background: 'rgba(255,255,255,0.2)',
-                border: 'none', color: 'white',
-                padding: '4px 12px', borderRadius: '20px',
-                cursor: 'pointer',
-              }}
-            >Exit Demo</button>
+              className="text-[9px] font-bold uppercase tracking-wider bg-white/20 hover:bg-white/30 text-white px-3 py-1 rounded-full border-none cursor-pointer transition-colors"
+            >
+              Exit Demo
+            </button>
           </div>
         )}
 
@@ -214,7 +175,7 @@ const AppContent: React.FC = () => {
             <div className={`text-white py-1.5 px-4 flex justify-between items-center z-[60] transition-colors ${isUrgent ? 'bg-red-800 animate-pulse' : 'bg-danger'
               }`}>
               <span className="text-[9px] font-black uppercase tracking-[0.3em] flex items-center gap-3">
-                <span>🚨 CRITICAL OVERRIDE ACTIVE</span>
+                <span className="flex items-center gap-2"><AlertTriangle size={12} /> CRITICAL OVERRIDE ACTIVE</span>
                 <span className={`font-mono px-2 py-0.5 rounded-md text-[10px] ${isUrgent ? 'bg-white/30 text-white' : 'bg-white/15 text-white/90'
                   }`}>{timeStr}</span>
               </span>
@@ -230,16 +191,17 @@ const AppContent: React.FC = () => {
 
         {/* Header */}
         {!isHome && (
-          <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b bg-white/80 backdrop-blur-md px-8 shadow-sm shrink-0">
+          <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-hospital-border bg-white/80 backdrop-blur-md px-8 shadow-sm shrink-0">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setActiveView('HOME')}
-                  className="text-[10px] font-black text-slate-300 uppercase tracking-widest hover:text-primary transition-colors cursor-pointer"
+                  className="text-[10px] font-bold text-text-muted uppercase tracking-widest hover:text-primary transition-colors cursor-pointer flex items-center gap-1"
                 >
+                  <HomeIcon size={12} />
                   {t('home')}
                 </button>
-                <span className="text-slate-200">/</span>
+                <span className="text-hospital-border">/</span>
                 <span className={`text-[10px] font-black text-primary uppercase tracking-widest ${t('', activeView).match(/[\u0C80-\u0CFF]/) ? 'font-kannada' : ''}`}>
                   {t('', activeView)}
                 </span>
@@ -249,22 +211,23 @@ const AppContent: React.FC = () => {
               {!overrideState.active && !isDemo && (
                 <button
                   onClick={() => setShowOverrideModal(true)}
-                  className="px-4 py-2 border border-danger/20 text-danger rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-danger hover:text-white transition-all flex items-center gap-2"
+                  className="px-4 py-2 border border-danger/20 text-danger rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-danger hover:text-white transition-all flex items-center gap-2"
                 >
-                  <span>🚨</span> Emergency Override
+                  <AlertTriangle size={12} />
+                  <span>Emergency Override</span>
                 </button>
               )}
 
               <LanguageToggle />
 
-              <div className="flex items-center gap-3 pl-6 border-l border-slate-100">
+              <div className="flex items-center gap-3 pl-6 border-l border-hospital-border">
                 <div className="text-right hidden md:block">
-                  <p className="text-[10px] font-black text-slate-800 leading-tight">{user?.name}</p>
-                  <p className={`text-[8px] font-black uppercase tracking-tighter ${isDemo ? 'text-amber-500' : overrideState.active ? 'text-danger' : 'text-primary'}`}>
+                  <p className="text-[10px] font-bold text-text-main leading-tight">{user?.name}</p>
+                  <p className={`text-[8px] font-bold uppercase tracking-tighter ${isDemo ? 'text-warning' : overrideState.active ? 'text-danger' : 'text-primary'}`}>
                     {isDemo ? `DEMO (${user?.role})` : `${currentPermissions} LEVEL`}
                   </p>
                 </div>
-                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black border shadow-inner shrink-0 ${isDemo ? 'bg-amber-50 text-amber-600 border-amber-200' :
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-black border shadow-sm shrink-0 ${isDemo ? 'bg-warning/10 text-warning border-warning/20' :
                   overrideState.active ? 'bg-danger/10 text-danger border-danger/20 animate-pulse' :
                     'bg-primary/10 text-primary border-primary/20'
                   }`}>
@@ -272,10 +235,10 @@ const AppContent: React.FC = () => {
                 </div>
                 <button
                   onClick={logout}
-                  className="text-[9px] font-black text-slate-400 uppercase tracking-widest hover:text-danger transition-colors cursor-pointer ml-2"
+                  className="text-text-muted hover:text-danger transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
-                  ⏻
+                  <LogOut size={16} />
                 </button>
               </div>
             </div>
@@ -286,9 +249,9 @@ const AppContent: React.FC = () => {
           <div className={isHome ? '' : 'p-8 pb-12 flex-1'}>
             {isLoading && !isHome && (
               <div className="absolute inset-0 z-50 bg-hospital-bg/50 backdrop-blur-[2px] flex items-center justify-center">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Synchronizing Module...</p>
+                <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-2xl shadow-xl border border-hospital-border">
+                  <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                  <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Synchronizing Module...</p>
                 </div>
               </div>
             )}
