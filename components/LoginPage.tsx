@@ -41,15 +41,39 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, error, isLo
             padding: '20px',
         }}>
             <div style={{ width: '100%', maxWidth: '400px' }}>
-                {/* Header */}
-                <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                {/* Header with Logo */}
+                <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                    <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '64px',
+                        height: '64px',
+                        marginBottom: '16px',
+                        position: 'relative'
+                    }}>
+                        {/* Custom SVG Shield & Heartbeat Logo */}
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 4L8 14V30C8 44.8 18.24 58.56 32 60C45.76 58.56 56 44.8 56 30V14L32 4Z" fill="#0891b2" />
+                            <circle cx="32" cy="32" r="20" fill="white" />
+                            <path d="M18 32H24L28 22L36 42L40 32H46" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
                     <h1 style={{
-                        fontSize: '22px', fontWeight: 700, color: '#0f172a',
+                        fontSize: '28px',
+                        fontWeight: 800,
+                        color: '#0f172a',
                         margin: '0 0 4px',
+                        letterSpacing: '-0.025em',
                     }}>Jeeva Raksha</h1>
                     <p style={{
-                        fontSize: '13px', color: '#64748b', margin: 0,
-                    }}>Hospital Information System</p>
+                        fontSize: '14px',
+                        color: '#64748b',
+                        margin: 0,
+                        fontWeight: 500,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em'
+                    }}>Unified Hospital Information System</p>
                 </div>
 
                 {/* Login Card */}
