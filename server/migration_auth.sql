@@ -6,17 +6,11 @@
 -- ============================================================
 
 -- 1. Add auth columns to users table
-ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash VARCHAR(200);
-ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login TIMESTAMPTZ;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMPTZ;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS login_attempts INTEGER DEFAULT 0;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS locked_until TIMESTAMPTZ;
 
--- 2. Expand role constraint to include patient and demo
-ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check;
-ALTER TABLE users ADD CONSTRAINT users_role_check
-    CHECK (role IN ('admin','doctor','nurse','pharmacist','lab_tech','receptionist','staff','patient','demo'));
-
--- 3. Login activity log table
+-- 2. Login activity log table
 CREATE TABLE IF NOT EXISTS login_logs (
     id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id     UUID REFERENCES users(id) ON DELETE SET NULL,
