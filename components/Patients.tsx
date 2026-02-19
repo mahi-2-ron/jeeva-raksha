@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Patient } from '../types';
-import api from '../api';
+import api from '../apiClient';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import {

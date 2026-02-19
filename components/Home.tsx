@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ViewType } from '../types.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { useAuth } from '../context/AuthContext.tsx';
-import api from '../api';
+import api from './apiClient';
 import {
   Users, Clock, Bed, Ambulance, Scissors, Banknote,
   Stethoscope, TestTube, ScanLine, Pill, Activity,

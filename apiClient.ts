@@ -18,21 +18,35 @@ function getHeaders(): Record<string, string> {
 
 // ─── Base request ────────────────────────────────────────────
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
-    const res = await fetch(`${BASE}${url}`, {
-        headers: getHeaders(),
-        ...options,
-    });
-    if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: res.statusText }));
-        // Auto-logout on 401
-        if (res.status === 401 && err.expired) {
-            localStorage.removeItem('jrk_token');
-            sessionStorage.removeItem('jrk_token');
-            window.location.reload();
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
+    try {
+        const res = await fetch(`${BASE}${url}`, {
+            headers: getHeaders(),
+            signal: controller.signal,
+            ...options,
+        });
+        clearTimeout(id);
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({ error: res.statusText }));
+            // Auto-logout on 401
+            if (res.status === 401 && err.expired) {
+                localStorage.removeItem('jrk_token');
+                sessionStorage.removeItem('jrk_token');
+                window.location.reload();
+            }
+            throw new Error(err.error || err.message || `API Error: ${res.status}`);
         }
-        throw new Error(err.error || err.message || `API Error: ${res.status}`);
+        return res.json();
+    } catch (err: any) {
+        clearTimeout(id);
+        if (err.name === 'AbortError') {
+            throw new Error('Request timed out. Please check your connection or server status.');
+        }
+        throw err;
     }
-    return res.json();
 }
 
 // ─── API ─────────────────────────────────────────────────────

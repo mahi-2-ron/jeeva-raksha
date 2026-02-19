@@ -1,6 +1,10 @@
 
 import React, { useState } from 'react';
 import { useToast } from '../context/ToastContext';
+import {
+    Plug, CheckCircle2, XCircle, AlertTriangle,
+    Battery, Search, Plus, Activity
+} from 'lucide-react';
 
 const DeviceIntegrations: React.FC = () => {
     const { showToast } = useToast();
@@ -36,22 +40,26 @@ const DeviceIntegrations: React.FC = () => {
                     <p className="text-sm font-medium text-slate-500 font-kannada">"ಯಂತ್ರ ಸಂಪರ್ಕ — ನಿರಂತರ ಕಣ್ಗಾವಲು" — Connected devices, continuous monitoring.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button onClick={() => showToast('info', 'Device discovery scan initiated...')} className="px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 shadow-sm transition-all">🔍 Scan Network</button>
-                    <button onClick={() => showToast('info', 'Add device wizard opening...')} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all">+ Add Device</button>
+                    <button onClick={() => showToast('info', 'Device discovery scan initiated...')} className="px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 shadow-sm transition-all flex items-center gap-2">
+                        <Search size={14} /> Scan Network
+                    </button>
+                    <button onClick={() => showToast('info', 'Add device wizard opening...')} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all flex items-center gap-2">
+                        <Plus size={14} /> Add Device
+                    </button>
                 </div>
             </div>
 
             {/* KPIs */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                    { label: 'Total Devices', value: devices.length.toString(), color: 'text-slate-900', icon: '🔌' },
-                    { label: 'Online', value: online.toString().padStart(2, '0'), color: 'text-success', icon: '✅' },
-                    { label: 'Offline', value: offline.toString().padStart(2, '0'), color: 'text-danger', icon: '🔴' },
-                    { label: 'Active Alerts', value: totalAlerts.toString().padStart(2, '0'), color: 'text-warning', icon: '⚠️' },
-                ].map(s => (
-                    <div key={s.label} className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                    { label: 'Total Devices', value: devices.length.toString(), color: 'text-slate-900', icon: Plug },
+                    { label: 'Online', value: online.toString().padStart(2, '0'), color: 'text-success', icon: CheckCircle2 },
+                    { label: 'Offline', value: offline.toString().padStart(2, '0'), color: 'text-danger', icon: XCircle },
+                    { label: 'Active Alerts', value: totalAlerts.toString().padStart(2, '0'), color: 'text-warning', icon: AlertTriangle },
+                ].map((s, i) => (
+                    <div key={i} className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
                         <div className="flex items-center gap-3 mb-3">
-                            <span className="text-xl">{s.icon}</span>
+                            <span className="text-slate-400"><s.icon size={20} /></span>
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{s.label}</p>
                         </div>
                         <p className={`text-3xl font-black ${s.color} tracking-tighter`}>{s.value}</p>
@@ -67,8 +75,8 @@ const DeviceIntegrations: React.FC = () => {
                 <div className="divide-y divide-slate-50">
                     {devices.map(dev => (
                         <div key={dev.id} className="px-8 py-5 flex items-center gap-6 hover:bg-hospital-bg/50 transition-colors">
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${dev.status === 'Online' ? 'bg-success/10' : dev.status === 'Offline' ? 'bg-danger/10' : 'bg-warning/10'}`}>
-                                {dev.status === 'Online' ? '🟢' : dev.status === 'Offline' ? '🔴' : '🟡'}
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${dev.status === 'Online' ? 'bg-success/10 text-success' : dev.status === 'Offline' ? 'bg-danger/10 text-danger' : 'bg-warning/10 text-warning'}`}>
+                                {dev.status === 'Online' ? <CheckCircle2 size={20} /> : dev.status === 'Offline' ? <XCircle size={20} /> : <AlertTriangle size={20} />}
                             </div>
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-black text-slate-800">{dev.name}</p>
@@ -76,7 +84,7 @@ const DeviceIntegrations: React.FC = () => {
                             </div>
                             {dev.battery && (
                                 <div className="flex items-center gap-2 shrink-0">
-                                    <span className="text-xs">🔋</span>
+                                    <Battery size={14} className={parseInt(dev.battery) < 20 ? 'text-danger' : 'text-success'} />
                                     <span className={`text-[10px] font-black ${parseInt(dev.battery) < 20 ? 'text-danger' : 'text-success'}`}>{dev.battery}</span>
                                 </div>
                             )}
@@ -85,7 +93,7 @@ const DeviceIntegrations: React.FC = () => {
                             )}
                             <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shrink-0 ${dev.status === 'Online' ? 'bg-success/10 text-success' : dev.status === 'Offline' ? 'bg-danger/10 text-danger' : 'bg-warning/10 text-warning'}`}>{dev.status}</span>
                             <button onClick={() => handleSync(dev.id)} disabled={syncing === dev.id} className="px-4 py-2 bg-primary/10 text-primary rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary/20 transition-all disabled:opacity-50 shrink-0">
-                                {syncing === dev.id ? 'Syncing...' : 'Re-Sync'}
+                                {syncing === dev.id ? <Activity size={14} className="animate-spin" /> : 'Re-Sync'}
                             </button>
                         </div>
                     ))}
@@ -94,7 +102,9 @@ const DeviceIntegrations: React.FC = () => {
 
             <div className="bg-slate-900 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
                 <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
-                    <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-3xl">🔌</div>
+                    <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-3xl">
+                        <Plug size={32} />
+                    </div>
                     <div className="flex-1 space-y-2">
                         <h4 className="text-lg font-black text-white">HL7 FHIR Integration Active</h4>
                         <p className="text-xs text-slate-400 leading-relaxed">All device data streams are HL7/FHIR compliant. Real-time bi-directional sync with central EHR.</p>

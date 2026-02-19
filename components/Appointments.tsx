@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { Doctor, AppointmentSlot } from '../types';
-import api from '../api';
+import api from '../apiClient';
 
 const Appointments: React.FC = () => {
   const mockDoctors: Doctor[] = [

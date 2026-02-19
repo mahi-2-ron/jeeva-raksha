@@ -1,7 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { RadiologyStudy } from '../types';
-import api from '../api';
+import api from '../apiClient';
+import {
+  Scan, Zap, FileText, Siren, Clock, User,
+  Search, Plus, ChevronRight, Activity,
+  BrainCircuit, Bone, Magnet, Waves, Radio
+} from 'lucide-react';
 
 const Radiology: React.FC = () => {
   const [studies, setStudies] = useState<RadiologyStudy[]>([
@@ -89,48 +94,52 @@ const Radiology: React.FC = () => {
 
   const getStatusStyle = (status: RadiologyStudy['status']) => {
     switch (status) {
-      case 'Scanning': return 'bg-primary/10 text-primary border-primary/20';
+      case 'Scanning': return 'bg-primary/5 text-primary border-primary/10';
       case 'Scheduled': return 'bg-slate-100 text-slate-500 border-slate-200';
-      case 'Awaiting-Report': return 'bg-warning/10 text-warning border-warning/20';
-      case 'Finalized': return 'bg-success/10 text-success border-success/20';
-      case 'Delayed': return 'bg-danger/10 text-danger border-danger/20 animate-pulse';
+      case 'Awaiting-Report': return 'bg-warning/5 text-warning border-warning/10';
+      case 'Finalized': return 'bg-success/5 text-success border-success/10';
+      case 'Delayed': return 'bg-danger/5 text-danger border-danger/10 animate-pulse';
       default: return 'bg-slate-100 text-slate-500';
     }
   };
 
   const getModalityIcon = (modality: RadiologyStudy['modality']) => {
     switch (modality) {
-      case 'CT': return '🌀';
-      case 'MRI': return '🧲';
-      case 'X-Ray': return '🦴';
-      case 'USG': return '🔊';
-      default: return '📸';
+      case 'CT': return <Scan size={20} />;
+      case 'MRI': return <Magnet size={20} />;
+      case 'X-Ray': return <Bone size={20} />;
+      case 'USG': return <Waves size={20} />;
+      default: return <Radio size={20} />;
     }
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 pb-20">
+    <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 pb-20 p-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Radiology Operations</h2>
-          <p className="text-sm font-medium text-slate-500 font-kannada">“ನಿಖರ ಚಿತ್ರಣ — ಸುರಕ್ಷಿತ ರೋಗನಿರ್ಣಯ” — Precision imaging for safe diagnosis.</p>
+          <h2 className="text-2xl font-black text-text-main tracking-tight">Radiology Operations</h2>
+          <p className="text-sm font-bold text-text-muted mt-1 font-kannada flex items-center gap-2">
+            <span>“ನಿಖರ ಚಿತ್ರಣ — ಸುರಕ್ಷಿತ ರೋಗನಿರ್ಣಯ”</span>
+            <span className="w-1 h-1 rounded-full bg-slate-300" />
+            <span>Precision imaging for safe diagnosis.</span>
+          </p>
         </div>
         <div className="flex gap-4">
-          <div className="flex bg-white rounded-2xl p-1 shadow-sm border border-slate-100">
+          <div className="flex bg-hospital-card rounded-xl p-1 shadow-sm border border-hospital-border overflow-x-auto max-w-full custom-scrollbar">
             {(['ALL', 'CT', 'MRI', 'XRAY', 'USG'] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'text-slate-400 hover:bg-slate-50'
+                className={`px-5 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeTab === tab ? 'bg-primary/10 text-primary shadow-sm' : 'text-text-muted hover:bg-hospital-bg hover:text-text-body'
                   }`}
               >
                 {tab}
               </button>
             ))}
           </div>
-          <button className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all">
-            + Request New Study
+          <button className="px-6 py-3 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all flex items-center gap-2">
+            <Plus size={14} /> Request New Study
           </button>
         </div>
       </div>
@@ -138,17 +147,17 @@ const Radiology: React.FC = () => {
       {/* Stats Quick View */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: 'Scanning Now', value: String(studies.filter(s => s.status === 'Scanning').length).padStart(2, '0'), icon: '⚡', color: 'primary' },
-          { label: 'Reports Pending', value: String(studies.filter(s => s.status === 'Awaiting-Report' || s.status === 'Scheduled').length).padStart(2, '0'), icon: '📝', color: 'warning' },
-          { label: 'Critical Alerts', value: String(studies.filter(s => s.isCritical).length).padStart(2, '0'), icon: '🚨', color: 'danger' },
-          { label: 'Avg Turnaround', value: '42m', icon: '⏱️', color: 'success' },
+          { label: 'Scanning Now', value: String(studies.filter(s => s.status === 'Scanning').length).padStart(2, '0'), icon: <Zap size={24} />, color: 'primary' },
+          { label: 'Reports Pending', value: String(studies.filter(s => s.status === 'Awaiting-Report' || s.status === 'Scheduled').length).padStart(2, '0'), icon: <FileText size={24} />, color: 'warning' },
+          { label: 'Critical Alerts', value: String(studies.filter(s => s.isCritical).length).padStart(2, '0'), icon: <Siren size={24} />, color: 'danger' },
+          { label: 'Avg Turnaround', value: '42m', icon: <Clock size={24} />, color: 'success' },
         ].map(stat => (
-          <div key={stat.label} className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-xl transition-all">
+          <div key={stat.label} className="bg-hospital-card p-6 rounded-2xl border border-hospital-border shadow-card flex items-center justify-between group hover:shadow-card-hover transition-all">
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
-              <p className="text-3xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">{stat.label}</p>
+              <p className="text-3xl font-black text-text-main">{stat.value}</p>
             </div>
-            <div className={`w-12 h-12 bg-${stat.color}/5 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform`}>
+            <div className={`w-12 h-12 bg-${stat.color}/5 text-${stat.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
               {stat.icon}
             </div>
           </div>
@@ -158,66 +167,72 @@ const Radiology: React.FC = () => {
       <div className="grid grid-cols-12 gap-8">
         {/* Main Worklist Table */}
         <div className="col-span-12 lg:col-span-9">
-          <div className="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden">
-            <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
-              <h3 className="text-xl font-black text-slate-900 tracking-tight">Active Worklist</h3>
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+          <div className="bg-hospital-card rounded-2xl border border-hospital-border shadow-card overflow-hidden">
+            <div className="p-6 border-b border-hospital-border flex justify-between items-center bg-hospital-bg/50">
+              <h3 className="text-lg font-black text-text-main tracking-tight flex items-center gap-2">
+                <Radio size={18} className="text-primary" /> Active Worklist
+              </h3>
+              <span className="text-[10px] font-black text-text-muted uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-hospital-border">
                 {filteredStudies.length} Studies Active
               </span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
-                    <th className="px-8 py-5">Study Info</th>
-                    <th className="px-8 py-5">Patient</th>
-                    <th className="px-8 py-5">Requested By</th>
-                    <th className="px-8 py-5">Acuity</th>
-                    <th className="px-8 py-5">Status</th>
-                    <th className="px-8 py-5 text-right">Radiologist</th>
+                  <tr className="text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-hospital-border">
+                    <th className="px-6 py-4">Study Info</th>
+                    <th className="px-6 py-4">Patient</th>
+                    <th className="px-6 py-4">Requested By</th>
+                    <th className="px-6 py-4">Acuity</th>
+                    <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4 text-right">Radiologist</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-hospital-border">
                   {filteredStudies.map(study => (
                     <tr
                       key={study.id}
                       onClick={() => setSelectedStudy(study)}
-                      className={`group hover:bg-hospital-bg transition-colors cursor-pointer ${selectedStudy?.id === study.id ? 'bg-primary/5' : ''}`}
+                      className={`group hover:bg-hospital-bg/50 transition-colors cursor-pointer ${selectedStudy?.id === study.id ? 'bg-primary/5' : ''}`}
                     >
-                      <td className="px-8 py-6">
+                      <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
-                          <span className="text-2xl opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all">
+                          <span className="text-text-muted group-hover:text-primary group-hover:scale-110 transition-all bg-hospital-bg p-2 rounded-lg border border-hospital-border">
                             {getModalityIcon(study.modality)}
                           </span>
                           <div>
-                            <p className="text-sm font-black text-slate-900 leading-none">{study.modality} Study</p>
-                            <p className="text-[10px] font-bold text-primary uppercase mt-1.5">{study.id}</p>
+                            <p className="text-sm font-black text-text-main leading-none">{study.modality} Study</p>
+                            <p className="text-[10px] font-bold text-primary uppercase mt-1">{study.id}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-8 py-6">
-                        <p className="text-sm font-bold text-slate-800">{study.patientName}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">Requested {study.timeRequested}</p>
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-bold text-text-body">{study.patientName}</p>
+                        <p className="text-[10px] font-bold text-text-muted uppercase mt-0.5 flex items-center gap-1">
+                          <Clock size={10} /> {study.timeRequested}
+                        </p>
                       </td>
-                      <td className="px-8 py-6">
-                        <p className="text-xs font-bold text-slate-500">{study.requestedBy}</p>
+                      <td className="px-6 py-4">
+                        <p className="text-xs font-bold text-text-muted flex items-center gap-1.5 is-truncated max-w-[120px]">
+                          <User size={12} /> {study.requestedBy}
+                        </p>
                       </td>
-                      <td className="px-8 py-6">
+                      <td className="px-6 py-4">
                         {study.isCritical ? (
-                          <span className="px-3 py-1 bg-danger/10 text-danger text-[9px] font-black uppercase rounded-lg border border-danger/20 animate-pulse">
-                            High Urgency
+                          <span className="px-2.5 py-1 bg-danger/5 text-danger text-[9px] font-black uppercase rounded-lg border border-danger/10 animate-pulse flex items-center gap-1 w-fit">
+                            <Siren size={10} /> High Urgency
                           </span>
                         ) : (
-                          <span className="text-[9px] font-bold text-slate-300 uppercase">Routine</span>
+                          <span className="text-[9px] font-bold text-text-muted uppercase bg-slate-100 px-2 py-1 rounded-lg border border-slate-200 w-fit">Routine</span>
                         )}
                       </td>
-                      <td className="px-8 py-6">
-                        <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${getStatusStyle(study.status)}`}>
-                          {study.status.replace('-', ' ')}
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border flex items-center gap-1.5 w-fit ${getStatusStyle(study.status)}`}>
+                          <Activity size={10} /> {study.status.replace('-', ' ')}
                         </span>
                       </td>
-                      <td className="px-8 py-6 text-right">
-                        <p className="text-xs font-black text-slate-900">{study.radiologist}</p>
+                      <td className="px-6 py-4 text-right">
+                        <p className="text-xs font-black text-text-main">{study.radiologist}</p>
                       </td>
                     </tr>
                   ))}
@@ -230,25 +245,27 @@ const Radiology: React.FC = () => {
         {/* Action Sidebar */}
         <div className="col-span-12 lg:col-span-3 space-y-8">
           {selectedStudy ? (
-            <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-xl animate-in slide-in-from-right-4 duration-500 relative overflow-hidden">
+            <div className="bg-hospital-card p-8 rounded-2xl border border-hospital-border shadow-card animate-in slide-in-from-right-4 duration-500 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Study Details</h3>
+              <h3 className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-6 flex items-center gap-2">
+                <FileText size={14} /> Study Details
+              </h3>
 
               <div className="space-y-6">
-                <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
-                  <div className="w-14 h-14 bg-hospital-bg rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+                <div className="flex items-center gap-4 pb-6 border-b border-hospital-border">
+                  <div className="w-14 h-14 bg-hospital-bg rounded-xl flex items-center justify-center text-primary shadow-sm border border-hospital-border">
                     {getModalityIcon(selectedStudy.modality)}
                   </div>
                   <div>
-                    <h4 className="text-lg font-black text-slate-900 leading-tight">{selectedStudy.modality} Scan</h4>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">{selectedStudy.patientName}</p>
+                    <h4 className="text-lg font-black text-text-main leading-tight">{selectedStudy.modality} Scan</h4>
+                    <p className="text-[10px] font-bold text-text-muted uppercase mt-1">{selectedStudy.patientName}</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div>
-                    <p className="text-[9px] font-black text-slate-400 uppercase mb-1.5">Assignment</p>
-                    <select className="w-full bg-hospital-bg border border-slate-100 rounded-xl px-4 py-3 text-xs font-bold outline-none focus:ring-1 focus:ring-primary/20">
+                    <p className="text-[9px] font-black text-text-muted uppercase mb-1.5">Assignment</p>
+                    <select className="w-full bg-hospital-bg border border-hospital-border rounded-xl px-4 py-3 text-xs font-bold outline-none focus:ring-1 focus:ring-primary/20">
                       <option>{selectedStudy.radiologist}</option>
                       <option>Dr. Sanjay Kapoor</option>
                       <option>Dr. Priya Das</option>
@@ -256,44 +273,49 @@ const Radiology: React.FC = () => {
                     </select>
                   </div>
                   <div>
-                    <p className="text-[9px] font-black text-slate-400 uppercase mb-1.5">Study Urgency</p>
+                    <p className="text-[9px] font-black text-text-muted uppercase mb-1.5">Study Urgency</p>
                     <div className="flex gap-2">
-                      <button className={`flex-1 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${selectedStudy.isCritical ? 'bg-danger text-white border-danger' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>Critical</button>
-                      <button className={`flex-1 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${!selectedStudy.isCritical ? 'bg-success text-white border-success' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>Routine</button>
+                      <button className={`flex-1 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border flex justify-center items-center gap-1 ${selectedStudy.isCritical ? 'bg-danger text-white border-danger' : 'bg-hospital-bg text-text-muted border-hospital-border'}`}>
+                        <Siren size={12} /> Critical
+                      </button>
+                      <button className={`flex-1 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border ${!selectedStudy.isCritical ? 'bg-success text-white border-success' : 'bg-hospital-bg text-text-muted border-hospital-border'}`}>
+                        Routine
+                      </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-6 space-y-3">
-                  <button className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 shadow-lg transition-all">
-                    Update Scan Status
+                <div className="pt-4 space-y-3">
+                  <button className="w-full py-4 bg-text-main text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 shadow-lg transition-all flex items-center justify-center gap-2">
+                    <Activity size={14} /> Update Scan Status
                   </button>
-                  <button className="w-full py-4 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-700 shadow-lg shadow-primary/20 transition-all">
-                    Open Viewer (PACS)
+                  <button className="w-full py-4 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-700 shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                    <Scan size={14} /> Open Viewer (PACS)
                   </button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center py-24 border-dashed">
-              <div className="w-16 h-16 bg-hospital-bg rounded-full flex items-center justify-center text-3xl mb-6 grayscale opacity-30">🩻</div>
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Selection Required</h4>
-              <p className="text-xs text-slate-300 mt-2 font-bold px-4">Select a study from the worklist to manage assignments and status.</p>
+            <div className="bg-hospital-card p-10 rounded-2xl border border-hospital-border shadow-sm flex flex-col items-center justify-center text-center py-24 border-dashed">
+              <div className="w-16 h-16 bg-hospital-bg rounded-full flex items-center justify-center mb-6 text-text-muted opacity-50">
+                <Scan size={32} />
+              </div>
+              <h4 className="text-[10px] font-black text-text-muted uppercase tracking-widest">Selection Required</h4>
+              <p className="text-xs text-text-muted mt-2 font-bold px-4">Select a study from the worklist to manage assignments and status.</p>
             </div>
           )}
 
-          <div className="bg-slate-900 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl group">
+          <div className="bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden shadow-2xl group border border-slate-800">
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2" />
             <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-3">
-                <span className="text-2xl group-hover:rotate-12 transition-transform">✨</span>
+                <BrainCircuit size={24} className="text-accent group-hover:rotate-12 transition-transform" />
                 <h4 className="text-sm font-black text-white">AI Prioritization</h4>
               </div>
               <p className="text-xs text-slate-400 font-medium leading-relaxed font-kannada">
-                “ಸಮಯೋಚಿತ ಚಿಕಿತ್ಸೆ — ಪ್ರಾಣರಕ್ಷಣೆ”<br />
-                AI engine has auto-flagged Study-101 for immediate review due to hyper-dense opacity detection in pre-report analysis.
+                “ಸಮಯೋಚಿತ ಚಿಕಿತ್ಸೆ — ಪ್ರಾಣರಕ್ಷಣೆ” — AI engine has auto-flagged Study-101 for immediate review due to hyper-dense opacity detection in pre-report analysis.
               </p>
-              <div className="p-4 bg-white/5 border border-white/5 rounded-2xl">
+              <div className="p-3 bg-white/5 border border-white/5 rounded-xl">
                 <p className="text-[9px] font-black text-accent uppercase tracking-widest mb-1">Impact score</p>
                 <p className="text-2xl font-black text-white tracking-tighter">9.4/10</p>
               </div>
@@ -305,7 +327,7 @@ const Radiology: React.FC = () => {
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
       `}</style>
     </div>
   );

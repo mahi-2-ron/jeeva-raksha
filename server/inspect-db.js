@@ -12,12 +12,14 @@ async function inspectTable() {
             console.log(`- ${row.column_name} (${row.data_type})`);
         });
 
-        const tables = await pool.query(`
-            SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'
+        const users = await pool.query(`
+            SELECT u.email, u.name, r.role_name 
+            FROM users u
+            LEFT JOIN roles r ON u.role_id = r.id
         `);
-        console.log('\n--- All Tables ---');
-        tables.rows.forEach(row => {
-            console.log(`- ${row.table_name}`);
+        console.log('--- Users ---');
+        users.rows.forEach(row => {
+            console.log(`- ${row.email} (${row.role_name})`);
         });
 
     } catch (err) {

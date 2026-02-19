@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { useToast } from '../context/ToastContext';
-import api from '../api';
+import api from '../apiClient';
 
 const PatientPortal: React.FC = () => {
    const { t } = useLanguage();

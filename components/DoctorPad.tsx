@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { aiService } from '../aiService';
 // Removed unused and non-existent RoundRecord import
 import { WardPatient } from '../types';
-import api from '../api';
+import api from '../apiClient';
 
 const DoctorPad: React.FC = () => {
   // State for Ward and Selected Patient

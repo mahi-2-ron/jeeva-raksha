@@ -1,7 +1,7 @@
 
 import React, { useState, useRef } from 'react';
 import { aiService } from '../aiService';
-import api from '../api';
+import apiClient from '../apiClient';
 import {
   Scan, Camera, Upload, BrainCircuit, X, Check,
   Loader2, Sparkles, User, Calendar, Droplet,

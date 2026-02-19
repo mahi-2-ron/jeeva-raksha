@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { OTRoom, Surgery } from '../types';
-import api from '../api';
+import api from '../apiClient';
 
 const OTManagement: React.FC = () => {
   const [rooms, setRooms] = useState<OTRoom[]>([
@@ -124,8 +124,8 @@ const OTManagement: React.FC = () => {
                 <div className="flex justify-between items-start mb-4">
                   <span className="text-[10px] font-black text-primary uppercase tracking-widest">{room.id}</span>
                   <span className={`w-2 h-2 rounded-full ${room.status === 'Available' ? 'bg-success' :
-                      room.status === 'In-Use' ? 'bg-primary' :
-                        room.status === 'Cleaning' ? 'bg-warning' : 'bg-danger'
+                    room.status === 'In-Use' ? 'bg-primary' :
+                      room.status === 'Cleaning' ? 'bg-warning' : 'bg-danger'
                     }`}></span>
                 </div>
                 <h4 className="text-sm font-black text-slate-900 mb-4">{room.name}</h4>

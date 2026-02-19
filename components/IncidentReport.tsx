@@ -1,7 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Incident } from '../types';
-import api from '../api';
+import api from '../apiClient';
+import {
+  AlertTriangle, Pill, Activity, Wrench, Siren,
+  User, Shield, ShieldAlert, CheckCircle2, XCircle,
+  Clock, FileWarning, ChevronRight, Eye, ShieldCheck
+} from 'lucide-react';
 
 const IncidentReport: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
@@ -86,10 +91,10 @@ const IncidentReport: React.FC = () => {
 
   const getSeverityColor = (severity: Incident['severity']) => {
     switch (severity) {
-      case 'Low': return 'bg-success/10 text-success border-success/20';
-      case 'Moderate': return 'bg-warning/10 text-warning border-warning/20';
-      case 'High': return 'bg-orange-100 text-orange-600 border-orange-200';
-      case 'Critical': return 'bg-danger/10 text-danger border-danger/20 animate-pulse font-black';
+      case 'Low': return 'bg-success/5 text-success border-success/10';
+      case 'Moderate': return 'bg-warning/5 text-warning border-warning/10';
+      case 'High': return 'bg-orange-50 text-orange-600 border-orange-200';
+      case 'Critical': return 'bg-danger/5 text-danger border-danger/10 animate-pulse font-black';
       default: return 'bg-slate-100 text-slate-500';
     }
   };
@@ -98,74 +103,94 @@ const IncidentReport: React.FC = () => {
     switch (status) {
       case 'Reported': return 'bg-primary/5 text-primary border-primary/10';
       case 'Under Review': return 'bg-accent/5 text-accent border-accent/10';
-      case 'Resolved': return 'bg-success/10 text-success border-success/20';
+      case 'Resolved': return 'bg-success/5 text-success border-success/10';
       default: return 'bg-slate-100 text-slate-500';
     }
   };
 
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'Medication Error': return <Pill size={24} />;
+      case 'Fall': return <Activity size={24} />;
+      case 'Equipment Failure': return <Wrench size={24} />;
+      case 'Clinical Complication': return <AlertTriangle size={24} />;
+      default: return <Siren size={24} />;
+    }
+  };
+
   return (
-    <div className="max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-10">
+    <div className="max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8 p-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Safety & Incident Logging</h2>
-          <p className="text-sm font-medium text-slate-500 font-kannada">“ರೋಗಿಯ ಸುರಕ್ಷತೆ ನಮ್ಮ ಆದ್ಯತೆ” — Patient safety is our priority.</p>
+          <h2 className="text-2xl font-black text-text-main tracking-tight">Safety & Incident Logging</h2>
+          <p className="text-sm font-bold text-text-muted mt-1 font-kannada flex items-center gap-2">
+            <span>“ರೋಗಿಯ ಸುರಕ್ಷತೆ ನಮ್ಮ ಆದ್ಯತೆ”</span>
+            <span className="w-1 h-1 rounded-full bg-slate-300" />
+            <span>Patient safety is our priority.</span>
+          </p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className={`px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl transition-all active:scale-95 flex items-center gap-3 ${showForm ? 'bg-slate-100 text-slate-500 hover:bg-slate-200' : 'bg-danger text-white hover:bg-red-700 shadow-danger/20'
+          className={`px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg transition-all active:scale-95 flex items-center gap-2 ${showForm ? 'bg-white text-text-body border border-hospital-border hover:bg-hospital-bg' : 'bg-danger text-white hover:bg-red-700 shadow-danger/20'
             }`}
         >
-          {showForm ? 'Cancel Report' : '🚨 New Incident Report'}
+          {showForm ? 'Cancel Report' : <><Siren size={16} /> New Incident Report</>}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-2xl animate-in zoom-in duration-300">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-            <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Incident Classification</label>
-              <select
-                value={formData.type}
-                onChange={e => setFormData({ ...formData, type: e.target.value as any })}
-                className="w-full bg-hospital-bg border border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20"
-                required
-              >
-                <option value="Medication Error">Medication Error</option>
-                <option value="Fall">Fall</option>
-                <option value="Equipment Failure">Equipment Failure</option>
-                <option value="Clinical Complication">Clinical Complication</option>
-                <option value="Other">Other</option>
-              </select>
+        <form onSubmit={handleSubmit} className="bg-hospital-card p-8 rounded-2xl border border-hospital-border shadow-card animate-in zoom-in duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Incident Classification</label>
+              <div className="relative">
+                <FileWarning size={16} className="absolute left-4 top-3.5 text-text-muted" />
+                <select
+                  value={formData.type}
+                  onChange={e => setFormData({ ...formData, type: e.target.value as any })}
+                  className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  required
+                >
+                  <option value="Medication Error">Medication Error</option>
+                  <option value="Fall">Fall</option>
+                  <option value="Equipment Failure">Equipment Failure</option>
+                  <option value="Clinical Complication">Clinical Complication</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
-            <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Initial Severity Level</label>
-              <select
-                value={formData.severity}
-                onChange={e => setFormData({ ...formData, severity: e.target.value as any })}
-                className="w-full bg-hospital-bg border border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20"
-                required
-              >
-                <option value="Low">Low (No harm)</option>
-                <option value="Moderate">Moderate (Minor harm)</option>
-                <option value="High">High (Significant harm)</option>
-                <option value="Critical">Critical (Severe harm/Death)</option>
-              </select>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Initial Severity Level</label>
+              <div className="relative">
+                <Activity size={16} className="absolute left-4 top-3.5 text-text-muted" />
+                <select
+                  value={formData.severity}
+                  onChange={e => setFormData({ ...formData, severity: e.target.value as any })}
+                  className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  required
+                >
+                  <option value="Low">Low (No harm)</option>
+                  <option value="Moderate">Moderate (Minor harm)</option>
+                  <option value="High">High (Significant harm)</option>
+                  <option value="Critical">Critical (Severe harm/Death)</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-3 mb-10">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Detailed Description of Events</label>
+          <div className="space-y-2 mb-8">
+            <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Detailed Description of Events</label>
             <textarea
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
               placeholder="Provide a clear, factual account of the incident..."
-              className="w-full bg-hospital-bg border border-slate-100 rounded-[2rem] px-6 py-4 text-sm font-medium h-40 outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+              className="w-full bg-hospital-input border border-hospital-border rounded-2xl px-6 py-4 text-sm font-semibold h-40 outline-none focus:ring-2 focus:ring-primary/20 resize-none transition-all"
               required
             />
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-50 pt-8">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-hospital-border pt-6">
+            <div className="flex items-center gap-3 bg-hospital-bg px-4 py-2 rounded-xl border border-hospital-border">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -173,69 +198,79 @@ const IncidentReport: React.FC = () => {
                   onChange={e => setFormData({ ...formData, isAnonymous: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
               </label>
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Report Anonymously</span>
+              <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-1">
+                <User size={12} /> Report Anonymously
+              </span>
             </div>
             <button
               type="submit"
-              className="w-full sm:w-auto px-12 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-slate-800 shadow-xl transition-all"
+              className="w-full sm:w-auto px-8 py-3 bg-text-main text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 shadow-xl transition-all flex items-center justify-center gap-2"
             >
-              Submit Official Record
+              <ShieldAlert size={16} /> Submit Official Record
             </button>
           </div>
         </form>
       )}
 
       <div className="space-y-6">
-        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-4">Historical Safety Logs</h3>
-        <div className="grid grid-cols-1 gap-6">
+        <h3 className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] flex items-center gap-2">
+          <Shield size={14} /> Historical Safety Logs
+        </h3>
+        <div className="grid grid-cols-1 gap-4">
           {incidents.map(inc => (
-            <div key={inc.id} className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group overflow-hidden relative">
+            <div key={inc.id} className="bg-hospital-card p-6 rounded-2xl border border-hospital-border shadow-card hover:shadow-card-hover transition-all group overflow-hidden relative">
               <div className="flex flex-col md:flex-row justify-between gap-6 items-start">
-                <div className="space-y-4 flex-1">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl group-hover:scale-125 transition-transform duration-500">
-                      {inc.type === 'Medication Error' ? '💊' : inc.type === 'Fall' ? '🩹' : inc.type === 'Equipment Failure' ? '⚙️' : '⚠️'}
-                    </span>
-                    <div>
-                      <h4 className="text-xl font-black text-slate-900 tracking-tight">{inc.type}</h4>
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">{inc.id} • Recorded {inc.date}</p>
-                    </div>
+                <div className="flex items-start gap-4 flex-1">
+                  <div className="w-12 h-12 bg-hospital-bg border border-hospital-border rounded-xl flex items-center justify-center text-text-main shrink-0 group-hover:scale-110 transition-transform">
+                    {getTypeIcon(inc.type)}
                   </div>
-                  <p className="text-sm text-hospital-slate font-medium leading-relaxed italic">"{inc.description}"</p>
-                  {inc.isAnonymous && (
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-lg text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                      👤 Anonymous Source
-                    </div>
-                  )}
+                  <div>
+                    <h4 className="text-lg font-black text-text-main tracking-tight">{inc.type}</h4>
+                    <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mt-1 flex items-center gap-1.5">
+                      <span>{inc.id}</span>
+                      <span className="w-0.5 h-0.5 rounded-full bg-slate-300" />
+                      <span>{inc.date}</span>
+                    </p>
+                    <p className="text-sm text-text-body font-medium leading-relaxed mt-2 bg-hospital-bg/50 p-2 rounded-lg border border-hospital-border/50">
+                      "{inc.description}"
+                    </p>
+                    {inc.isAnonymous && (
+                      <div className="inline-flex items-center gap-1.5 mt-2 px-2 py-0.5 bg-slate-100 rounded text-[9px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200">
+                        <User size={10} /> Anonymous
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex flex-row md:flex-col gap-3 items-end w-full md:w-auto">
-                  <span className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border text-center min-w-[120px] ${getSeverityColor(inc.severity)}`}>
-                    {inc.severity} Risk
-                  </span>
-                  <span className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border text-center min-w-[120px] ${getStatusColor(inc.status)}`}>
-                    {inc.status}
-                  </span>
+                  <div className="flex gap-2">
+                    <span className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border text-center flex items-center gap-1 ${getSeverityColor(inc.severity)}`}>
+                      <Activity size={10} /> {inc.severity} Risk
+                    </span>
+                    <span className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest border text-center flex items-center gap-1 ${getStatusColor(inc.status)}`}>
+                      {inc.status === 'Resolved' ? <CheckCircle2 size={10} /> : <Clock size={10} />}
+                      {inc.status}
+                    </span>
+                  </div>
+                  <button className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline flex items-center gap-1 mt-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                    Full Investigation <ChevronRight size={12} />
+                  </button>
                 </div>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-slate-50 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">Full Investigation Log →</button>
-                <p className="text-[9px] font-bold text-slate-400 uppercase">Last updated: 2 hrs ago</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="bg-primary/5 p-12 rounded-[4rem] border border-primary/10 text-center space-y-4">
-        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-sm">🛡️</div>
-        <h3 className="text-xl font-black text-slate-900">Zero Harm Philosophy</h3>
-        <p className="text-sm text-hospital-slate font-medium max-w-xl mx-auto font-kannada">
-          “ದೋಷಮುಕ್ತ ಸೇವೆ — ಸುರಕ್ಷಿತ ಚಿಕಿತ್ಸೆ”<br />
-          Every report is a step towards a safer hospital environment. Our system ensures non-punitive, data-driven improvement.
+      <div className="bg-primary/5 p-8 rounded-2xl border border-primary/10 text-center space-y-3">
+        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary mx-auto shadow-sm border border-primary/10">
+          <ShieldCheck size={24} />
+        </div>
+        <h3 className="text-lg font-black text-text-main">Zero Harm Philosophy</h3>
+        <p className="text-sm text-text-muted font-medium max-w-xl mx-auto font-kannada">
+          “ದೋಷಮುಕ್ತ ಸೇವೆ — ಸುರಕ್ಷಿತ ಚಿಕಿತ್ಸೆ” — Every report is a step towards a safer hospital environment. Our system ensures non-punitive, data-driven improvement.
         </p>
       </div>
     </div>

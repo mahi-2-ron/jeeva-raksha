@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   AreaChart, Area, PieChart, Pie, Cell, LineChart, Line
 } from 'recharts';
-import api from '../api';
+import api from '../apiClient';
 
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<any>(null);
@@ -269,7 +269,7 @@ const Dashboard: React.FC = () => {
             <div className="space-y-4">
               {alerts.map((alert: any) => (
                 <div key={alert.id} className={`p-5 rounded-2xl border-l-4 ${alert.level === 'Critical' ? 'bg-danger/5 border-danger' :
-                    alert.level === 'High' ? 'bg-amber-50 border-amber-400' : 'bg-slate-50 border-slate-300'
+                  alert.level === 'High' ? 'bg-amber-50 border-amber-400' : 'bg-slate-50 border-slate-300'
                   }`}>
                   <div className="flex justify-between items-start mb-2">
                     <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${alert.level === 'Critical' ? 'bg-danger text-white' : 'bg-white text-slate-600 border border-slate-100'
