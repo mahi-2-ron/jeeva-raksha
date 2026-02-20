@@ -9,7 +9,7 @@ import {
   Stethoscope, TestTube, ScanLine, Pill, Activity,
   CheckCircle2, AlertTriangle, AlertOctagon, ArrowRight,
   Calendar, FileText, TrendingUp, TrendingDown,
-  MonitorCheck, AlertCircle, Lock
+  MonitorCheck, AlertCircle, Lock, ShieldAlert
 } from 'lucide-react';
 
 interface HomeProps {
@@ -18,7 +18,8 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
-  const { user, currentPermissions } = useAuth();
+  const { user, currentPermissions, overrideState } = useAuth();
+  const [showOverrideModal, setShowOverrideModal] = useState(false);
 
   // ─── State ──────────────────────────────────────────────────
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -170,13 +171,25 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           <div className="h-10 w-px bg-slate-200 hidden md:block"></div>
 
           {/* System Health */}
-          <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-[9px] font-black uppercase tracking-widest ${systemHealth === 'ok' ? 'bg-success/5 text-success border-success/10' :
-            systemHealth === 'degraded' ? 'bg-warning/5 text-warning border-warning/10' :
-              'bg-danger/5 text-danger border-danger/10'
-            }`}>
-            <span className={`w-2 h-2 rounded-full animate-pulse ${systemHealth === 'ok' ? 'bg-success' : systemHealth === 'degraded' ? 'bg-warning' : 'bg-danger'
-              }`} />
-            <span className="hidden lg:inline">{systemHealth === 'ok' ? 'System Online' : systemHealth === 'degraded' ? 'Degraded' : 'Offline'}</span>
+          <div className="flex items-center gap-3">
+            <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-[9px] font-black uppercase tracking-widest ${systemHealth === 'ok' ? 'bg-success/5 text-success border-success/10' :
+              systemHealth === 'degraded' ? 'bg-warning/5 text-warning border-warning/10' :
+                'bg-danger/5 text-danger border-danger/10'
+              }`}>
+              <span className={`w-2 h-2 rounded-full animate-pulse ${systemHealth === 'ok' ? 'bg-success' : systemHealth === 'degraded' ? 'bg-warning' : 'bg-danger'
+                }`} />
+              <span className="hidden lg:inline">{systemHealth === 'ok' ? 'System Online' : systemHealth === 'degraded' ? 'Degraded' : 'Offline'}</span>
+            </div>
+
+            {!overrideState.active && (
+              <button
+                onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
+                className="px-4 py-2 bg-danger text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-danger/90 transition-all flex items-center gap-2 shadow-lg shadow-danger/20"
+              >
+                <ShieldAlert size={14} />
+                <span>Emergency Request Access</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
