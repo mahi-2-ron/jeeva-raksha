@@ -75,7 +75,7 @@ app.use('/api', bedsRouter);
 // ─── Health check (enhanced) ────────────────────────────────
 app.get('/api/health', async (_req, res) => {
     const dbHealth = await healthCheck();
-    
+
     // Check if auth columns exist
     let authSchemaOk = false;
     let authSchemaError = null;
@@ -96,7 +96,7 @@ app.get('/api/health', async (_req, res) => {
     } catch (err) {
         authSchemaError = err.message;
     }
-    
+
     res.json({
         status: 'ok',
         timestamp: new Date().toISOString(),
@@ -109,6 +109,20 @@ app.get('/api/health', async (_req, res) => {
         },
     });
 });
+
+// ─── Serve Frontend (Production) ─────────────────────────────
+const distPath = path.resolve(projectRoot, 'dist');
+if (fs.existsSync(distPath)) {
+    console.log(`Serving static files from: ${distPath}`);
+    app.use(express.static(distPath));
+
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) {
+            return next();
+        }
+        res.sendFile(path.join(distPath, 'index.html'));
+    });
+}
 
 // ─── 404 handler ────────────────────────────────────────────
 app.use((_req, res) => {
