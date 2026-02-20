@@ -142,9 +142,9 @@ const Dashboard: React.FC = () => {
           {!overrideState.active && (
             <button
               onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
-              className="px-6 py-3 bg-danger text-white rounded-xl text-[9px] font-black uppercase tracking-[0.2em] shadow-xl shadow-danger/20 hover:bg-danger/90 transition-all active:scale-95 flex items-center gap-2"
+              className="px-6 py-3 bg-white text-red-600 border-2 border-red-600 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg shadow-red-600/10 hover:bg-red-600 hover:text-white transition-all active:scale-95 flex items-center gap-2"
             >
-              <ShieldAlert size={14} />
+              <ShieldAlert size={14} className="text-red-600 group-hover:text-white" />
               <span>Emergency Access Request</span>
             </button>
           )}
