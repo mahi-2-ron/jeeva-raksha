@@ -63,8 +63,11 @@ export const api = {
     },
 
     // Patients
-    getPatients: (search?: string, status?: string) =>
-        request<any>(`/patients${search ? `?search=${encodeURIComponent(search)}` : ''}${status ? `${search ? '&' : '?'}status=${status}` : ''}`),
+    getPatients: async (search?: string, status?: string) => {
+        const res = await request<any>(`/patients${search ? `?search=${encodeURIComponent(search)}` : ''}${status ? `${search ? '&' : '?'}status=${status}` : ''}`);
+        // Handle paginated response { data: [], total: ... } vs flat array []
+        return Array.isArray(res) ? res : (res.data || []);
+    },
     getPatient: (id: string) => request<any>(`/patients/${id}`),
     getPatientByUHID: (uhid: string) => request<any>(`/patients/uhid/${encodeURIComponent(uhid)}`),
     createPatient: (data: any) => request<any>('/patients', { method: 'POST', body: JSON.stringify(data) }),
