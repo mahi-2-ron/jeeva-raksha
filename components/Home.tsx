@@ -386,28 +386,48 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {filteredActions.map(action => (
-            <button
-              key={action.label}
-              onClick={() => onNavigate(action.view)}
-              className="p-4 rounded-xl border border-hospital-border bg-hospital-bg hover:bg-white hover:border-primary/20 hover:shadow-md transition-all group text-left active:scale-95 flex items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center text-text-muted group-hover:text-primary group-hover:scale-110 transition-all shrink-0">
-                {action.icon}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-text-main truncate group-hover:text-primary transition-colors">{action.label}</p>
-                <div className="flex items-center gap-1 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                  <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">Execute</span>
-                  <ArrowRight size={8} className="text-text-muted" />
+          {quickActions.map(action => {
+            const hasAccess = levelRank(currentPermissions) >= levelRank(action.minLevel);
+            return (
+              <button
+                key={action.label}
+                onClick={() => hasAccess && onNavigate(action.view)}
+                disabled={!hasAccess}
+                title={!hasAccess ? `Requires ${action.minLevel} access` : undefined}
+                className={`p-4 rounded-xl border transition-all group text-left flex items-center gap-3 ${hasAccess
+                    ? 'border-hospital-border bg-hospital-bg hover:bg-white hover:border-primary/20 hover:shadow-md cursor-pointer active:scale-95'
+                    : 'border-slate-100 bg-slate-50 opacity-40 cursor-not-allowed grayscale'
+                  }`}
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm border shrink-0 transition-all ${hasAccess ? 'bg-white border-slate-100 text-text-muted group-hover:text-primary group-hover:scale-110' : 'bg-slate-100 border-slate-200 text-slate-300'
+                  }`}>
+                  {action.icon}
                 </div>
-              </div>
-            </button>
-          ))}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <p className={`text-xs font-bold truncate transition-colors ${hasAccess ? 'text-text-main group-hover:text-primary' : 'text-slate-400'}`}>
+                      {action.label}
+                    </p>
+                    {!hasAccess && <Lock size={10} className="text-slate-300 shrink-0" />}
+                  </div>
+                  <div className="flex items-center gap-1 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[8px] font-black text-text-muted uppercase tracking-widest">
+                      {hasAccess ? 'Execute' : 'Locked'}
+                    </span>
+                    {hasAccess && <ArrowRight size={8} className="text-text-muted" />}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 };
+
+// Import Lock icon if not already imported
+import { Lock } from 'lucide-react';
+
 
 export default Home;
