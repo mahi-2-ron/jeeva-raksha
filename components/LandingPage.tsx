@@ -163,13 +163,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) =
                     </p>
 
                     {/* CTA */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
                         <button onClick={() => onNavigate('DASHBOARD')} className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px] overflow-hidden">
                             <span className="relative z-10 flex items-center justify-center gap-2">Enter Dashboard <span className="group-hover:translate-x-1 transition-transform">→</span></span>
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
                         <a href="#features" className="px-10 py-4 bg-white text-slate-700 rounded-2xl text-sm font-black uppercase tracking-widest border-2 border-slate-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px]">Explore Features</a>
                     </div>
+
+                    {/* Quick Admin Access for Demo */}
+                    <button
+                        onClick={onAdminLogin}
+                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors py-2 px-4 border border-dashed border-slate-200 rounded-lg hover:border-blue-200 hover:bg-blue-50/50 mb-16"
+                    >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><circle cx="12" cy="12" r="3" /></svg>
+                        Direct Admin Access (Demo Gateway)
+                    </button>
 
                     {/* Scroll indicator */}
                     <div className="flex flex-col items-center gap-2 opacity-40 animate-bounce" style={{ animationDuration: '2s' }}>
