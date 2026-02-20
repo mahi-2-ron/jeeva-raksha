@@ -89,6 +89,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     </nav>
 
                     <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
+                            className="hidden lg:flex px-4 py-2 bg-danger/10 text-danger border border-danger/20 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-danger hover:text-white transition-all items-center gap-2"
+                        >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m12 8 4 4" /><path d="m16 8-4 4" /></svg>
+                            Emergency Access
+                        </button>
                         <div className="hidden sm:flex bg-slate-100 p-0.5 rounded-lg border border-slate-200/50">
                             <button onClick={() => setLang('EN')} className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-md transition-all ${lang === 'EN' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>EN</button>
                             <button onClick={() => setLang('KN')} className={`px-3 py-1.5 text-[10px] font-black tracking-widest rounded-md transition-all ${lang === 'KN' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>ಕನ್ನಡ</button>
