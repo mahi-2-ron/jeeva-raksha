@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
       {/* Primary Clinical KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <StatCard label="Total Registered" value={stats?.totalPatients?.toLocaleString() || '0'} subtext="PATIENTS" trend="" icon="📋" colorClass={{ bg: 'bg-accent/10', text: 'text-accent', border: 'border-accent/20' }} />
-        <StatCard label="Visits Today" value={stats?.patientsToday?.toLocaleString() || '0'} subtext="TOTAL" trend="" icon="👥" colorClass={{ bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20' }} />
+        <StatCard label="Patients Today" value={stats?.patientsToday?.toLocaleString() || '0'} subtext="TOTAL" trend="" icon="👥" colorClass={{ bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20' }} />
         <StatCard label="OPD Waiting" value={stats?.opdWaiting || '0'} subtext="ACTIVE" trend="-8%" icon="⏳" colorClass={{ bg: 'bg-warning/10', text: 'text-warning', border: 'border-warning/20' }} />
         <StatCard label="IPD Occupancy" value={`${stats?.bedOccupancy || 0}%`} subtext={`${stats?.occupiedBeds || 0} BEDS`} trend="Stable" icon="🛌" colorClass={{ bg: 'bg-success/10', text: 'text-success', border: 'border-success/20' }} />
         <StatCard label="Emergency Cases" value={String(stats?.emergencyCases || 0).padStart(2, '0')} subtext="LIVE" trend="+2" icon="🚨" colorClass={{ bg: 'bg-danger/10', text: 'text-danger', border: 'border-danger/20' }} />
