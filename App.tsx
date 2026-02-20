@@ -223,9 +223,9 @@ const AppContent: React.FC = () => {
               {!overrideState.active && (
                 <button
                   onClick={() => setShowOverrideModal(true)}
-                  className="px-6 py-2.5 bg-danger text-white rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-danger/90 transition-all flex items-center gap-2 shadow-lg shadow-danger/20"
+                  className="px-6 py-2.5 bg-white text-red-600 border-2 border-red-600 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white transition-all flex items-center gap-2 shadow-lg shadow-red-600/10"
                 >
-                  <AlertTriangle size={14} />
+                  <AlertTriangle size={14} className="text-red-600 group-hover:text-white" />
                   <span>Emergency Access Request</span>
                 </button>
               )}
