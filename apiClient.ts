@@ -1,6 +1,7 @@
 // Jeeva Raksha — Frontend API Client v2.1
 
 const BASE = (import.meta as any).env?.VITE_API_URL || '/api';
+console.log('[API CONFIG] Using backend:', BASE === '/api' ? 'Relative (/api)' : BASE);
 
 // ─── Token management ────────────────────────────────────────
 function getToken(): string | null {
