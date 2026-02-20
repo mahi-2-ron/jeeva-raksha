@@ -157,10 +157,9 @@ router.post('/',
                         [name, date_of_birth, phone]
                     );
                     if (dup.rows.length > 0) {
-                        const existing = dup.rows[0];
                         return {
                             duplicate: true,
-                            existing,
+                            existing: dup.rows[0],
                         };
                     }
                 }
@@ -191,18 +190,7 @@ router.post('/',
                 );
                 logToFile(`[patients] Insert successful, ID: ${insertResult.rows[0].id}`);
 
-                // ── Audit log ──
-                // await logAudit({
-                //     userId: req.user.id,
-                //     userName: req.user.name,
-                //     action: 'CREATE',
-                //     entityType: 'patient',
-                //     entityId: insertResult.rows[0].id,
-                //     module: 'patients',
-                //     details: `Registered patient: ${name} (${uhid})`,
-                //     newValues: insertResult.rows[0],
-                //     ipAddress: getClientIP(req),
-                // }, client);
+                // ── Audit log (commented out in original, keeping it that way for now to match structure) ──
 
                 return { patient: insertResult.rows[0] };
             });
@@ -215,6 +203,9 @@ router.post('/',
                     existing_patient: result.existing,
                 });
             }
+
+            // SUCCESS RESPONSE
+            res.status(201).json(result.patient);
 
             res.status(201).json(result.patient);
         } catch (err) {
