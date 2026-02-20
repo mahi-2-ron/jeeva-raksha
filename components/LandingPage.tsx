@@ -166,8 +166,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) =
 
                     {/* CTA */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                        <button onClick={() => onNavigate('DASHBOARD')} className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px] overflow-hidden">
-                            <span className="relative z-10 flex items-center justify-center gap-2">Enter Dashboard <span className="group-hover:translate-x-1 transition-transform">→</span></span>
+                        <button
+                            onClick={() => !isAuthenticated && onAdminLogin ? onAdminLogin() : onNavigate('DASHBOARD')}
+                            className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px] overflow-hidden"
+                        >
+                            <span className="relative z-10 flex items-center justify-center gap-2">
+                                {!isAuthenticated ? 'Enter System (Admin)' : 'Enter Dashboard'}
+                                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                            </span>
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
                         <a href="#features" className="px-10 py-4 bg-white text-slate-700 rounded-2xl text-sm font-black uppercase tracking-widest border-2 border-slate-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px]">Explore Features</a>
