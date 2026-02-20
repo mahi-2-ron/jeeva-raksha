@@ -7,7 +7,7 @@ import {
     Users, Calendar, CheckCircle2, AlertCircle, Clock,
     UserPlus, Plus, Stethoscope, Briefcase, UserCog,
     Edit2, Trash2, Plane, ClipboardList, Building2,
-    Activity, ArrowRight, Mail, Phone, Loader2
+    Activity, ArrowRight, Mail, Phone, Loader2, Lock
 } from 'lucide-react';
 
 const HRManagement: React.FC = () => {
@@ -191,8 +191,8 @@ const HRManagement: React.FC = () => {
                         disabled={!isAdmin}
                         title={!isAdmin ? "Requires Admin privileges" : "Register new staff"}
                         className={`px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all flex items-center gap-2 relative z-20 ${isAdmin
-                                ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-teal-800 cursor-pointer'
-                                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+                            ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-teal-800 cursor-pointer'
+                            : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
                             }`}>
                         {isAdmin ? <Plus size={14} /> : <Lock size={14} />}
                         Add Staff
@@ -316,8 +316,8 @@ const HRManagement: React.FC = () => {
                                     onClick={() => isAdmin && handleApproveLeave(l.id)}
                                     disabled={!isAdmin || approving === l.id}
                                     className={`px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all shrink-0 flex items-center gap-2 ${isAdmin
-                                            ? 'bg-success text-white hover:bg-green-700'
-                                            : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed'
+                                        ? 'bg-success text-white hover:bg-green-700'
+                                        : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed'
                                         }`}
                                 >
                                     {approving === l.id ? <Loader2 size={12} className="animate-spin" /> : (isAdmin ? <CheckCircle2 size={12} /> : <Lock size={12} />)}
