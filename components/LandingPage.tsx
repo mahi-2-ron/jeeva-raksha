@@ -34,7 +34,7 @@ const useCounter = (target: number, duration = 2000) => {
     return { count, ref };
 };
 
-const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) => {
     const [lang, setLang] = useState<'EN' | 'KN'>('EN');
     const [scrollY, setScrollY] = useState(0);
 
