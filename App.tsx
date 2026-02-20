@@ -226,7 +226,7 @@ const AppContent: React.FC = () => {
                   className="px-6 py-2.5 bg-danger text-white rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-danger/90 transition-all flex items-center gap-2 shadow-lg shadow-danger/20"
                 >
                   <AlertTriangle size={14} />
-                  <span>Critical Override</span>
+                  <span>Emergency Access Request</span>
                 </button>
               )}
 
