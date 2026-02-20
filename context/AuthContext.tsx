@@ -507,11 +507,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [currentPermissions]);
 
   const canPerformAction = useCallback((module: ViewType, requiredLevel: AccessLevel): boolean => {
-    if (isDemo) return false; // demo users can't perform actions
+    // If override is active, allow all actions regardless of demo mode
+    if (isDemo && !overrideState.active) return false;
     const moduleRequired = MODULE_PERMISSIONS[module] || 'VIEW';
     const effectiveRequired = getRoleIndex(requiredLevel) > getRoleIndex(moduleRequired) ? requiredLevel : moduleRequired;
     return getRoleIndex(currentPermissions) >= getRoleIndex(effectiveRequired);
-  }, [currentPermissions, isDemo]);
+  }, [currentPermissions, isDemo, overrideState.active]);
 
   const getModuleRequiredLevel = useCallback((module: ViewType): AccessLevel => {
     return MODULE_PERMISSIONS[module] || 'VIEW';
