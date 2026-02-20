@@ -10,7 +10,7 @@ const DeviceIntegrations: React.FC = () => {
     const { showToast } = useToast();
     const [syncing, setSyncing] = useState<string | null>(null);
 
-    const devices = [
+    const [devices, setDevices] = useState([
         { id: 'DEV001', name: 'Philips IntelliVue MX800', type: 'Patient Monitor', location: 'ICU Bay 1', status: 'Online', lastSync: '2 sec ago', battery: null, alerts: 0 },
         { id: 'DEV002', name: 'GE Carescape R860', type: 'Ventilator', location: 'ICU Bay 3', status: 'Online', lastSync: '5 sec ago', battery: null, alerts: 1 },
         { id: 'DEV003', name: 'Masimo Radical-7', type: 'Pulse Oximeter', location: 'Ward 2A', status: 'Online', lastSync: '1 min ago', battery: '82%', alerts: 0 },
@@ -19,7 +19,9 @@ const DeviceIntegrations: React.FC = () => {
         { id: 'DEV006', name: 'Drager Fabius GS', type: 'Anesthesia Machine', location: 'OT-1', status: 'Online', lastSync: '3 sec ago', battery: null, alerts: 0 },
         { id: 'DEV007', name: 'Roche cobas 6800', type: 'Molecular Analyzer', location: 'Microbiology Lab', status: 'Maintenance', lastSync: '2 hrs ago', battery: null, alerts: 1 },
         { id: 'DEV008', name: 'Nellcor PM1000N', type: 'Pulse Oximeter', location: 'Emergency Bay', status: 'Online', lastSync: '8 sec ago', battery: '95%', alerts: 0 },
-    ];
+    ]);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newDevice, setNewDevice] = useState({ name: '', type: '', location: '', id: '' });
 
     const handleSync = async (id: string) => {
         setSyncing(id);
@@ -28,12 +30,29 @@ const DeviceIntegrations: React.FC = () => {
         setSyncing(null);
     };
 
+    const handleAddDevice = (e: React.FormEvent) => {
+        e.preventDefault();
+        const id = newDevice.id || `DEV${String(devices.length + 1).padStart(3, '0')}`;
+        const device = {
+            ...newDevice,
+            id,
+            status: 'Offline', // Default status for new devices
+            lastSync: 'Never',
+            battery: null,
+            alerts: 0
+        };
+        setDevices([...devices, device as any]);
+        setShowAddModal(false);
+        setNewDevice({ name: '', type: '', location: '', id: '' });
+        showToast('success', 'New device added to registry');
+    };
+
     const online = devices.filter(d => d.status === 'Online').length;
     const offline = devices.filter(d => d.status === 'Offline').length;
     const totalAlerts = devices.reduce((s, d) => s + d.alerts, 0);
 
     return (
-        <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8">
+        <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 relative">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
                     <h2 className="text-3xl font-black text-slate-900 tracking-tight">Device Integrations</h2>
@@ -43,7 +62,7 @@ const DeviceIntegrations: React.FC = () => {
                     <button onClick={() => showToast('info', 'Device discovery scan initiated...')} className="px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 shadow-sm transition-all flex items-center gap-2">
                         <Search size={14} /> Scan Network
                     </button>
-                    <button onClick={() => showToast('info', 'Add device wizard opening...')} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all flex items-center gap-2">
+                    <button onClick={() => setShowAddModal(true)} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all flex items-center gap-2">
                         <Plus size={14} /> Add Device
                     </button>
                 </div>
@@ -115,6 +134,52 @@ const DeviceIntegrations: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Add Device Modal */}
+            {showAddModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center animate-in fade-in duration-200 p-4">
+                    <div className="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+                        <h2 className="text-xl font-black text-slate-900 mb-6 tracking-tight">Add Monitoring Device</h2>
+                        <form onSubmit={handleAddDevice} className="space-y-4">
+                            <div>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Device Name</label>
+                                <input required type="text" placeholder="Ex. Philips IntelliVue" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                                    value={newDevice.name} onChange={e => setNewDevice({ ...newDevice, name: e.target.value })} />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Device Type</label>
+                                    <select required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                                        value={newDevice.type} onChange={e => setNewDevice({ ...newDevice, type: e.target.value })}>
+                                        <option value="">Select Type</option>
+                                        <option value="Patient Monitor">Patient Monitor</option>
+                                        <option value="Ventilator">Ventilator</option>
+                                        <option value="Infusion Pump">Infusion Pump</option>
+                                        <option value="Analyzer">Lab Analyzer</option>
+                                        <option value="Imaging">Imaging (X-Ray/CT)</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Location</label>
+                                    <input required type="text" placeholder="Ex. ICU Bay 2" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                                        value={newDevice.location} onChange={e => setNewDevice({ ...newDevice, location: e.target.value })} />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Asset ID (Optional)</label>
+                                <input type="text" placeholder="Auto-generated if empty" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                                    value={newDevice.id} onChange={e => setNewDevice({ ...newDevice, id: e.target.value })} />
+                            </div>
+
+                            <div className="flex gap-3 mt-6">
+                                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 bg-white border border-slate-200 rounded-xl font-black text-xs uppercase tracking-widest text-slate-600 hover:bg-slate-50">Cancel</button>
+                                <button type="submit" className="flex-1 py-3 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 shadow-lg shadow-primary/20">Add Device</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
