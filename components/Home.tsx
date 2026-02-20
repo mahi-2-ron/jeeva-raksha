@@ -187,7 +187,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                 className="px-4 py-2 bg-danger text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-danger/90 transition-all flex items-center gap-2 shadow-lg shadow-danger/20"
               >
                 <ShieldAlert size={14} />
-                <span>Emergency Request Access</span>
+                <span>Emergency Access Request</span>
               </button>
             )}
           </div>
