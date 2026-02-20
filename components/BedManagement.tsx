@@ -4,6 +4,7 @@ import { Bed } from '../types';
 import api from '../apiClient';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { Plus, Lock } from 'lucide-react';
 
 const BedManagement: React.FC = () => {
   const [beds, setBeds] = useState<any[]>([]);
