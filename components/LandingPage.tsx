@@ -91,7 +91,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
-                            className="hidden lg:flex px-4 py-2 bg-danger/10 text-danger border border-danger/20 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-danger hover:text-white transition-all items-center gap-2"
+                            className="flex px-4 py-2 bg-white text-red-600 border-2 border-red-600 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 shadow-lg shadow-red-600/10"
                         >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m12 8 4 4" /><path d="m16 8-4 4" /></svg>
                             Emergency Access
