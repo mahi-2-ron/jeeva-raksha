@@ -8,7 +8,7 @@ import {
   FileText, ClipboardList, Globe, Users, TestTube,
   ScanLine, Pill, Package, CreditCard, Shield,
   UserCog, BedDouble, BarChart3, CheckCircle2,
-  Cpu, Landmark, Home, Lock
+  Cpu, Landmark, Home, Lock, ShieldAlert
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -149,6 +149,16 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="p-6 border-t border-blue-50 bg-white">
+        <button
+          onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
+          className="w-full py-4 bg-danger/10 text-danger border border-danger/20 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-danger hover:text-white transition-all flex items-center justify-center gap-3 group shadow-sm shadow-danger/5"
+        >
+          <ShieldAlert size={16} className="group-hover:animate-pulse" />
+          <span>Emergency Access Request</span>
+        </button>
       </div>
     </aside>
   );
