@@ -129,8 +129,9 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // ─── Show login page if not authenticated ──────────────────
-  if (!isAuthenticated) {
+  // ─── Authentication Gateway ───────────────────────────────
+  // If not authenticated AND not looking at the Landing Page, force login
+  if (!isAuthenticated && activeView !== 'HOME') {
     return (
       <LoginPage
         onLogin={handleLogin}
