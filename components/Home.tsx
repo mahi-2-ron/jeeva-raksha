@@ -4,12 +4,7 @@ import { ViewType } from '../types.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { useAuth } from '../context/AuthContext.tsx';
 import api from './apiClient';
-import {
-  Users, Clock, Bed, Ambulance, Scissors, Banknote,
-  Stethoscope, TestTube, ScanLine, Pill, Activity,
-  CheckCircle2, AlertTriangle, AlertOctagon, ArrowRight,
-  Calendar, FileText, TrendingUp, TrendingDown,
-  MonitorCheck, AlertCircle
+MonitorCheck, AlertCircle, Lock
 } from 'lucide-react';
 
 interface HomeProps {
@@ -395,8 +390,8 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                 disabled={!hasAccess}
                 title={!hasAccess ? `Requires ${action.minLevel} access` : undefined}
                 className={`p-4 rounded-xl border transition-all group text-left flex items-center gap-3 ${hasAccess
-                    ? 'border-hospital-border bg-hospital-bg hover:bg-white hover:border-primary/20 hover:shadow-md cursor-pointer active:scale-95'
-                    : 'border-slate-100 bg-slate-50 opacity-40 cursor-not-allowed grayscale'
+                  ? 'border-hospital-border bg-hospital-bg hover:bg-white hover:border-primary/20 hover:shadow-md cursor-pointer active:scale-95'
+                  : 'border-slate-100 bg-slate-50 opacity-40 cursor-not-allowed grayscale'
                   }`}
               >
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm border shrink-0 transition-all ${hasAccess ? 'bg-white border-slate-100 text-text-muted group-hover:text-primary group-hover:scale-110' : 'bg-slate-100 border-slate-200 text-slate-300'
@@ -425,9 +420,5 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
     </div>
   );
 };
-
-// Import Lock icon if not already imported
-import { Lock } from 'lucide-react';
-
 
 export default Home;
