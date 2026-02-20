@@ -119,12 +119,26 @@ const BedManagement: React.FC = () => {
               </button>
             ))}
           </div>
-          {isAdmin && (
-            <div className="flex gap-2">
-              <button onClick={() => setShowAddWard(true)} className="px-4 py-3 bg-white border border-hospital-border rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-sm hover:bg-hospital-bg transition-all">+ Ward</button>
-              <button onClick={() => setShowAddBed(true)} className="px-4 py-3 bg-secondary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:shadow-primary/20 transition-all">+ Bed</button>
-            </div>
-          )}
+          <div className="flex gap-2">
+            <button
+              onClick={() => isAdmin && setShowAddWard(true)}
+              disabled={!isAdmin}
+              title={!isAdmin ? "Requires Admin privileges" : "Add new ward"}
+              className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 ${isAdmin ? 'bg-white border border-hospital-border hover:bg-hospital-bg' : 'bg-slate-50 text-slate-300 border border-slate-100 cursor-not-allowed opacity-50'
+                }`}
+            >
+              {isAdmin ? <Plus size={14} /> : <Lock size={14} />} Ward
+            </button>
+            <button
+              onClick={() => isAdmin && setShowAddBed(true)}
+              disabled={!isAdmin}
+              title={!isAdmin ? "Requires Admin privileges" : "Add new bed"}
+              className={`px-4 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 ${isAdmin ? 'bg-secondary text-white shadow-xl hover:shadow-primary/20' : 'bg-slate-50 text-slate-300 border border-slate-100 cursor-not-allowed opacity-50'
+                }`}
+            >
+              {isAdmin ? <Plus size={14} /> : <Lock size={14} />} Bed
+            </button>
+          </div>
         </div>
       </div>
 
@@ -307,11 +321,15 @@ const BedManagement: React.FC = () => {
                       Set to Available
                     </button>
                   )}
-                  {isAdmin && (
-                    <button onClick={() => handleDeleteBed(selectedBed.id)} className="w-full py-4 bg-white border border-danger/20 text-danger rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-danger/5 transition-all active:scale-95">
-                      Decommission Bed
-                    </button>
-                  )}
+                  <button
+                    onClick={() => isAdmin && handleDeleteBed(selectedBed.id)}
+                    disabled={!isAdmin}
+                    title={!isAdmin ? "Requires Admin privileges" : "Remove bed"}
+                    className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-2 ${isAdmin ? 'bg-white border border-danger/20 text-danger hover:bg-danger/5' : 'bg-slate-50 text-slate-300 border border-slate-100 cursor-not-allowed'
+                      }`}
+                  >
+                    {!isAdmin && <Lock size={12} />} Decommission Bed
+                  </button>
                 </div>
 
                 <div className="pt-8 border-t border-slate-50 space-y-4">
