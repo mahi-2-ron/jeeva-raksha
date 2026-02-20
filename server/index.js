@@ -28,7 +28,7 @@ import auditRouter from './routes/audit.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.API_PORT || 5000;
+const PORT = process.env.PORT || process.env.API_PORT || 5000;
 
 // ─── Middleware ──────────────────────────────────────────────
 app.use(cors());
