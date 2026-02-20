@@ -186,11 +186,17 @@ const HRManagement: React.FC = () => {
                     <button onClick={() => showToast('info', 'Shift planner opening...')} className="px-5 py-2.5 bg-white border border-hospital-border rounded-xl text-[10px] font-black uppercase tracking-widest text-text-muted hover:bg-hospital-bg hover:text-text-main hover:border-text-muted/20 shadow-sm transition-all flex items-center gap-2">
                         <Calendar size={14} /> Shift Planner
                     </button>
-                    {isAdmin && (
-                        <button onClick={() => { console.log('Opening Add Staff form'); setShowAddForm(true); }} className="px-5 py-2.5 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-teal-800 transition-all flex items-center gap-2 relative z-20 cursor-pointer">
-                            <Plus size={14} /> Add Staff
-                        </button>
-                    )}
+                    <button
+                        onClick={() => isAdmin && setShowAddForm(true)}
+                        disabled={!isAdmin}
+                        title={!isAdmin ? "Requires Admin privileges" : "Register new staff"}
+                        className={`px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all flex items-center gap-2 relative z-20 ${isAdmin
+                                ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-teal-800 cursor-pointer'
+                                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+                            }`}>
+                        {isAdmin ? <Plus size={14} /> : <Lock size={14} />}
+                        Add Staff
+                    </button>
                 </div>
             </div>
 
@@ -256,16 +262,24 @@ const HRManagement: React.FC = () => {
                                 <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0 border ${s.status === 'active' || !s.status ? 'bg-success/5 text-success border-success/10' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
                                     {s.status || 'active'}
                                 </span>
-                                {isAdmin && (
-                                    <div className="flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                                        <button onClick={() => handleEditDoctor(s)} className="p-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded-lg transition-all" title="Edit">
-                                            <Edit2 size={16} />
-                                        </button>
-                                        <button onClick={() => handleDeleteDoctor(s.id, s.name)} className="p-2 text-text-muted hover:text-danger hover:bg-danger/5 rounded-lg transition-all" title="Delete">
-                                            <Trash2 size={16} />
-                                        </button>
-                                    </div>
-                                )}
+                                <div className="flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => isAdmin && handleEditDoctor(s)}
+                                        disabled={!isAdmin}
+                                        className={`p-2 rounded-lg transition-all ${isAdmin ? 'text-text-muted hover:text-primary hover:bg-primary/5' : 'text-slate-200 cursor-not-allowed'}`}
+                                        title={isAdmin ? "Edit Staff" : "Read-only"}
+                                    >
+                                        <Edit2 size={16} />
+                                    </button>
+                                    <button
+                                        onClick={() => isAdmin && handleDeleteDoctor(s.id, s.name)}
+                                        disabled={!isAdmin}
+                                        className={`p-2 rounded-lg transition-all ${isAdmin ? 'text-text-muted hover:text-danger hover:bg-danger/5' : 'text-slate-200 cursor-not-allowed'}`}
+                                        title={isAdmin ? "Delete Staff" : "Read-only"}
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -298,12 +312,17 @@ const HRManagement: React.FC = () => {
                                 <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shrink-0 border ${l.status === 'Approved' ? 'bg-success/5 text-success border-success/10' : 'bg-warning/5 text-warning border-warning/10'}`}>
                                     {l.status}
                                 </span>
-                                {l.status === 'Pending' && isAdmin && (
-                                    <button onClick={() => handleApproveLeave(l.id)} disabled={approving === l.id} className="px-4 py-2 bg-success text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-green-700 transition-all disabled:opacity-50 shrink-0 flex items-center gap-2">
-                                        {approving === l.id ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle2 size={12} />}
-                                        {approving === l.id ? 'Approving...' : 'Approve'}
-                                    </button>
-                                )}
+                                <button
+                                    onClick={() => isAdmin && handleApproveLeave(l.id)}
+                                    disabled={!isAdmin || approving === l.id}
+                                    className={`px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all shrink-0 flex items-center gap-2 ${isAdmin
+                                            ? 'bg-success text-white hover:bg-green-700'
+                                            : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed'
+                                        }`}
+                                >
+                                    {approving === l.id ? <Loader2 size={12} className="animate-spin" /> : (isAdmin ? <CheckCircle2 size={12} /> : <Lock size={12} />)}
+                                    {approving === l.id ? 'Approving...' : 'Approve'}
+                                </button>
                             </div>
                         ))}
                     </div>
