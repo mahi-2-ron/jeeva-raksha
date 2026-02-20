@@ -144,7 +144,7 @@ const AppContent: React.FC = () => {
   // ─── Main app (authenticated) ─────────────────────────────
   const renderView = () => {
     switch (activeView) {
-      case 'HOME': return <LandingPage onNavigate={setActiveView} />;
+      case 'HOME': return <LandingPage onNavigate={setActiveView} onAdminLogin={() => handleDemoLogin('admin')} />;
       case 'DASHBOARD': return <Home onNavigate={setActiveView} />;
       case 'OPD': return <OPDManagement />;
       case 'IPD': return <IPDManagement />;
