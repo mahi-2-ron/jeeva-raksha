@@ -1,6 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import apiClient from '../apiClient';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import { Plus, Lock } from 'lucide-react';
 
 const BillingInventory: React.FC = () => {
   const mockTransactions = [
@@ -20,6 +23,9 @@ const BillingInventory: React.FC = () => {
   const [transactions, setTransactions] = useState(mockTransactions);
   const [inventory, setInventory] = useState(mockInventory);
   const [totalRevenue, setTotalRevenue] = useState('₹42,84,500');
+  const { canPerformAction } = useAuth();
+  const { showToast } = useToast();
+  const isAdmin = canPerformAction('BILLING', 'ADMIN');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +67,17 @@ const BillingInventory: React.FC = () => {
         </div>
         <div className="flex gap-4">
           <button className="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Export GSTR-1</button>
-          <button className="px-6 py-2.5 bg-primary text-white rounded-xl text-xs font-bold hover:bg-blue-700 shadow-lg shadow-primary/20 transition-all">+ New Invoice</button>
+          <button
+            onClick={() => isAdmin && showToast('info', 'New invoice form opening...')}
+            disabled={!isAdmin}
+            title={!isAdmin ? "Requires Admin privileges" : "Create new invoice"}
+            className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${isAdmin
+                ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-blue-700'
+                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+              }`}
+          >
+            {isAdmin ? <Plus size={14} /> : <Lock size={14} />} New Invoice
+          </button>
         </div>
       </div>
 
