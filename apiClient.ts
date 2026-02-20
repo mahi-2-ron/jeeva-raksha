@@ -1,6 +1,9 @@
 // Jeeva Raksha — Frontend API Client v2.1
 
-const BASE = (import.meta as any).env?.VITE_API_URL || '/api';
+const VITE_API_URL = (import.meta as any).env?.VITE_API_URL;
+const BASE = VITE_API_URL
+    ? (VITE_API_URL.endsWith('/api') ? VITE_API_URL : (VITE_API_URL.endsWith('/') ? VITE_API_URL + 'api' : VITE_API_URL + '/api'))
+    : '/api';
 console.log('[API CONFIG] Using backend:', BASE === '/api' ? 'Relative (/api)' : BASE);
 
 // ─── Token management ────────────────────────────────────────
