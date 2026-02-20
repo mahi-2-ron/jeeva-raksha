@@ -141,9 +141,9 @@ app.use((err, _req, res, _next) => {
 });
 
 // ─── Start ──────────────────────────────────────────────────
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n🏥 Jeeva Raksha API Server v2.1 (with Auth)`);
-    console.log(`   Running on:  http://localhost:${PORT}`);
+    console.log(`   Running on:  http://0.0.0.0:${PORT}`);
     console.log(`   Auth:        http://localhost:${PORT}/api/auth/login`);
     console.log(`   Health:      http://localhost:${PORT}/api/health`);
     console.log(`   Environment: ${process.env.NODE_ENV || 'development'}\n`);
