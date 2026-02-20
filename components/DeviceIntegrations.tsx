@@ -53,7 +53,7 @@ const DeviceIntegrations: React.FC = () => {
 
     return (
         <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 relative">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
                 <div>
                     <h2 className="text-3xl font-black text-slate-900 tracking-tight">Device Integrations</h2>
                     <p className="text-sm font-medium text-slate-500 font-kannada">"ಯಂತ್ರ ಸಂಪರ್ಕ — ನಿರಂತರ ಕಣ್ಗಾವಲು" — Connected devices, continuous monitoring.</p>
