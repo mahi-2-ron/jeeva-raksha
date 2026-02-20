@@ -5,11 +5,14 @@ import {
   AreaChart, Area, PieChart, Pie, Cell, LineChart, Line
 } from 'recharts';
 import api from '../apiClient';
+import { useAuth } from '../context/AuthContext';
+import { ShieldAlert } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { overrideState } = useAuth();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -136,7 +139,15 @@ const Dashboard: React.FC = () => {
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">System Load</p>
             <p className="text-lg font-black text-primary mt-1">{error ? 'Offline' : 'Optimal'}</p>
           </div>
-          <button className="p-3 bg-hospital-bg text-slate-400 rounded-xl hover:text-primary transition-colors">🔄</button>
+          {!overrideState.active && (
+            <button
+              onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
+              className="px-6 py-3 bg-danger text-white rounded-xl text-[9px] font-black uppercase tracking-[0.2em] shadow-xl shadow-danger/20 hover:bg-danger/90 transition-all active:scale-95 flex items-center gap-2"
+            >
+              <ShieldAlert size={14} />
+              <span>Emergency Request Access</span>
+            </button>
+          )}
           <button className="px-6 py-3 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95">Generate Daily Report</button>
         </div>
       </div>
