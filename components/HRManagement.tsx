@@ -173,7 +173,7 @@ const HRManagement: React.FC = () => {
 
     return (
         <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 p-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
                 <div>
                     <h2 className="text-2xl font-black text-text-main tracking-tight">HR & Workforce</h2>
                     <p className="text-sm font-bold text-text-muted mt-1 font-kannada flex items-center gap-2">
