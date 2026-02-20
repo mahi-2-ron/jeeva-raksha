@@ -4,6 +4,7 @@ import { ViewType } from '../types.ts';
 
 interface LandingPageProps {
     onNavigate: (view: ViewType) => void;
+    onAdminLogin?: () => void;
 }
 
 /* ── Animated counter hook ── */
