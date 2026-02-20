@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ViewType } from '../types.ts';
+import { useAuth } from '../context/AuthContext.tsx';
 
 interface LandingPageProps {
     onNavigate: (view: ViewType) => void;
