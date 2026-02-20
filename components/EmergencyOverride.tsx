@@ -24,58 +24,60 @@ const EmergencyOverride: React.FC<EmergencyOverrideProps> = ({ onClose }) => {
   const canSubmit = reason.trim().length >= 10 && acknowledged;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-in">
-      <div className="bg-white w-full max-w-md rounded-[3rem] p-12 shadow-2xl space-y-8">
-        <div className="w-20 h-20 bg-danger/10 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner animate-pulse">🚨</div>
-        <div className="text-center space-y-3">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Emergency Access Request</h2>
-          <p className="text-sm text-slate-500 font-medium leading-relaxed">
-            Activating this override will grant full <span className="text-danger font-bold">Administrative privileges</span> for <span className="font-bold text-slate-800">{durationMinutes} minutes</span>.
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in">
+      <div className="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl space-y-6">
+        <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner animate-pulse">🚨</div>
+        <div className="text-center space-y-2">
+          <h2 className="text-xl font-black text-slate-900 tracking-tight">Emergency Access Request</h2>
+          <p className="text-xs text-slate-500 font-medium leading-relaxed">
+            Activating this override will grant full <span className="text-red-600 font-bold">Administrative privileges</span> for <span className="font-bold text-slate-800">{durationMinutes} minutes</span>.
           </p>
         </div>
 
         {/* Warning Banner */}
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 space-y-2">
+        <div className="bg-red-50 border border-red-100 rounded-xl p-3 space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-amber-600 text-lg">⚠️</span>
-            <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest">Audit Notice</span>
+            <span className="text-red-600 text-sm">⚠️</span>
+            <span className="text-[9px] font-black text-red-700 uppercase tracking-widest">Audit Notice</span>
           </div>
-          <p className="text-[11px] text-amber-700 leading-relaxed font-medium">
-            This action is <span className="font-bold">permanently logged</span> with your identity, timestamp, and reason. The override will <span className="font-bold">auto-expire after {durationMinutes} minutes</span>.
+          <p className="text-[10px] text-red-700 leading-relaxed font-medium">
+            This action is <span className="font-bold">permanently logged</span>. The override will <span className="font-bold">auto-expire after {durationMinutes} minutes</span>.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Reason for Override (Min 10 chars)</label>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-1.5">
+            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">Reason for Override (Min 10 chars)</label>
             <textarea
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="Describe the clinical emergency requiring elevated access..."
-              className="w-full bg-hospital-bg border border-slate-100 rounded-2xl p-4 text-sm font-medium h-28 focus:ring-2 focus:ring-danger/20 outline-none resize-none"
+              placeholder="Describe the clinical emergency..."
+              className="w-full bg-slate-50 border border-slate-100 rounded-xl p-3 text-sm font-medium h-24 focus:ring-2 focus:ring-red-500/20 outline-none resize-none"
               required
             />
           </div>
 
-          {/* Dual Confirmation Checkbox */}
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
               checked={acknowledged}
               onChange={(e) => setAcknowledged(e.target.checked)}
-              className="mt-0.5 w-5 h-5 rounded-md border-2 border-slate-300 text-danger focus:ring-danger/30 accent-red-600 shrink-0 cursor-pointer"
+              className="mt-0.5 w-4 h-4 rounded border-2 border-slate-300 text-red-600 focus:ring-red-500/30 accent-red-600 shrink-0 cursor-pointer"
             />
-            <span className="text-[11px] text-slate-600 font-semibold leading-relaxed group-hover:text-slate-800 transition-colors">
-              I confirm this is a <span className="text-danger font-bold">medical emergency</span> and I accept full accountability for actions taken during this elevated access session.
+            <span className="text-[10px] text-slate-600 font-semibold leading-relaxed group-hover:text-slate-800 transition-colors">
+              I confirm this is a <span className="text-red-600 font-bold">medical emergency</span> and I accept full accountability.
             </span>
           </label>
 
-          <div className="flex gap-4">
-            <button type="button" onClick={onClose} className="flex-1 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase transition-all hover:bg-slate-200">Cancel</button>
+          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={onClose} className="flex-1 py-3.5 bg-slate-100 text-slate-500 rounded-xl font-black text-[10px] uppercase transition-all hover:bg-slate-200">Cancel</button>
             <button
               type="submit"
               disabled={!canSubmit}
-              className="flex-1 py-4 bg-danger text-white rounded-2xl font-black text-xs uppercase shadow-xl transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-red-700 active:scale-95"
+              className={`flex-1 py-3.5 rounded-xl font-black text-[10px] uppercase transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 ${canSubmit
+                  ? 'bg-white text-red-600 border-2 border-red-600 hover:bg-red-600 hover:text-white shadow-red-600/10'
+                  : 'bg-slate-50 text-slate-300 border-2 border-slate-100 cursor-not-allowed opacity-50'
+                }`}
             >
               Activate STAT
             </button>
