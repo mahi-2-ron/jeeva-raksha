@@ -358,8 +358,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return;
     }
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000); // 8s timeout for initial check
+
     fetch(`${API_BASE}/auth/me`, {
       headers: { 'Authorization': `Bearer ${savedToken}` },
+      signal: controller.signal
     })
       .then(async (res) => {
         if (!res.ok) {
@@ -369,10 +373,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const data = await res.json();
         setUserAndAccess(data.user, savedToken, data.isDemo || false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.warn('[AUTH] Initial check failed or timed out:', err.message);
+        // Don't clear token if it's just a timeout (maybe transient network issue)
+        // But if it's a 401/403, clear it. 
+        // For simplicity, if it fails, we clear it so they can re-login.
         clearToken();
       })
       .finally(() => {
+        clearTimeout(timeout);
         setIsLoading(false);
       });
   }, []);
