@@ -4,7 +4,12 @@ import { ViewType } from '../types.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { useAuth } from '../context/AuthContext.tsx';
 import api from './apiClient';
-MonitorCheck, AlertCircle, Lock
+import {
+  Users, Clock, Bed, Ambulance, Scissors, Banknote,
+  Stethoscope, TestTube, ScanLine, Pill, Activity,
+  CheckCircle2, AlertTriangle, AlertOctagon, ArrowRight,
+  Calendar, FileText, TrendingUp, TrendingDown,
+  MonitorCheck, AlertCircle, Lock
 } from 'lucide-react';
 
 interface HomeProps {
