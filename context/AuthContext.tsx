@@ -81,14 +81,14 @@ const MODULE_PERMISSIONS: ModulePermissionMap = {
 
 /** Default views by role after login */
 export const ROLE_DEFAULT_VIEW: Record<string, ViewType> = {
-  admin: 'DASHBOARD',
-  doctor: 'DASHBOARD',
-  nurse: 'DASHBOARD',
-  pharmacist: 'PHARMACY',
-  patient: 'PORTAL',
-  demo: 'DASHBOARD',
-  staff: 'DASHBOARD',
-  receptionist: 'DASHBOARD',
+  admin: 'HOME',
+  doctor: 'HOME',
+  nurse: 'HOME',
+  pharmacist: 'HOME',
+  patient: 'HOME',
+  demo: 'HOME',
+  staff: 'HOME',
+  receptionist: 'HOME',
 };
 
 // ==================== Types ====================

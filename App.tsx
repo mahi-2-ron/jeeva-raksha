@@ -35,7 +35,30 @@ import { ViewType } from './types.ts';
 import { Eye, LogOut, AlertTriangle, Hospital, Loader2, Home as HomeIcon } from 'lucide-react';
 
 const AppContent: React.FC = () => {
-  const [activeView, setActiveView] = useState<ViewType>('HOME');
+  const [activeView, setActiveView] = useState<ViewType>(() => {
+    const hash = window.location.hash.replace('#/', '').toUpperCase();
+    return (hash as ViewType) || 'HOME';
+  });
+
+  // Sync state to URL Hash
+  useEffect(() => {
+    const currentHash = window.location.hash.replace('#/', '').toUpperCase();
+    if (currentHash !== activeView) {
+      window.location.hash = `#/${activeView.toLowerCase()}`;
+    }
+  }, [activeView]);
+
+  // Handle browser back/forward and manual URL entry
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#/', '').toUpperCase();
+      if (hash && hash !== activeView) {
+        setActiveView(hash as ViewType);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [activeView]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasKey, setHasKey] = useState<boolean | null>(null);
   const [showOverrideModal, setShowOverrideModal] = useState(false);
@@ -202,9 +225,13 @@ const AppContent: React.FC = () => {
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-medical-gradient opacity-50" />
             <div className="flex items-center gap-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="p-2 bg-primary/10 rounded-xl text-primary md:hidden" onClick={() => setActiveView('HOME')}>
-                  <HomeIcon size={20} />
-                </div>
+                <button
+                  onClick={() => setActiveView('HOME')}
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-primary hover:border-primary/30 transition-all shadow-sm group"
+                >
+                  <HomeIcon size={16} className="group-hover:scale-110 transition-transform" />
+                  <span>Return Home</span>
+                </button>
                 <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-hospital-bg rounded-2xl border border-hospital-border">
                   <span className="text-[10px] font-black text-text-muted tracking-widest uppercase">System Path</span>
                   <span className="text-slate-300">/</span>
