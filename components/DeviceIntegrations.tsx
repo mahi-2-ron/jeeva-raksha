@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 import { useToast } from '../context/ToastContext';
-Plug, CheckCircle2, XCircle, AlertTriangle,
+import {
+    Plug, CheckCircle2, XCircle, AlertTriangle,
     Battery, Search, Plus, Activity, Lock
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -69,8 +70,8 @@ const DeviceIntegrations: React.FC = () => {
                         disabled={!isAdmin}
                         title={!isAdmin ? "Requires Admin privileges" : "Register new device"}
                         className={`px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl transition-all flex items-center gap-2 relative z-20 ${isAdmin
-                                ? 'bg-primary text-white shadow-primary/20 hover:bg-blue-700'
-                                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+                            ? 'bg-primary text-white shadow-primary/20 hover:bg-blue-700'
+                            : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
                             }`}
                     >
                         {isAdmin ? <Plus size={14} /> : <Lock size={14} />} <span>Add Device</span>
