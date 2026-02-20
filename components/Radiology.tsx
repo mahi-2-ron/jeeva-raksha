@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { RadiologyStudy } from '../types';
 import api from '../apiClient';
+import { useAuth } from '../context/AuthContext';
 import {
   Scan, Zap, FileText, Siren, Clock, User,
   Search, Plus, ChevronRight, Activity,
@@ -145,8 +146,8 @@ const Radiology: React.FC = () => {
             disabled={!isEdit}
             title={!isEdit ? "Requires Clinical Clinical Staff privileges" : "Order new scan"}
             className={`px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl transition-all flex items-center gap-2 ${isEdit
-                ? 'bg-primary text-white shadow-primary/20 hover:bg-blue-700'
-                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+              ? 'bg-primary text-white shadow-primary/20 hover:bg-blue-700'
+              : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
               }`}
           >
             {isEdit ? <Plus size={14} /> : <Lock size={14} />} Request New Study
