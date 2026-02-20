@@ -36,6 +36,7 @@ const useCounter = (target: number, duration = 2000) => {
 };
 
 const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) => {
+    const { isAuthenticated, user } = useAuth();
     const [lang, setLang] = useState<'EN' | 'KN'>('EN');
     const [scrollY, setScrollY] = useState(0);
 
