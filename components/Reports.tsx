@@ -5,10 +5,15 @@ import {
    TrendingUp, ShieldAlert, Award, FileText,
    Stethoscope, Package, Banknote, Settings,
    Clock, CheckCircle2, AlertCircle, RefreshCw,
-   Download, Mail, ShieldCheck, ChevronRight
+   Download, Mail, ShieldCheck, ChevronRight, Lock
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const Reports: React.FC = () => {
+   const { canPerformAction } = useAuth();
+   const { showToast } = useToast();
+   const isAdmin = canPerformAction('REPORTS', 'ADMIN');
    const mockAuditLogs = [
       { id: 'AUD-901', type: 'Clinical', user: 'Dr. Sharma', action: 'Prescription Finalized', time: '10 mins ago', status: 'Verified' },
       { id: 'AUD-902', type: 'Inventory', user: 'Pharmacist Arjun', action: 'Stock Replenishment', time: '1 hr ago', status: 'Pending' },
