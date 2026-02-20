@@ -31,8 +31,8 @@ const BillingInventory: React.FC = () => {
     const fetchData = async () => {
       try {
         const [invoices, stock] = await Promise.all([
-          api.getInvoices().catch(() => null),
-          api.getPharmacyStock().catch(() => null),
+          apiClient.getInvoices().catch(() => null),
+          apiClient.getPharmacyStock().catch(() => null),
         ]);
         if (invoices && invoices.length > 0) {
           setTransactions(invoices.map((inv: any) => ({
@@ -72,8 +72,8 @@ const BillingInventory: React.FC = () => {
             disabled={!isAdmin}
             title={!isAdmin ? "Requires Admin privileges" : "Create new invoice"}
             className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${isAdmin
-                ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-blue-700'
-                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+              ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-blue-700'
+              : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
               }`}
           >
             {isAdmin ? <Plus size={14} /> : <Lock size={14} />} New Invoice
