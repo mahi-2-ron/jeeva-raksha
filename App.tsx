@@ -39,6 +39,12 @@ const AppContent: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasKey, setHasKey] = useState<boolean | null>(null);
   const [showOverrideModal, setShowOverrideModal] = useState(false);
+
+  // Expose global dispatcher for the override modal
+  useEffect(() => {
+    (window as any).dispatchSetShowOverrideModal = (val: boolean) => setShowOverrideModal(val);
+    return () => { delete (window as any).dispatchSetShowOverrideModal; };
+  }, []);
   const [loginError, setLoginError] = useState('');
 
   const { t } = useLanguage();
