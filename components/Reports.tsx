@@ -63,11 +63,23 @@ const Reports: React.FC = () => {
                </p>
             </div>
             <div className="flex gap-4">
-               <button className="px-5 py-2.5 bg-white border border-hospital-border rounded-xl text-[10px] font-black uppercase tracking-widest text-text-muted hover:bg-hospital-bg hover:text-text-main transition-all shadow-sm flex items-center gap-2">
-                  <Mail size={14} /> Schedule Auto-Mail
+               <button
+                  onClick={() => isAdmin && showToast('info', 'Scheduling auto-mail...')}
+                  disabled={!isAdmin}
+                  title={!isAdmin ? "Requires Admin privileges" : "Schedule reports"}
+                  className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm flex items-center gap-2 ${isAdmin ? 'bg-white border-hospital-border text-text-muted hover:bg-hospital-bg hover:text-text-main' : 'bg-slate-50 border-slate-100 text-slate-200 cursor-not-allowed'
+                     }`}
+               >
+                  {isAdmin ? <Mail size={14} /> : <Lock size={14} />} Schedule Auto-Mail
                </button>
-               <button className="px-5 py-2.5 bg-text-main text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:bg-slate-800 transition-all flex items-center gap-2">
-                  <Download size={14} /> Download Audit Trail
+               <button
+                  onClick={() => isAdmin && showToast('info', 'Downloading audit trail...')}
+                  disabled={!isAdmin}
+                  title={!isAdmin ? "Requires Admin privileges" : "Download data"}
+                  className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all flex items-center gap-2 ${isAdmin ? 'bg-text-main text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-300 cursor-not-allowed grayscale'
+                     }`}
+               >
+                  {isAdmin ? <Download size={14} /> : <Lock size={14} />} Download Audit Trail
                </button>
             </div>
          </div>
