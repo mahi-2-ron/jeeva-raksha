@@ -456,7 +456,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // ─── Emergency Override ────────────────────────────────────
   const triggerEmergencyOverride = useCallback((reason: string) => {
-    if (isDemo) return; // block in demo mode
+    // Enable for all roles including demo to allow feature testing
     const now = new Date();
     const expiresAt = new Date(now.getTime() + OVERRIDE_DURATION_SECONDS * 1000);
 
