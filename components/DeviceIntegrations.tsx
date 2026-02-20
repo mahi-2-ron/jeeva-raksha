@@ -62,8 +62,8 @@ const DeviceIntegrations: React.FC = () => {
                     <button onClick={() => showToast('info', 'Device discovery scan initiated...')} className="px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 shadow-sm transition-all flex items-center gap-2">
                         <Search size={14} /> Scan Network
                     </button>
-                    <button onClick={() => setShowAddModal(true)} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all flex items-center gap-2">
-                        <Plus size={14} /> Add Device
+                    <button onClick={() => { console.log('Opening add modal'); setShowAddModal(true); }} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all flex items-center gap-2 relative z-20 cursor-pointer">
+                        <Plus size={14} /> <span>Add Device</span>
                     </button>
                 </div>
             </div>
