@@ -153,17 +153,20 @@ router.post('/login', async (req, res) => {
                 specialization: user.specialization,
             },
         });
+    });
     } catch (err) {
-        console.error('[AUTH] Login error:', err);
-        console.error('[AUTH] Error stack:', err.stack);
-        res.status(500).json({ 
-            error: 'Login failed', 
-            message: err.message,
-            hint: err.code === '42703' ? 'Database column missing. Run migration_auth.sql' : 
-                  err.code === '42P01' ? 'Database table missing. Run schema.sql and migration_auth.sql' :
-                  'Check backend logs for details'
-        });
-    }
+    console.error('[AUTH] Login error:', err);
+    // Only log stack if not a known operational error
+    if (!err.code) console.error('[AUTH] Error stack:', err.stack);
+
+    res.status(500).json({
+        error: 'Login failed',
+        message: err.message,
+        hint: err.code === '42703' ? 'Database column missing. Run migration_auth.sql' :
+            err.code === '42P01' ? 'Database table missing. Run schema.sql' :
+                'Check backend logs for details'
+    });
+}
 });
 
 // ─── POST /api/auth/demo — instant demo login ───────────────
