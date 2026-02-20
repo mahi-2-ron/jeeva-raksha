@@ -187,7 +187,7 @@ const HRManagement: React.FC = () => {
                         <Calendar size={14} /> Shift Planner
                     </button>
                     {isAdmin && (
-                        <button onClick={() => setShowAddForm(true)} className="px-5 py-2.5 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-teal-800 transition-all flex items-center gap-2">
+                        <button onClick={() => { console.log('Opening Add Staff form'); setShowAddForm(true); }} className="px-5 py-2.5 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-teal-800 transition-all flex items-center gap-2 relative z-20 cursor-pointer">
                             <Plus size={14} /> Add Staff
                         </button>
                     )}
