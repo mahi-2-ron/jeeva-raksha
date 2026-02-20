@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Logo from './Logo.tsx';
+
 
 interface LoginPageProps {
     onLogin: (email: string, password: string, remember: boolean) => Promise<void>;
@@ -111,14 +113,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, error, isLo
         <div className="min-h-screen flex items-center justify-center bg-slate-50 font-sans p-6">
             <div className="w-full max-w-md">
                 {/* Header with Logo */}
-                <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-20 h-20 mb-6 bg-white rounded-3xl shadow-sm border border-slate-100 p-4">
-                        <svg width="100%" height="100%" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M32 4L8 14V30C8 44.8 18.24 58.56 32 60C45.76 58.56 56 44.8 56 30V14L32 4Z" fill="#0891b2" />
-                            <circle cx="32" cy="32" r="20" fill="white" />
-                            <path d="M18 32H24L28 22L36 42L40 32H46" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
+                <div className="text-center mb-10 flex flex-col items-center">
+                    <Logo size={80} className="mb-6 rounded-3xl" />
                     <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-1">Jeeva Raksha</h1>
                     <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest">Unified Hospital System</p>
                 </div>
