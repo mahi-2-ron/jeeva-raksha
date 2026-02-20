@@ -8,7 +8,7 @@ import {
   Search, Plus, ArrowLeft, Edit2, Trash2, ChevronRight,
   Loader2, User, Calendar, Phone, Mail, MapPin,
   FileText, Activity, AlertCircle, CheckCircle2, XCircle,
-  Stethoscope, Bed, Upload, ArrowRight
+  Stethoscope, Bed, Upload, ArrowRight, Lock
 } from 'lucide-react';
 
 const Patients: React.FC = () => {
@@ -133,17 +133,19 @@ const Patients: React.FC = () => {
                   <span className={`px-2.5 py-1 rounded-full text-[9px] font-bold uppercase border ${getStatusColor(selectedPatient.status)}`}>
                     {selectedPatient.status}
                   </span>
-                  {isAdmin && (
-                    <button
-                      onClick={() => {
+                  <button
+                    onClick={() => {
+                      if (isAdmin) {
                         handleEditPatient(selectedPatient);
                         setSelectedPatient(null);
-                      }}
-                      className="p-1.5 text-text-muted hover:text-primary transition-colors"
-                    >
-                      <Edit2 size={14} />
-                    </button>
-                  )}
+                      }
+                    }}
+                    disabled={!isAdmin}
+                    title={!isAdmin ? "Requires Admin privileges" : "Edit patient details"}
+                    className={`p-1.5 transition-colors ${isAdmin ? 'text-text-muted hover:text-primary' : 'text-slate-200 cursor-not-allowed'}`}
+                  >
+                    {isAdmin ? <Edit2 size={14} /> : <Lock size={14} />}
+                  </button>
                 </div>
               </div>
             </div>
@@ -374,13 +376,18 @@ const Patients: React.FC = () => {
             />
             <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
           </div>
-          {isAdmin && (
-            <button onClick={() => setShowRegisterForm(true)}
-              className="px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-teal-800 transition-all flex items-center gap-2">
-              <Plus size={14} />
-              Register
-            </button>
-          )}
+          <button
+            onClick={() => isAdmin && setShowRegisterForm(true)}
+            disabled={!isAdmin}
+            title={!isAdmin ? "Requires Admin privileges" : "Register new patient"}
+            className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg transition-all flex items-center gap-2 ${isAdmin
+                ? 'bg-primary text-white shadow-primary/20 hover:bg-teal-800'
+                : 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed grayscale'
+              }`}
+          >
+            {isAdmin ? <Plus size={14} /> : <Lock size={14} />}
+            Register
+          </button>
         </div>
       </div>
 
@@ -439,32 +446,32 @@ const Patients: React.FC = () => {
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex justify-end gap-2 text-text-muted">
-                      {isAdmin && (
-                        <>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditPatient(p);
-                            }}
-                            className="p-2 bg-white border border-hospital-border rounded-lg hover:text-primary hover:border-primary/30 transition-all"
-                            title="Edit"
-                          >
-                            <Edit2 size={16} />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (confirm(`Are you sure you want to delete ${p.name}? This will be logged.`)) {
-                                api.deletePatient(p.id).then(() => fetchPatients());
-                              }
-                            }}
-                            className="p-2 bg-white border border-hospital-border rounded-lg hover:text-danger hover:border-danger/30 transition-all"
-                            title="Delete"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </>
-                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isAdmin) handleEditPatient(p);
+                        }}
+                        disabled={!isAdmin}
+                        title={!isAdmin ? "Requires Admin privileges" : "Edit"}
+                        className={`p-2 bg-white border rounded-lg transition-all ${isAdmin ? 'border-hospital-border text-text-muted hover:text-primary hover:border-primary/30' : 'border-slate-100 text-slate-200 cursor-not-allowed'
+                          }`}
+                      >
+                        {isAdmin ? <Edit2 size={16} /> : <Lock size={14} />}
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isAdmin && confirm(`Are you sure you want to delete ${p.name}? This will be logged.`)) {
+                            api.deletePatient(p.id).then(() => fetchPatients());
+                          }
+                        }}
+                        disabled={!isAdmin}
+                        title={!isAdmin ? "Requires Admin privileges" : "Delete"}
+                        className={`p-2 bg-white border rounded-lg transition-all ${isAdmin ? 'border-hospital-border text-text-muted hover:text-danger hover:border-danger/30' : 'border-slate-100 text-slate-200 cursor-not-allowed'
+                          }`}
+                      >
+                        {isAdmin ? <Trash2 size={16} /> : <Lock size={14} />}
+                      </button>
                       <button className="p-2 bg-white border border-hospital-border rounded-lg hover:text-primary hover:border-primary/30 transition-all group-hover:bg-primary group-hover:text-white group-hover:border-primary">
                         <ChevronRight size={16} />
                       </button>
