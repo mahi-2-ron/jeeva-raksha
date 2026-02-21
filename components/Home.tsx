@@ -133,8 +133,8 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative">
         <div className="relative z-10 w-full md:w-auto">
           <div className="flex items-center gap-3 mb-2">
-            <span className="px-3 py-1 bg-primary/10 text-primary text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-primary/20">Operational Dashboard</span>
-            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase border tracking-wider ${systemHealth === 'ok' ? 'bg-success/5 text-success border-success/10' : 'bg-warning/5 text-warning border-warning/10'}`}>
+            <span className="px-3 py-1 bg-primary/10 text-primary text-[8px] md:text-[10px] font-bold uppercase tracking-[0.2em] rounded-full border border-primary/20">Operational Dashboard</span>
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[8px] md:text-[10px] font-bold uppercase border tracking-wider ${systemHealth === 'ok' ? 'bg-success/5 text-success border-success/10' : 'bg-warning/5 text-warning border-warning/10'}`}>
               <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${systemHealth === 'ok' ? 'bg-success' : 'bg-warning'}`} />
               {systemHealth === 'ok' ? 'System Live' : 'Maintenance'}
             </div>
@@ -254,8 +254,8 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                   <Activity size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black tracking-tight">AI Co-Pilot</h3>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">High-Acuity Risk Scan</p>
+                  <h3 className="text-xl font-bold tracking-tight">AI Co-Pilot</h3>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">High-Acuity Risk Scan</p>
                 </div>
               </div>
               <div className="flex -space-x-3">
@@ -269,9 +269,9 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
                       {insight.icon}
-                      <span className="text-sm font-black">{insight.patient}</span>
+                      <span className="text-sm font-bold">{insight.patient}</span>
                     </div>
-                    <span className={`text-[8px] font-black px-2 py-0.5 rounded-full border ${insight.risk === 'High' ? 'bg-rose-500/20 text-rose-500 border-rose-500/30' : 'bg-amber-500/20 text-amber-500 border-amber-500/30'}`}>{insight.risk}</span>
+                    <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full border ${insight.risk === 'High' ? 'bg-rose-500/20 text-rose-500 border-rose-500/30' : 'bg-amber-500/20 text-amber-500 border-amber-500/30'}`}>{insight.risk}</span>
                   </div>
                   <p className="text-[11px] text-slate-400 font-medium mb-4 leading-relaxed">{insight.detail}</p>
                   <div className="h-1 bg-white/10 rounded-full overflow-hidden">
@@ -291,7 +291,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                 className="p-5 rounded-[2rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all group flex flex-col items-center justify-center text-center active:scale-90"
               >
                 <div className={`mb-3 transition-transform group-hover:scale-110 ${dept.color}`}>{dept.icon}</div>
-                <p className="text-[10px] font-black text-slate-900 uppercase tracking-tight">{dept.name}</p>
+                <p className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">{dept.name}</p>
               </button>
             ))}
           </div>
