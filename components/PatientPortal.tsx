@@ -66,7 +66,23 @@ const PatientPortal: React.FC = () => {
    };
 
    return (
-      <div className="max-w-[1200px] mx-auto animate-in fade-in duration-500 space-y-10">
+      <div className="max-w-[1200px] mx-auto animate-in fade-in duration-500 space-y-10 pb-20">
+         {/* Simple Portal Header */}
+         <div className="flex justify-between items-center py-6 px-4">
+            <div className="flex items-center gap-3">
+               <div className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center border border-slate-100">
+                  <span className="text-xl">🛡️</span>
+               </div>
+               <span className="text-lg font-black text-slate-900 tracking-tight">Jeeva Raksha Portal</span>
+            </div>
+            <button
+               onClick={logout}
+               className="px-6 py-2 bg-white text-slate-500 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:text-red-600 hover:border-red-200 transition-all active:scale-95 shadow-sm"
+            >
+               Sign Out
+            </button>
+         </div>
+
          {/* Hero */}
          <div className="bg-soft-blue p-16 rounded-[4rem] text-slate-900 relative overflow-hidden shadow-2xl border border-blue-100 group">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 group-hover:bg-white/60 transition-all duration-1000" />
