@@ -1,19 +1,25 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600&display=swap');
+
 @theme {
     --color-primary: #2563eb;
     --color-success: #16a34a;
     --color-warning: #ea580c;
     --color-danger: #dc2626;
+
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-kannada: "Noto Sans Kannada", sans-serif;
 }
 
 body {
     margin: 0;
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #f8fafc;
     color: #334155;
+    font-size: 14px;
 }
 
 h1,
@@ -22,5 +28,6 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-sans);
+    font-weight: 600;
 }
