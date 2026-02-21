@@ -173,11 +173,11 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             {alerts[alertIndex]?.level === 'Critical' ? <AlertOctagon size={18} /> : <AlertCircle size={18} />}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-black text-slate-800 leading-snug truncate">{alerts[alertIndex]?.title}</p>
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">{alerts[alertIndex]?.time}</p>
+            <p className="text-sm font-semibold text-slate-800 leading-snug truncate">{alerts[alertIndex]?.title}</p>
+            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mt-1">{alerts[alertIndex]?.time}</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[9px] font-black text-slate-300 uppercase">{alertIndex + 1}/{alerts.length}</span>
+            <span className="text-[10px] font-semibold text-slate-300 uppercase">{alertIndex + 1}/{alerts.length}</span>
             <ChevronRight size={16} className="text-slate-300" />
           </div>
         </div>
@@ -199,8 +199,8 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                 {kpi.icon}
               </div>
             </div>
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
-            <p className="text-2xl font-black text-slate-900 tracking-tighter">{kpi.value}</p>
+            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
+            <p className="text-2xl font-bold text-slate-900 tracking-tight">{kpi.value}</p>
           </div>
         ))}
       </div>
@@ -211,9 +211,9 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           <div className="p-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
             <div className="flex items-center gap-3">
               <Calendar size={18} className="text-primary" />
-              <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Today's Slate</h3>
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Today's Slate</h3>
             </div>
-            <button onClick={() => onNavigate('OPD')} className="text-[10px] font-black text-primary hover:underline">Full Schedule →</button>
+            <button onClick={() => onNavigate('OPD')} className="text-xs font-semibold text-primary hover:underline uppercase tracking-wide">Full Schedule →</button>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar p-1">
             {(appointments.length > 0 ? appointments : [
@@ -224,18 +224,18 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             ]).map((appt, i) => (
               <div key={i} className="px-6 py-4 flex items-center gap-4 hover:bg-slate-50 transition-colors cursor-pointer group border-b border-slate-50/50">
                 <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex flex-col items-center justify-center shadow-sm group-hover:border-primary/30 transition-all">
-                  <span className="text-[10px] font-black text-slate-800 leading-none">
+                  <span className="text-[11px] font-bold text-slate-800 leading-none">
                     {appt.time ? appt.time.split(' ')[0] : '--:--'}
                   </span>
-                  <span className="text-[8px] font-bold text-slate-400 mt-1 uppercase">
+                  <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase">
                     {appt.time && appt.time.split(' ')[1] ? appt.time.split(' ')[1] : ''}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-black text-slate-900 truncate">{appt.patient_name || appt.name}</p>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">{appt.type || 'Consultation'}</p>
+                  <p className="text-sm font-semibold text-slate-900 truncate">{appt.patient_name || appt.name}</p>
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase mt-0.5 tracking-wider">{appt.type || 'Consultation'}</p>
                 </div>
-                <div className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase ${appt.status === 'confirmed' ? 'bg-success/5 text-success' : 'bg-warning/10 text-warning animate-pulse'}`}>
+                <div className={`px-2 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wide ${appt.status === 'confirmed' ? 'bg-success/5 text-success' : 'bg-warning/10 text-warning animate-pulse'}`}>
                   {appt.status}
                 </div>
               </div>
