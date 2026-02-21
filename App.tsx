@@ -115,7 +115,7 @@ const AppContent: React.FC = () => {
           <Hospital size={40} className="text-primary" />
         </div>
         <Loader2 className="w-8 h-8 text-primary animate-spin" />
-        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Initializing Bios-Grid...</p>
+        <p className="text-[10px] font-bold text-primary uppercase tracking-[0.3em]">Initializing Bios-Grid...</p>
       </div>
     );
   }
@@ -178,17 +178,17 @@ const AppContent: React.FC = () => {
         {/* Banners */}
         {isDemo && (
           <div className="bg-medical-gradient text-white px-4 py-2 flex justify-between items-center z-50 animate-in slide-in-from-top duration-500">
-            <span className="text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+            <span className="text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
               <Eye size={12} /> Live Demo Session
             </span>
-            <button onClick={logout} className="text-[8px] font-black uppercase bg-white/20 px-3 py-1 rounded-full border border-white/20">Exit</button>
+            <button onClick={logout} className="text-[8px] font-bold uppercase bg-white/20 px-3 py-1 rounded-full border border-white/20">Exit</button>
           </div>
         )}
 
         {overrideState.active && (
           <div className={`bg-red-600 text-white py-2 px-6 flex justify-between items-center z-[60] shadow-xl animate-pulse`}>
-            <span className="text-[9px] font-black uppercase tracking-widest flex items-center gap-2"><AlertTriangle size={14} /> OVERRIDE ACTIVE</span>
-            <button onClick={deactivateOverride} className="text-[8px] font-black uppercase bg-white text-red-600 px-4 py-1 rounded-full">Terminate</button>
+            <span className="text-[9px] font-bold uppercase tracking-widest flex items-center gap-2"><AlertTriangle size={14} /> OVERRIDE ACTIVE</span>
+            <button onClick={deactivateOverride} className="text-[8px] font-bold uppercase bg-white text-red-600 px-4 py-1 rounded-full">Terminate</button>
           </div>
         )}
 
