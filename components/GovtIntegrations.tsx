@@ -28,10 +28,15 @@ const GovtIntegrations: React.FC = () => {
         { id: 'RPT005', name: 'Bio-Medical Waste Report', authority: 'CPCB', dueDate: '2026-02-28', status: 'Draft', period: 'Feb 2026' },
     ];
 
+    // Helper for activity icon
+    const ActivityIcon = ({ size }: { size: number }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+    );
+
     const certificates = [
         { type: 'Birth Certificate', issued: 42, pending: 3, icon: <Baby size={32} /> },
         { type: 'Death Certificate', issued: 8, pending: 1, icon: <Scroll size={32} /> },
-        { type: 'Medical Fitness', issued: 156, pending: 12, icon: <Activity size={32} /> },
+        { type: 'Medical Fitness', issued: 156, pending: 12, icon: <ActivityIcon size={32} /> },
         { type: 'Disability Certificate', issued: 14, pending: 2, icon: <AlignVerticalSpaceAround size={32} /> },
     ];
 
@@ -45,11 +50,6 @@ const GovtIntegrations: React.FC = () => {
     const handleGenerateCert = (type: string) => {
         showToast('info', `Generating ${type} form...`);
     };
-
-    // Helper for activity icon
-    const Activity = ({ size }: { size: number }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
-    );
 
 
     return (

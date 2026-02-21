@@ -2,21 +2,31 @@
 import React, { useState, useEffect } from 'react';
 import api from '../apiClient';
 import { useToast } from '../context/ToastContext';
+import {
+    Shield, Landmark, FileText, CheckCircle2,
+    XCircle, Clock, Search, CreditCard,
+    History, Users, ArrowRight, Activity,
+    ShieldCheck, AlertCircle, RefreshCw
+} from 'lucide-react';
 
 const InsuranceManagement: React.FC = () => {
     const { showToast } = useToast();
     const [claims, setClaims] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<'CLAIMS' | 'PRE_AUTH' | 'TPA'>('CLAIMS');
+    const [activeTab, setActiveTab] = useState<'GOVT' | 'PRIVATE' | 'PRE_AUTH' | 'TPA'>('GOVT');
     const [processing, setProcessing] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const mockClaims = [
+    const mockGovtClaims = [
+        { id: 'AYU001', patient: 'Vikram Mehta', scheme: 'PMJAY (Ayushman)', uhid: 'ABHA-1102', amount: 85000, status: 'Pre-Approved', date: '2026-02-20', type: 'Cashless' },
+        { id: 'AYU002', patient: 'Suresh Raina', scheme: 'State Health Card', uhid: 'KA-9921', amount: 12000, status: 'Settled', date: '2026-02-18', type: 'Scheme' },
+        { id: 'AYU003', patient: 'Meena Kumari', scheme: 'PMJAY (Ayushman)', uhid: 'ABHA-5582', amount: 155000, status: 'Under Review', date: '2026-02-19', type: 'Cashless' },
+    ];
+
+    const mockPrivateClaims = [
         { id: 'CLM001', patient: 'Vikram Mehta', insurer: 'Star Health', policyNo: 'SH-9988721', amount: 125000, status: 'Approved', date: '2026-02-18', type: 'Cashless' },
         { id: 'CLM002', patient: 'Anjali Singh', insurer: 'ICICI Lombard', policyNo: 'IL-5543219', amount: 45000, status: 'Pending', date: '2026-02-17', type: 'Reimbursement' },
         { id: 'CLM003', patient: 'Rajesh Kumar', insurer: 'HDFC Ergo', policyNo: 'HE-7712340', amount: 280000, status: 'Under Review', date: '2026-02-16', type: 'Cashless' },
-        { id: 'CLM004', patient: 'Meena Kumari', insurer: 'New India', policyNo: 'NI-3345678', amount: 18000, status: 'Rejected', date: '2026-02-15', type: 'Reimbursement' },
-        { id: 'CLM005', patient: 'Suresh Raina', insurer: 'Bajaj Allianz', policyNo: 'BA-2234561', amount: 92000, status: 'Approved', date: '2026-02-14', type: 'Cashless' },
-        { id: 'CLM006', patient: 'Priya Sharma', insurer: 'Star Health', policyNo: 'SH-1123890', amount: 55000, status: 'Pending', date: '2026-02-18', type: 'Cashless' },
     ];
 
     const preAuthRequests = [
@@ -37,9 +47,9 @@ const InsuranceManagement: React.FC = () => {
             setLoading(true);
             try {
                 const data = await api.getInsuranceClaims().catch(() => null);
-                setClaims(data && data.length > 0 ? data : mockClaims);
+                setClaims(data && data.length > 0 ? data : [...mockGovtClaims, ...mockPrivateClaims]);
             } catch {
-                setClaims(mockClaims);
+                setClaims([...mockGovtClaims, ...mockPrivateClaims]);
             } finally {
                 setLoading(false);
             }
@@ -50,42 +60,67 @@ const InsuranceManagement: React.FC = () => {
     const handleFollowUp = async (id: string) => {
         setProcessing(id);
         await new Promise(r => setTimeout(r, 1000));
-        showToast('success', `Follow-up sent for claim ${id}`);
+        showToast('success', `Follow-up sent for case ${id}`);
         setProcessing(null);
     };
 
-    const handleSubmitPreAuth = () => {
-        showToast('info', 'Pre-authorization form opening...');
+    const checkEligibility = () => {
+        if (!searchQuery) return showToast('warning', 'Please enter UHID or PMJAY ID');
+        setProcessing('ELIGIBILITY');
+        setTimeout(() => {
+            showToast('success', 'Patient ELIGIBLE for PMJAY (Ayushman Bharat). Card Verified.');
+            setProcessing(null);
+        }, 1500);
     };
 
-    const approvedAmt = claims.filter(c => c.status === 'Approved').reduce((s, c) => s + c.amount, 0);
-    const pendingCount = claims.filter(c => c.status === 'Pending' || c.status === 'Under Review').length;
+    const govtCount = claims.filter(c => c.id.startsWith('AYU')).length;
+    const privateCount = claims.filter(c => c.id.startsWith('CLM')).length;
 
     return (
-        <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8">
+        <div className="max-w-[1600px] mx-auto animate-in fade-in duration-500 space-y-8 p-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tight">Insurance & Claims</h2>
-                    <p className="text-sm font-medium text-slate-500 font-kannada">"ಬೆಂಬಲ ವಿಮೆ — ರೋಗಿ ರಕ್ಷಣೆ" — Insurance support for patient protection.</p>
+                    <h2 className="text-2xl font-black text-text-main tracking-tight">Govt Schemes & Insurance</h2>
+                    <p className="text-sm font-bold text-text-muted mt-1 font-kannada flex items-center gap-2">
+                        <span>"ವಿಮೆ ಮತ್ತು ಯೋಜನೆ — ರೋಗಿ ರಕ್ಷಣೆ"</span>
+                        <span className="w-1 h-1 rounded-full bg-slate-300" />
+                        <span>Scheme management & Insurance oversight.</span>
+                    </p>
                 </div>
-                <div className="flex gap-3">
-                    <button onClick={handleSubmitPreAuth} className="px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 shadow-sm transition-all">📋 New Pre-Auth</button>
-                    <button onClick={() => showToast('info', 'New claim form opening...')} className="px-6 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all">+ New Claim</button>
+                <div className="flex gap-4">
+                    <div className="relative group">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search PMJAY / UHID..."
+                            className="pl-10 pr-4 py-3 bg-hospital-card border border-hospital-border rounded-xl text-xs font-black uppercase tracking-widest focus:ring-2 focus:ring-primary/20 outline-none w-64 group-hover:border-primary/50 transition-all"
+                        />
+                        <Search className="absolute left-3 top-3.5 text-text-muted" size={14} />
+                    </div>
+                    <button
+                        onClick={checkEligibility}
+                        disabled={processing === 'ELIGIBILITY'}
+                        className="px-6 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl flex items-center gap-2 hover:bg-slate-800 transition-all disabled:opacity-50"
+                    >
+                        {processing === 'ELIGIBILITY' ? <RefreshCw size={14} className="animate-spin" /> : <ShieldCheck size={14} />}
+                        Check Eligibility
+                    </button>
                 </div>
             </div>
 
             {/* KPIs */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                    { label: 'Total Claims', value: claims.length.toString(), color: 'text-slate-900', icon: '📑' },
-                    { label: 'Approved Amount', value: `₹${(approvedAmt / 1000).toFixed(0)}K`, color: 'text-success', icon: '✅' },
-                    { label: 'Pending Claims', value: pendingCount.toString().padStart(2, '0'), color: 'text-warning', icon: '⏳' },
-                    { label: 'Active TPAs', value: tpas.length.toString().padStart(2, '0'), color: 'text-primary', icon: '🏢' },
+                    { label: 'Govt Claims', value: govtCount.toString().padStart(2, '0'), color: 'text-primary', icon: <Landmark size={24} /> },
+                    { label: 'Private Claims', value: privateCount.toString().padStart(2, '0'), color: 'text-indigo-600', icon: <Shield size={24} /> },
+                    { label: 'Pending Pre-Auth', value: preAuthRequests.length.toString().padStart(2, '0'), color: 'text-warning', icon: <Clock size={24} /> },
+                    { label: 'Settled Amt (Lac)', value: '₹42.5', color: 'text-success', icon: <CreditCard size={24} /> },
                 ].map(s => (
-                    <div key={s.label} className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                    <div key={s.label} className="bg-hospital-card p-6 rounded-2xl border border-hospital-border shadow-card hover:shadow-card-hover transition-all">
                         <div className="flex items-center gap-3 mb-3">
-                            <span className="text-xl">{s.icon}</span>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{s.label}</p>
+                            <span className={`${s.color.replace('text-', 'text-opacity-80 ')}`}>{s.icon}</span>
+                            <p className="text-[10px] font-black text-text-muted uppercase tracking-widest">{s.label}</p>
                         </div>
                         <p className={`text-3xl font-black ${s.color} tracking-tighter`}>{s.value}</p>
                     </div>
@@ -93,9 +128,15 @@ const InsuranceManagement: React.FC = () => {
             </div>
 
             {/* Tabs */}
-            <div className="flex bg-hospital-bg p-1.5 rounded-2xl border border-slate-100 w-fit">
-                {([['CLAIMS', 'Claims'], ['PRE_AUTH', 'Pre-Auth'], ['TPA', 'TPA Partners']] as const).map(([key, label]) => (
-                    <button key={key} onClick={() => setActiveTab(key as any)} className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === key ? 'bg-white text-primary shadow-sm border border-slate-100' : 'text-slate-400 hover:text-slate-600'}`}>{label}</button>
+            <div className="flex bg-hospital-card p-1.5 rounded-xl border border-hospital-border w-fit shadow-sm">
+                {(['GOVT', 'PRIVATE', 'PRE_AUTH', 'TPA'] as const).map((key) => (
+                    <button
+                        key={key}
+                        onClick={() => setActiveTab(key)}
+                        className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === key ? 'bg-primary/10 text-primary shadow-sm' : 'text-text-muted hover:text-text-body hover:bg-hospital-bg'}`}
+                    >
+                        {key === 'GOVT' ? 'Government Schemes' : key === 'PRIVATE' ? 'Private Insurance' : key === 'PRE_AUTH' ? 'Pre-Auth Requests' : 'TPA Partners'}
+                    </button>
                 ))}
             </div>
 
@@ -103,34 +144,79 @@ const InsuranceManagement: React.FC = () => {
                 <div className="flex items-center justify-center py-32">
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Loading insurance data...</p>
+                        <p className="text-[10px] font-black text-text-muted uppercase tracking-widest">Loading financial data...</p>
                     </div>
                 </div>
             ) : (
-                <>
-                    {activeTab === 'CLAIMS' && (
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50 bg-slate-50/50">
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Insurance Claims — {claims.length} Records</h3>
+                <div className="animate-in slide-in-from-bottom-4 duration-500">
+                    {activeTab === 'GOVT' && (
+                        <div className="bg-hospital-card rounded-2xl border border-hospital-border shadow-card overflow-hidden">
+                            <div className="p-6 border-b border-hospital-border bg-hospital-bg/50 flex justify-between items-center">
+                                <h3 className="text-[10px] font-black text-text-muted uppercase tracking-widest flex items-center gap-2">
+                                    <Landmark size={14} /> Active Scheme Records — {govtCount} Cases
+                                </h3>
+                                <button className="text-[9px] font-black text-primary uppercase flex items-center gap-1 hover:underline">
+                                    <History size={12} /> View Archived
+                                </button>
                             </div>
-                            <div className="divide-y divide-slate-50">
-                                {claims.map(c => (
-                                    <div key={c.id} className="px-8 py-5 flex items-center gap-6 hover:bg-hospital-bg/50 transition-colors">
-                                        <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center text-lg shrink-0">📑</div>
+                            <div className="divide-y divide-hospital-border">
+                                {claims.filter(c => c.id.startsWith('AYU')).map(c => (
+                                    <div key={c.id} className="px-8 py-5 flex items-center gap-6 hover:bg-hospital-bg/50 transition-colors group">
+                                        <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                            <ShieldCheck size={20} className="text-primary" />
+                                        </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-black text-slate-800">{c.patient}</p>
-                                            <p className="text-[10px] font-bold text-slate-400">{c.insurer} • {c.policyNo} • {c.type}</p>
+                                            <p className="text-sm font-black text-text-main">{c.patient}</p>
+                                            <p className="text-[10px] font-bold text-text-muted uppercase">{c.scheme} • UHID: {c.uhid}</p>
                                         </div>
                                         <div className="text-right shrink-0">
-                                            <p className="text-sm font-black text-slate-900">₹{c.amount.toLocaleString()}</p>
-                                            <p className="text-[9px] font-bold text-slate-400">{c.date}</p>
+                                            <p className="text-sm font-black text-text-main">₹{c.amount.toLocaleString()}</p>
+                                            <p className="text-[9px] font-bold text-text-muted uppercase">{c.date}</p>
                                         </div>
-                                        <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shrink-0 ${c.status === 'Approved' ? 'bg-success/10 text-success' : c.status === 'Rejected' ? 'bg-danger/10 text-danger' : 'bg-warning/10 text-warning'}`}>{c.status}</span>
-                                        {(c.status === 'Pending' || c.status === 'Under Review') && (
-                                            <button onClick={() => handleFollowUp(c.id)} disabled={processing === c.id} className="px-4 py-2 bg-primary/10 text-primary rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary/20 transition-all disabled:opacity-50 shrink-0">
-                                                {processing === c.id ? 'Sending...' : 'Follow Up'}
-                                            </button>
-                                        )}
+                                        <div className="flex items-center gap-4 min-w-[300px] justify-end">
+                                            <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shrink-0 ${c.status === 'Settled' ? 'bg-success/5 text-success' : 'bg-warning/5 text-warning font-black animate-pulse'}`}>{c.status}</span>
+                                            {c.status !== 'Settled' && (
+                                                <button onClick={() => handleFollowUp(c.id)} disabled={processing === c.id} className="px-4 py-2 bg-slate-900 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all disabled:opacity-50 shrink-0 flex items-center gap-1.5">
+                                                    {processing === c.id ? 'Refining...' : <><RefreshCw size={10} /> Case Followup</>}
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'PRIVATE' && (
+                        <div className="bg-hospital-card rounded-2xl border border-hospital-border shadow-card overflow-hidden">
+                            <div className="p-6 border-b border-hospital-border bg-hospital-bg/50 flex justify-between items-center">
+                                <h3 className="text-[10px] font-black text-text-muted uppercase tracking-widest flex items-center gap-2">
+                                    <Shield size={14} /> Private TPA Claims Portal
+                                </h3>
+                                <button className="px-4 py-2 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest">+ New Claim</button>
+                            </div>
+                            <div className="divide-y divide-hospital-border">
+                                {claims.filter(c => c.id.startsWith('CLM')).map(c => (
+                                    <div key={c.id} className="px-8 py-5 flex items-center gap-6 hover:bg-hospital-bg/50 transition-colors">
+                                        <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center shrink-0 font-black">
+                                            {c.insurer.charAt(0)}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-black text-text-main">{c.patient}</p>
+                                            <p className="text-[10px] font-bold text-text-muted uppercase">{c.insurer} • {c.policyNo} • {c.type}</p>
+                                        </div>
+                                        <div className="text-right shrink-0">
+                                            <p className="text-sm font-black text-text-main">₹{c.amount.toLocaleString()}</p>
+                                            <p className="text-[9px] font-bold text-text-muted">{c.date}</p>
+                                        </div>
+                                        <div className="flex items-center gap-4 min-w-[200px] justify-end">
+                                            <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shrink-0 ${c.status === 'Approved' ? 'bg-success/5 text-success' : c.status === 'Rejected' ? 'bg-danger/5 text-danger' : 'bg-warning/5 text-warning'}`}>{c.status}</span>
+                                            {(c.status === 'Pending' || c.status === 'Under Review') && (
+                                                <button onClick={() => handleFollowUp(c.id)} disabled={processing === c.id} className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all">
+                                                    <RefreshCw size={14} className={processing === c.id ? 'animate-spin' : ''} />
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -138,20 +224,27 @@ const InsuranceManagement: React.FC = () => {
                     )}
 
                     {activeTab === 'PRE_AUTH' && (
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50 bg-slate-50/50">
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pre-Authorization Requests</h3>
+                        <div className="bg-hospital-card rounded-2xl border border-hospital-border shadow-card overflow-hidden">
+                            <div className="p-6 border-b border-hospital-border bg-hospital-bg/50 flex justify-between items-center">
+                                <h3 className="text-[10px] font-black text-text-muted uppercase tracking-widest flex items-center gap-2">
+                                    <FileText size={14} /> Pending Pre-Authorization Requests
+                                </h3>
                             </div>
-                            <div className="divide-y divide-slate-50">
+                            <div className="divide-y divide-hospital-border">
                                 {preAuthRequests.map(pa => (
                                     <div key={pa.id} className="px-8 py-5 flex items-center gap-6 hover:bg-hospital-bg/50 transition-colors">
-                                        <div className="w-10 h-10 bg-warning/5 rounded-xl flex items-center justify-center text-lg shrink-0">📋</div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-black text-slate-800">{pa.patient} — {pa.procedure}</p>
-                                            <p className="text-[10px] font-bold text-slate-400">{pa.insurer} • Submitted {pa.submittedAt}</p>
+                                        <div className="w-10 h-10 bg-warning/5 text-warning rounded-xl flex items-center justify-center shrink-0">
+                                            <Activity size={18} />
                                         </div>
-                                        <p className="text-sm font-black text-slate-900 shrink-0">₹{pa.amount.toLocaleString()}</p>
-                                        <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest shrink-0 ${pa.status === 'Approved' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning animate-pulse'}`}>{pa.status}</span>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-black text-text-main">{pa.patient}</p>
+                                            <p className="text-[10px] font-bold text-text-muted uppercase">{pa.procedure} • {pa.insurer}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-sm font-black text-text-main">₹{pa.amount.toLocaleString()}</p>
+                                            <p className="text-[9px] font-bold text-text-muted uppercase">Sent {pa.submittedAt}</p>
+                                        </div>
+                                        <span className={`px-4 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-widest shrink-0 border ${pa.status === 'Approved' ? 'bg-success/5 text-success border-success/20' : 'bg-warning/5 text-warning border-warning/20 animate-pulse'}`}>{pa.status}</span>
                                     </div>
                                 ))}
                             </div>
@@ -161,18 +254,24 @@ const InsuranceManagement: React.FC = () => {
                     {activeTab === 'TPA' && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {tpas.map(tpa => (
-                                <div key={tpa.name} className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h4 className="text-lg font-black text-slate-900">{tpa.name}</h4>
-                                        <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${tpa.status === 'Active' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'}`}>{tpa.status}</span>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Pending Claims</p>
-                                            <p className="text-2xl font-black text-slate-900">{tpa.claimsPending}</p>
+                                <div key={tpa.name} className="bg-hospital-card p-8 rounded-[2rem] border border-hospital-border shadow-card hover:shadow-xl transition-all group overflow-hidden relative">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors" />
+                                    <div className="flex items-center justify-between mb-8 relative z-10">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-hospital-border flex items-center justify-center text-primary">
+                                                <Users size={24} />
+                                            </div>
+                                            <h4 className="text-lg font-black text-text-main tracking-tight">{tpa.name}</h4>
                                         </div>
-                                        <div>
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Avg TAT</p>
+                                        <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border ${tpa.status === 'Active' ? 'bg-success/5 text-success border-success/10' : 'bg-warning/5 text-warning border-warning/10'}`}>{tpa.status}</span>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-6 relative z-10">
+                                        <div className="p-4 bg-hospital-bg rounded-2xl border border-hospital-border">
+                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1.5">Active Claims</p>
+                                            <p className="text-2xl font-black text-text-main">{tpa.claimsPending}</p>
+                                        </div>
+                                        <div className="p-4 bg-hospital-bg rounded-2xl border border-hospital-border">
+                                            <p className="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1.5">Avg TAT</p>
                                             <p className="text-2xl font-black text-primary">{tpa.avgTAT}</p>
                                         </div>
                                     </div>
@@ -180,10 +279,11 @@ const InsuranceManagement: React.FC = () => {
                             ))}
                         </div>
                     )}
-                </>
+                </div>
             )}
         </div>
     );
 };
 
 export default InsuranceManagement;
+

@@ -3,12 +3,14 @@ import { ViewType } from '../types.ts';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { useAuth } from '../context/AuthContext.tsx';
 import Logo from './Logo.tsx';
+import LanguageToggle from './LanguageToggle.tsx';
 import {
   LayoutDashboard, Stethoscope, Bed, Activity, Scissors,
   FileText, ClipboardList, Globe, Users, TestTube,
   ScanLine, Pill, Package, CreditCard, Shield,
   UserCog, BedDouble, BarChart3, CheckCircle2,
-  Cpu, Landmark, Home, Lock, ShieldAlert
+  Cpu, Landmark, Home, Lock, ShieldAlert,
+  ArrowLeft
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -151,13 +153,24 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
         ))}
       </div>
 
-      <div className="p-6 border-t border-blue-50 bg-white">
+      <div className="p-4 border-t border-blue-50 bg-white space-y-3">
+        <div className="flex items-center justify-between gap-2 px-2">
+          <LanguageToggle />
+          <button
+            onClick={() => setActiveView('HOME')}
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-slate-50 text-slate-500 border border-slate-200 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-white hover:text-blue-600 hover:border-blue-200 transition-all shadow-sm group"
+          >
+            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Return Home</span>
+          </button>
+        </div>
+
         <button
           onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
-          className="w-full py-4 bg-white text-red-600 border-2 border-red-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all flex items-center justify-center gap-3 group shadow-lg shadow-red-600/10"
+          className="w-full py-3.5 bg-white text-red-600 border-2 border-red-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all flex items-center justify-center gap-3 group shadow-lg shadow-red-600/10"
         >
           <ShieldAlert size={16} className="text-red-600 group-hover:text-white animate-pulse" />
-          <span>Emergency Access Request</span>
+          <span>Emergency Request</span>
         </button>
       </div>
     </aside>

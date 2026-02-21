@@ -9,33 +9,50 @@ router.get('/', async (req, res) => {
         const { page = 1, limit = 50, user_id, action, entity_type } = req.query;
         const offset = (parseInt(page) - 1) * parseInt(limit);
 
-        let query = `
-      SELECT al.*, u.name as user_display_name
-      FROM audit_logs al
-      LEFT JOIN users u ON al.user_id = u.id
-      WHERE 1=1
-    `;
+        const conditions = [];
         const params = [];
 
-        if (user_id) { params.push(user_id); query += ` AND al.user_id = $${params.length}`; }
-        if (action) { params.push(action); query += ` AND al.action = $${params.length}`; }
-        if (entity_type) { params.push(entity_type); query += ` AND al.entity_type = $${params.length}`; }
+        if (user_id) {
+            params.push(user_id);
+            conditions.push(`al.user_id = $${params.length}`);
+        }
+        if (action) {
+            params.push(action);
+            conditions.push(`al.action = $${params.length}`);
+        }
+        if (entity_type) {
+            params.push(entity_type);
+            conditions.push(`al.entity_type = $${params.length}`);
+        }
+
+        const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
         // Count total
-        const countQuery = query.replace('SELECT al.*, u.name as user_display_name', 'SELECT COUNT(*) as total');
-        const countResult = await pool.query(countQuery.replace('LEFT JOIN users u ON al.user_id = u.id', ''), params);
+        const countQuery = `SELECT COUNT(*) as total FROM audit_logs al ${whereClause}`;
+        const countResult = await pool.query(countQuery, params);
+        const total = parseInt(countResult.rows[0].total);
 
-        query += ` ORDER BY al.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+        // Fetch paginated data
+        const query = `
+            SELECT al.*, u.name as user_display_name
+            FROM audit_logs al
+            LEFT JOIN users u ON al.user_id = u.id
+            ${whereClause}
+            ORDER BY al.created_at DESC
+            LIMIT $${params.length + 1} OFFSET $${params.length + 2}
+        `;
+
         params.push(parseInt(limit), offset);
-
         const result = await pool.query(query, params);
+
         res.json({
             data: result.rows,
-            total: parseInt(countResult.rows[0].total),
+            total,
             page: parseInt(page),
             limit: parseInt(limit)
         });
     } catch (err) {
+        console.error('[AUDIT ROUTE ERROR]', err.message);
         res.status(500).json({ error: err.message });
     }
 });

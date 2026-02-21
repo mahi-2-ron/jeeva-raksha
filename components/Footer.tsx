@@ -14,14 +14,11 @@ const Footer: React.FC = () => {
           <div className="flex flex-col space-y-1">
             <div className="flex items-center gap-3">
               <span className={`text-lg font-black text-slate-800 tracking-tight ${language === 'KN' ? 'font-kannada' : ''}`}>
-                {t('brand')} | ಜೀವರಕ್ಷ
+                Jeeva Raksha | Unified Digital Shield for Smart Healthcare
               </span>
             </div>
             <p className={`text-[10px] font-bold text-slate-400 uppercase tracking-widest ${language === 'KN' ? 'font-kannada' : ''}`}>
-              {t('subTagline')}
-            </p>
-            <p className="text-[10px] font-black text-primary uppercase tracking-[0.15em] animate-pulse">
-              {t('tagline')}
+              Developed by Team SUPRA
             </p>
           </div>
 
@@ -34,12 +31,12 @@ const Footer: React.FC = () => {
               </span>
             </div>
             <div className="flex flex-col">
-               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{t('dataSecurity')}</span>
-               <span className="text-[10px] font-bold text-slate-700">{t('encrypted')}</span>
+              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{t('dataSecurity')}</span>
+              <span className="text-[10px] font-bold text-slate-700">{t('encrypted')}</span>
             </div>
             <div className="flex flex-col border-l border-slate-100 pl-8">
-               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{t('lastSync')}</span>
-               <span className="text-[10px] font-bold text-primary">{t('realTimePulse')}</span>
+              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{t('lastSync')}</span>
+              <span className="text-[10px] font-bold text-primary">{t('realTimePulse')}</span>
             </div>
           </div>
 
@@ -62,7 +59,7 @@ const Footer: React.FC = () => {
             <a href="#" className="hover:text-primary transition-colors underline decoration-slate-200 underline-offset-4">{t('support')}</a>
           </div>
           <p className="text-[10px] font-black text-slate-500 uppercase tracking-tighter">
-            © 2026 {t('brand')}. {t('rights')}
+            © 2026 Jeeva Raksha. All rights reserved.
           </p>
         </div>
       </div>

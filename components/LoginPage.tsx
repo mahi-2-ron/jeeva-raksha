@@ -256,8 +256,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, error, isLo
                 </div>
 
                 {/* Footer */}
-                <div className="mt-8 text-center space-y-4">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">© 2026 Jeeva Raksha HIS</p>
+                <div className="mt-8 text-center space-y-2">
+                    <p className="text-[11px] font-black text-slate-500 uppercase tracking-tight">Jeeva Raksha | Unified Digital Shield for Smart Healthcare</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em]">© 2026 Jeeva Raksha. All rights reserved.</p>
+                    <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.3em]">Developed by Team SUPRA</p>
                 </div>
             </div>
 

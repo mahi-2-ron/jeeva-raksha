@@ -28,6 +28,7 @@ import QualityManagement from './components/QualityManagement.tsx';
 import DeviceIntegrations from './components/DeviceIntegrations.tsx';
 import GovtIntegrations from './components/GovtIntegrations.tsx';
 import LoginPage from './components/LoginPage.tsx';
+import Logo from './components/Logo.tsx';
 import { LanguageProvider, useLanguage } from './context/LanguageContext.tsx';
 import { AuthProvider, useAuth, ROLES, ROLE_DEFAULT_VIEW } from './context/AuthContext.tsx';
 import { ToastProvider } from './context/ToastContext.tsx';
@@ -145,7 +146,7 @@ const AppContent: React.FC = () => {
   // ─── Main app (authenticated) ─────────────────────────────
   const renderView = () => {
     switch (activeView) {
-      case 'HOME': return <LandingPage onNavigate={setActiveView} onAdminLogin={async () => { await handleDemoLogin('admin'); setActiveView('DASHBOARD'); }} />;
+      case 'HOME': return <LandingPage onNavigate={setActiveView} />;
       case 'DASHBOARD': return <Home onNavigate={setActiveView} />;
       case 'OPD': return <OPDManagement />;
       case 'IPD': return <IPDManagement />;
@@ -177,6 +178,7 @@ const AppContent: React.FC = () => {
     <div className="flex min-h-screen bg-sky-50 font-sans text-text-body relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(at_0%_0%,rgba(37,99,235,0.1)_0,transparent_50%),radial-gradient(at_50%_0%,rgba(14,165,233,0.1)_0,transparent_50%),radial-gradient(at_100%_0%,rgba(22,163,74,0.1)_0,transparent_50%)] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -mr-64 -mb-64 pointer-events-none" />
+
       {!isHome && <Sidebar activeView={activeView} setActiveView={setActiveView} />}
 
       <main className={`flex-1 h-screen relative flex flex-col overflow-hidden ${isHome ? 'w-full' : ''}`}>
@@ -226,13 +228,13 @@ const AppContent: React.FC = () => {
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-medical-gradient opacity-50" />
             <div className="flex items-center gap-6 relative z-10">
               <div className="flex items-center gap-4">
-                <button
+                <div
                   onClick={() => setActiveView('HOME')}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-primary hover:border-primary/30 transition-all shadow-sm group"
+                  className="flex items-center gap-3 cursor-pointer group"
                 >
-                  <HomeIcon size={16} className="group-hover:scale-110 transition-transform" />
-                  <span>Return Home</span>
-                </button>
+                  <Logo size={40} className="group-hover:scale-105 transition-transform" />
+                  <span className="text-xl font-black text-slate-900 tracking-tight hidden sm:block">Jeeva Raksha</span>
+                </div>
                 <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-hospital-bg rounded-2xl border border-hospital-border">
                   <span className="text-[10px] font-black text-text-muted tracking-widest uppercase">System Path</span>
                   <span className="text-slate-300">/</span>
@@ -258,6 +260,15 @@ const AppContent: React.FC = () => {
                 </button>
               )}
 
+              <button
+                onClick={() => setActiveView('HOME')}
+                className="w-10 h-10 flex items-center justify-center bg-white text-slate-400 border border-slate-200 rounded-xl hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all active:scale-95 shadow-sm group relative"
+                title="Return Home"
+              >
+                <HomeIcon size={18} />
+                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-[8px] font-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none uppercase tracking-widest">Home</span>
+              </button>
+
               <LanguageToggle />
 
               <div className="flex items-center gap-4 pl-6 border-l border-hospital-border">
@@ -277,9 +288,8 @@ const AppContent: React.FC = () => {
             </div>
           </header>
         )}
-
-        <div className={`flex-1 overflow-y-auto custom-scrollbar flex flex-col ${isHome ? '' : 'relative'}`}>
-          <div className={isHome ? '' : 'p-8 pb-12 flex-1'}>
+        <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col relative">
+          <div className="p-8 pb-12 flex-1">
             {isLoading && !isHome && (
               <div className="absolute inset-0 z-50 bg-hospital-bg/50 backdrop-blur-[2px] flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-2xl shadow-xl border border-hospital-border">
@@ -295,7 +305,7 @@ const AppContent: React.FC = () => {
       </main>
 
       {showOverrideModal && <EmergencyOverride onClose={() => setShowOverrideModal(false)} />}
-    </div>
+    </div >
   );
 };
 

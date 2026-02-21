@@ -30,6 +30,26 @@ const OPDManagement: React.FC = () => {
       setSaveResult({ success: false, message: 'Name and Gender are required.' });
       return;
     }
+
+    // Age Validation
+    const ageNum = parseInt(patientData.age);
+    if (isNaN(ageNum) || ageNum <= 0) {
+      setSaveResult({ success: false, message: 'Please enter a valid positive age.' });
+      return;
+    }
+
+    // Mobile Validation
+    if (!/^\d{10}$/.test(patientData.contact)) {
+      setSaveResult({ success: false, message: 'Mobile number must be exactly 10 digits.' });
+      return;
+    }
+
+    // Govt ID Validation (Aadhar / standard 12-digit format)
+    if (patientData.idNumber && !/^\d{12}$/.test(patientData.idNumber)) {
+      setSaveResult({ success: false, message: 'Govt ID must be exactly 12 digits.' });
+      return;
+    }
+
     setSaving(true);
     setSaveResult(null);
     try {
@@ -117,7 +137,7 @@ const OPDManagement: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 animate-in fade-in zoom-in duration-500 max-w-[1600px] mx-auto p-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 animate-in fade-in zoom-in duration-500 max-w-[1600px] mx-auto p-8 pb-48">
       <div className="space-y-8">
         <div>
           <h2 className="text-2xl font-black text-text-main tracking-tight">Quick Registration</h2>
@@ -155,9 +175,9 @@ const OPDManagement: React.FC = () => {
               />
               <label
                 htmlFor="id-scan"
-                className="inline-flex items-center justify-center gap-3 bg-medical-gradient text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 cursor-pointer shadow-xl shadow-primary/20 transition-all active:scale-95 disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-700 cursor-pointer shadow-xl shadow-blue-600/30 transition-all active:scale-95 disabled:opacity-50"
               >
-                {isScanning ? <Loader2 size={18} className="animate-spin" /> : <Upload size={18} />}
+                {isScanning ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
                 {isScanning ? 'AI Extracting...' : 'Upload File'}
               </label>
             </div>
@@ -236,10 +256,15 @@ const OPDManagement: React.FC = () => {
               <div className="relative">
                 <Calendar size={14} className="absolute left-4 top-3.5 text-text-muted" />
                 <input
+                  type="text"
+                  inputMode="numeric"
                   value={patientData.age}
-                  onChange={e => setPatientData({ ...patientData, age: e.target.value })}
+                  onChange={e => {
+                    const val = e.target.value.replace(/\D/g, '');
+                    setPatientData({ ...patientData, age: val });
+                  }}
                   className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                  placeholder="Yrs"
+                  placeholder="Ex. 25"
                 />
               </div>
             </div>
@@ -261,47 +286,72 @@ const OPDManagement: React.FC = () => {
             <div className="space-y-2">
               <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Blood Group</label>
               <div className="relative">
-                <Droplet size={14} className="absolute left-4 top-3.5 text-text-muted" />
-                <input
+                <Droplet size={14} className="absolute left-4 top-3.5 text-text-muted z-10" />
+                <select
                   value={patientData.bloodGroup}
                   onChange={e => setPatientData({ ...patientData, bloodGroup: e.target.value })}
-                  className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                  placeholder="Ex. O+"
-                />
+                  className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all appearance-none"
+                >
+                  <option value="">Select Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+                <div className="absolute right-4 top-4 pointer-events-none opacity-50">
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </div>
               </div>
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Govt ID / Insurance No.</label>
+            <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Govt ID (12 Digits)</label>
             <div className="relative">
               <FileDigit size={14} className="absolute left-4 top-3.5 text-text-muted" />
               <input
+                type="text"
+                inputMode="numeric"
+                maxLength={12}
                 value={patientData.idNumber}
-                onChange={e => setPatientData({ ...patientData, idNumber: e.target.value })}
+                onChange={e => {
+                  const val = e.target.value.replace(/\D/g, '').slice(0, 12);
+                  setPatientData({ ...patientData, idNumber: val });
+                }}
                 className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                placeholder="ID Number"
+                placeholder="12 Digit Identity No."
               />
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Primary Contact</label>
+            <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Primary Contact (10 Digits)</label>
             <div className="relative">
               <Phone size={14} className="absolute left-4 top-3.5 text-text-muted" />
               <input
+                type="text"
+                inputMode="tel"
+                maxLength={10}
                 value={patientData.contact}
-                onChange={e => setPatientData({ ...patientData, contact: e.target.value })}
+                onChange={e => {
+                  const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  setPatientData({ ...patientData, contact: val });
+                }}
                 className="w-full bg-hospital-input border border-hospital-border rounded-xl pl-10 pr-4 py-3 text-sm font-bold focus:ring-1 focus:ring-primary/20 outline-none transition-all"
-                placeholder="Mobile Number"
+                placeholder="10 Digit Mobile No."
               />
             </div>
           </div>
           <button
             onClick={handleCheckIn}
             disabled={saving}
-            className="w-full bg-primary text-white font-black py-4 rounded-xl mt-4 hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full bg-blue-600 text-white font-black py-5 rounded-2xl mt-8 hover:bg-blue-700 shadow-2xl shadow-blue-600/30 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3 relative overflow-hidden group"
           >
-            {saving ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}
-            {saving ? 'Registering...' : 'Complete Final Check-In'}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+            {saving ? <Loader2 size={20} className="animate-spin" /> : <CheckCircle2 size={20} />}
+            <span className="text-sm uppercase tracking-widest">{saving ? 'Processing Registration...' : 'Complete Final Check-In'}</span>
           </button>
           {saveResult && (
             <div className={`mt-3 p-3 rounded-xl text-xs font-bold text-center flex items-center justify-center gap-2 ${saveResult.success ? 'bg-success/5 text-success border border-success/10' : 'bg-danger/5 text-danger border border-danger/10'

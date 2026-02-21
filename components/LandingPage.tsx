@@ -2,10 +2,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ViewType } from '../types.ts';
 import { useAuth } from '../context/AuthContext.tsx';
+import Logo from './Logo.tsx';
 
 interface LandingPageProps {
     onNavigate: (view: ViewType) => void;
-    onAdminLogin?: () => void;
 }
 
 /* ── Animated counter hook ── */
@@ -35,8 +35,7 @@ const useCounter = (target: number, duration = 2000) => {
     return { count, ref };
 };
 
-const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) => {
-    const { isAuthenticated, user } = useAuth();
+const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     const [lang, setLang] = useState<'EN' | 'KN'>('EN');
     const [scrollY, setScrollY] = useState(0);
 
@@ -76,12 +75,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) =
             <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-black/[0.03] border-b border-slate-100' : 'bg-transparent'}`}>
                 <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-600/30">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L3 7V12C3 17.25 6.75 22.05 12 23C17.25 22.05 21 17.25 21 12V7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" fill="rgba(255,255,255,0.15)" />
-                                <path d="M8 13H16M12 9V17" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                            </svg>
-                        </div>
+                        <Logo size={36} className="shrink-0" />
                         <span className="text-lg font-black text-slate-900 tracking-tight">Jeeva Raksha</span>
                     </div>
 
@@ -129,21 +123,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) =
                 </div>
 
                 <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-10 text-center">
-                    {/* Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full mb-8">
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">
-                            {lang === 'KN' ? 'ಆಧುನಿಕ ಆರೋಗ್ಯ ವ್ಯವಸ್ಥೆ' : 'Next-Gen Hospital Platform'}
-                        </span>
-                    </div>
 
                     {/* Shield icon */}
-                    <div className="inline-flex items-center justify-center w-24 h-24 rounded-[28px] bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-700 shadow-2xl shadow-blue-600/30 mb-10 relative">
-                        <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-white/20 to-transparent" />
-                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2L3 7V12C3 17.25 6.75 22.05 12 23C17.25 22.05 21 17.25 21 12V7L12 2Z" stroke="white" strokeWidth="1.5" fill="rgba(255,255,255,0.1)" />
-                            <path d="M8 13H16M12 9V17" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                        </svg>
+                    <div className="inline-flex items-center justify-center mb-10 relative">
+                        <Logo size={96} />
                         {/* Glow ring */}
                         <div className="absolute -inset-2 rounded-[32px] border border-blue-200/30 animate-pulse" style={{ animationDuration: '3s' }} />
                     </div>
@@ -159,34 +142,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) =
                         <span className="text-blue-600 font-bold">Smart Healthcare</span>
                     </p>
 
-                    {/* Tagline */}
-                    <p className="text-sm text-slate-400 font-medium mb-12 italic">
+                    <p className="text-sm text-slate-400 font-medium italic mb-12">
                         {lang === 'KN' ? '"ಆರೋಗ್ಯ ರಕ್ಷಣೆಯ ಡಿಜಿಟಲ್ ಕವಚ — ಜೀವರಕ್ಷೆ"' : '"Trust the Digital Shield of Healthcare"'}
                     </p>
 
                     {/* CTA */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                        <button
-                            onClick={() => !isAuthenticated && onAdminLogin ? onAdminLogin() : onNavigate('DASHBOARD')}
-                            className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px] overflow-hidden"
-                        >
-                            <span className="relative z-10 flex items-center justify-center gap-2">
-                                {!isAuthenticated ? 'Enter System (Admin)' : 'Enter Dashboard'}
-                                <span className="group-hover:translate-x-1 transition-transform">→</span>
-                            </span>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                        <button onClick={() => onNavigate('DASHBOARD')} className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px] overflow-hidden">
+                            <span className="relative z-10 flex items-center justify-center gap-2">Enter Dashboard <span className="group-hover:translate-x-1 transition-transform">→</span></span>
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
                         <a href="#features" className="px-10 py-4 bg-white text-slate-700 rounded-2xl text-sm font-black uppercase tracking-widest border-2 border-slate-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 transition-all active:scale-[0.97] min-w-[240px]">Explore Features</a>
                     </div>
-
-                    {/* Quick Admin Access for Demo */}
-                    <button
-                        onClick={onAdminLogin}
-                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors py-2 px-4 border border-dashed border-slate-200 rounded-lg hover:border-blue-200 hover:bg-blue-50/50 mb-16"
-                    >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><circle cx="12" cy="12" r="3" /></svg>
-                        Direct Admin Access (Demo Gateway)
-                    </button>
 
                     {/* Scroll indicator */}
                     <div className="flex flex-col items-center gap-2 opacity-40 animate-bounce" style={{ animationDuration: '2s' }}>
@@ -347,15 +314,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAdminLogin }) =
                     <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                         {/* Brand */}
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-600/20">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 2L3 7V12C3 17.25 6.75 22.05 12 23C17.25 22.05 21 17.25 21 12V7L12 2Z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.15)" />
-                                    <path d="M9 13H15M12 10V16" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                                </svg>
-                            </div>
+                            <Logo size={40} className="shrink-0" />
                             <div>
-                                <p className="text-base font-black text-white tracking-tight">Jeeva Raksha</p>
-                                <p className="text-[10px] font-medium text-slate-500">Unified Hospital Information System</p>
+                                <p className="text-base font-black text-white tracking-tight">Jeeva Raksha | Unified Digital Shield for Smart Healthcare</p>
+                                <p className="text-[10px] font-medium text-slate-500">Developed by Team SUPRA</p>
                             </div>
                         </div>
 

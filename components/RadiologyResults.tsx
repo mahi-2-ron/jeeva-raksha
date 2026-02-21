@@ -120,7 +120,7 @@ const RadiologyResults: React.FC = () => {
           <input type="file" id="dicom-upload" className="hidden" onChange={handleFileUpload} />
           <label
             htmlFor="dicom-upload"
-            className="px-6 py-2.5 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-blue-700 transition-all cursor-pointer flex items-center gap-2"
+            className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-blue-600/30 hover:bg-blue-700 transition-all cursor-pointer flex items-center gap-2 active:scale-95"
           >
             <Upload size={14} /> DICOM Upload
           </label>
