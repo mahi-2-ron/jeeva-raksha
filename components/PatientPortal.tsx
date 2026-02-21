@@ -8,7 +8,7 @@ import api from '../apiClient';
 const PatientPortal: React.FC = () => {
    const { t } = useLanguage();
    const { showToast } = useToast();
-   const { user } = useAuth();
+   const { user, logout } = useAuth();
    const [loading, setLoading] = useState(true);
    const [booking, setBooking] = useState(false);
    const [refilling, setRefilling] = useState(false);
