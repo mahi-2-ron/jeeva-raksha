@@ -68,28 +68,28 @@ const PatientPortal: React.FC = () => {
    return (
       <div className="max-w-[1200px] mx-auto animate-in fade-in duration-500 space-y-10">
          {/* Hero */}
-         <div className="bg-medical-gradient p-16 rounded-[4rem] text-white relative overflow-hidden shadow-2xl border border-white/10 group">
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 group-hover:bg-white/30 transition-all duration-1000" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/30 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
+         <div className="bg-hospital-card p-16 rounded-[4rem] text-slate-900 relative overflow-hidden shadow-2xl border border-slate-100 group">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-500/10 transition-all duration-1000" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
             <div className="relative z-10 space-y-6">
-               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-2xl">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Wellness Verified</span>
+               <div className="inline-flex items-center gap-3 bg-slate-100 backdrop-blur-md border border-slate-200 px-4 py-2 rounded-2xl">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Wellness Verified</span>
                </div>
-               <h2 className="text-5xl font-black tracking-tighter leading-none">Namaste, <span className="text-sky-200">{user?.name?.split(' ')[0]}</span></h2>
-               <p className="text-white/80 font-medium max-w-xl text-lg selection:bg-white/30">Your personalized health sanctuary is active. Track recovery metrics, manage prescriptions, and consult your health specialists seamlessly.</p>
+               <h2 className="text-5xl font-black tracking-tighter leading-none text-slate-900">Namaste, <span className="text-primary">{user?.name?.split(' ')[0]}</span></h2>
+               <p className="text-slate-600 font-medium max-w-xl text-lg selection:bg-primary/10">Your personalized health sanctuary is active. Track recovery metrics, manage prescriptions, and consult your health specialists seamlessly.</p>
                <div className="flex flex-wrap gap-6 pt-6">
-                  <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-[2.5rem] min-w-[140px] hover:bg-white/20 transition-all shadow-xl group/card">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2 group-hover/card:text-white/70">Health Index</p>
-                     <p className="text-4xl font-black text-white tracking-tighter">87%</p>
+                  <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 min-w-[140px] hover:shadow-lg transition-all shadow-sm group/card">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 group-hover/card:text-primary">Health Index</p>
+                     <p className="text-4xl font-black text-slate-900 tracking-tighter">87%</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-[2.5rem] min-w-[140px] hover:bg-white/20 transition-all shadow-xl group/card">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2 group-hover/card:text-white/70">Next Event</p>
-                     <p className="text-4xl font-black text-white tracking-tighter">Feb 22</p>
+                  <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 min-w-[140px] hover:shadow-lg transition-all shadow-sm group/card">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 group-hover/card:text-primary">Next Event</p>
+                     <p className="text-4xl font-black text-slate-900 tracking-tighter">Feb 22</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-[2.5rem] min-w-[140px] hover:bg-white/20 transition-all shadow-xl group/card">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-2 group-hover/card:text-white/70">Active Rx</p>
-                     <p className="text-4xl font-black text-white tracking-tighter">{prescriptions.filter(p => p.status === 'Active').length}</p>
+                  <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 min-w-[140px] hover:shadow-lg transition-all shadow-sm group/card">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 group-hover/card:text-primary">Active Rx</p>
+                     <p className="text-4xl font-black text-slate-900 tracking-tighter">{prescriptions.filter(p => p.status === 'Active').length}</p>
                   </div>
                </div>
             </div>
