@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
         const query = `
             SELECT al.*, u.name as user_display_name
             FROM audit_logs al
-            LEFT JOIN users u ON al.user_id = u.id
+            LEFT JOIN users u ON al.user_id = u.id::text
             ${whereClause}
             ORDER BY al.created_at DESC
             LIMIT $${params.length + 1} OFFSET $${params.length + 2}
