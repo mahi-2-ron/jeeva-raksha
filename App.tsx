@@ -225,7 +225,7 @@ const AppContent: React.FC = () => {
         })()}
 
         {/* Header */}
-        {!isHome && (
+        {!isFullScreen && (
           <header className="sticky top-0 z-40 flex h-20 w-full items-center justify-between bg-white/90 backdrop-blur-xl px-8 shadow-2xl shadow-blue-900/5 relative overflow-hidden">
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-medical-gradient opacity-50" />
             <div className="flex items-center gap-6 relative z-10">
