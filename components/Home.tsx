@@ -103,11 +103,13 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
   const departments = [
     { name: 'OPD', icon: <Stethoscope size={24} />, view: 'OPD' as ViewType, status: 'online' },
+    { name: 'IPD & Wards', icon: <Bed size={24} />, view: 'IPD' as ViewType, status: 'online' },
     { name: 'Emergency', icon: <Ambulance size={24} />, view: 'EMERGENCY' as ViewType, status: 'online' },
+    { name: 'Operation Theatre', icon: <Scissors size={24} />, view: 'OT' as ViewType, status: 'online' },
+    { name: 'Doctor Rounds', icon: <FileText size={24} />, view: 'ROUNDS' as ViewType, status: 'online' },
     { name: 'Laboratory', icon: <TestTube size={24} />, view: 'LABORATORY' as ViewType, status: 'online' },
     { name: 'Radiology', icon: <ScanLine size={24} />, view: 'RADIOLOGY' as ViewType, status: 'online' },
     { name: 'Pharmacy', icon: <Pill size={24} />, view: 'PHARMACY' as ViewType, status: 'online' },
-    { name: 'Operation Theatre', icon: <Scissors size={24} />, view: 'OT' as ViewType, status: 'online' },
   ];
 
   const quickActions = [
