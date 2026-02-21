@@ -173,15 +173,17 @@ const AppContent: React.FC = () => {
   };
 
   const isHome = activeView === 'HOME';
+  const isPortal = activeView === 'PORTAL';
+  const isFullScreen = isHome || isPortal;
 
   return (
     <div className="flex min-h-screen bg-sky-50 font-sans text-text-body relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(at_0%_0%,rgba(37,99,235,0.1)_0,transparent_50%),radial-gradient(at_50%_0%,rgba(14,165,233,0.1)_0,transparent_50%),radial-gradient(at_100%_0%,rgba(22,163,74,0.1)_0,transparent_50%)] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -mr-64 -mb-64 pointer-events-none" />
 
-      {!isHome && <Sidebar activeView={activeView} setActiveView={setActiveView} />}
+      {!isFullScreen && <Sidebar activeView={activeView} setActiveView={setActiveView} />}
 
-      <main className={`flex-1 h-screen relative flex flex-col overflow-hidden ${isHome ? 'w-full' : ''}`}>
+      <main className={`flex-1 h-screen relative flex flex-col overflow-hidden ${isFullScreen ? 'w-full' : ''}`}>
 
         {/* Demo Mode Banner */}
         {isDemo && (
