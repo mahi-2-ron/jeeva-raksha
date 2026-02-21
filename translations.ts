@@ -31,6 +31,7 @@ export const translations = {
     EMR: { EN: "EMR Records", KN: "EMR ದಾಖಲೆಗಳು" },
     ROUNDS: { EN: "Doctor Rounds", KN: "ವೈದ್ಯರ ರೌಂಡ್ಸ್" },
     PORTAL: { EN: "Patient Portal", KN: "ರೋಗಿಗಳ ಪೋರ್ಟಲ್" },
+    PATIENTS: { EN: "Patients List", KN: "ರೋಗಿಗಳ ಪಟ್ಟಿ" },
     LABORATORY: { EN: "Laboratory", KN: "ಪ್ರಯೋಗಾಲಯ" },
     RADIOLOGY: { EN: "Radiology", KN: "ರೇಡಿಯಾಲಜಿ" },
     PHARMACY: { EN: "Pharmacy Mgmt", KN: "ಫಾರ್ಮಸಿ ನಿರ್ವಹಣೆ" },
