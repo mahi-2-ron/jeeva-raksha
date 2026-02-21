@@ -9,7 +9,7 @@ async function checkSchema() {
             WHERE table_name = 'audit_logs'
             ORDER BY column_name
         `);
-        console.table(auditCols.rows);
+        auditCols.rows.forEach(r => console.log(`${r.column_name}: ${r.data_type}`));
 
         console.log('\n--- users columns ---');
         const userCols = await pool.query(`
@@ -18,7 +18,7 @@ async function checkSchema() {
             WHERE table_name = 'users'
             ORDER BY column_name
         `);
-        console.table(userCols.rows);
+        userCols.rows.forEach(r => console.log(`${r.column_name}: ${r.data_type}`));
 
     } catch (e) {
         console.error('Error:', e.message);
