@@ -4,6 +4,7 @@ const VITE_API_URL = (import.meta as any).env?.VITE_API_URL;
 const BASE = VITE_API_URL
     ? (VITE_API_URL.endsWith('/api') ? VITE_API_URL : (VITE_API_URL.endsWith('/') ? VITE_API_URL + 'api' : VITE_API_URL + '/api'))
     : '/api';
+export const API_BASE = BASE;
 console.log('[API CONFIG] Using backend:', BASE === '/api' ? 'Relative (/api)' : BASE);
 
 // ─── Token management ────────────────────────────────────────
