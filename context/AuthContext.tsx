@@ -85,7 +85,7 @@ export const ROLE_DEFAULT_VIEW: Record<string, ViewType> = {
   doctor: 'DASHBOARD',
   nurse: 'DASHBOARD',
   pharmacist: 'DASHBOARD',
-  patient: 'DASHBOARD',
+  patient: 'PORTAL',
   demo: 'DASHBOARD',
   staff: 'DASHBOARD',
   receptionist: 'DASHBOARD',
