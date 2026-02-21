@@ -81,14 +81,14 @@ const MODULE_PERMISSIONS: ModulePermissionMap = {
 
 /** Default views by role after login */
 export const ROLE_DEFAULT_VIEW: Record<string, ViewType> = {
-  admin: 'HOME',
-  doctor: 'HOME',
-  nurse: 'HOME',
-  pharmacist: 'HOME',
-  patient: 'HOME',
-  demo: 'HOME',
-  staff: 'HOME',
-  receptionist: 'HOME',
+  admin: 'DASHBOARD',
+  doctor: 'DASHBOARD',
+  nurse: 'DASHBOARD',
+  pharmacist: 'DASHBOARD',
+  patient: 'DASHBOARD',
+  demo: 'DASHBOARD',
+  staff: 'DASHBOARD',
+  receptionist: 'DASHBOARD',
 };
 
 // ==================== Types ====================
@@ -320,7 +320,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Fallback: offline mock demo login
       console.warn(`[AUTH] Backend unreachable — using offline mock demo (${role})`);
       const mockUser = MOCK_USERS[role] || MOCK_USERS['demo'];
-      const demoUser: AuthUser = { ...mockUser, role: 'demo' };
+      const demoUser: AuthUser = { ...mockUser }; // Preserve the role for proper access levels
       const mockToken = `mock-demo-token-${role}-${Date.now()}`;
       saveToken(mockToken, false);
       setUserAndAccess(demoUser, mockToken, true);
