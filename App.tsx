@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar.tsx';
 import Home from './components/Home.tsx';
@@ -30,10 +29,10 @@ import GovtIntegrations from './components/GovtIntegrations.tsx';
 import LoginPage from './components/LoginPage.tsx';
 import Logo from './components/Logo.tsx';
 import { LanguageProvider, useLanguage } from './context/LanguageContext.tsx';
-import { AuthProvider, useAuth, ROLES, ROLE_DEFAULT_VIEW } from './context/AuthContext.tsx';
+import { AuthProvider, useAuth, ROLE_DEFAULT_VIEW } from './context/AuthContext.tsx';
 import { ToastProvider } from './context/ToastContext.tsx';
 import { ViewType } from './types.ts';
-import { Eye, LogOut, AlertTriangle, Hospital, Loader2, Home as HomeIcon } from 'lucide-react';
+import { Eye, LogOut, AlertTriangle, Hospital, Loader2, Home as HomeIcon, Menu, X } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>(() => {
@@ -41,7 +40,8 @@ const AppContent: React.FC = () => {
     return (hash as ViewType) || 'HOME';
   });
 
-  // Sync state to URL Hash
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     const currentHash = window.location.hash.replace('#/', '').toUpperCase();
     if (currentHash !== activeView) {
@@ -49,7 +49,6 @@ const AppContent: React.FC = () => {
     }
   }, [activeView]);
 
-  // Handle browser back/forward and manual URL entry
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#/', '').toUpperCase();
@@ -60,30 +59,23 @@ const AppContent: React.FC = () => {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [activeView]);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [hasKey, setHasKey] = useState<boolean | null>(null);
   const [showOverrideModal, setShowOverrideModal] = useState(false);
 
-  // Expose global dispatcher for the override modal
   useEffect(() => {
     (window as any).dispatchSetShowOverrideModal = (val: boolean) => setShowOverrideModal(val);
     return () => { delete (window as any).dispatchSetShowOverrideModal; };
   }, []);
-  const [loginError, setLoginError] = useState('');
 
+  const [loginError, setLoginError] = useState('');
   const { t } = useLanguage();
   const {
     user, isAuthenticated, isLoading: authLoading, isDemo,
     login, loginAsDemo, logout,
-    currentPermissions, overrideState, remainingOverrideTime,
-    deactivateOverride, changeRole
+    overrideState, remainingOverrideTime, deactivateOverride
   } = useAuth();
 
-  useEffect(() => {
-    setHasKey(true);
-  }, []);
-
-  // Set default view based on role after login
   useEffect(() => {
     if (isAuthenticated && user) {
       const defaultView = ROLE_DEFAULT_VIEW[user.role] || 'DASHBOARD';
@@ -97,14 +89,13 @@ const AppContent: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeView]);
 
-  // ─── Login handlers ────────────────────────────────────────
   const handleLogin = async (email: string, password: string, remember: boolean) => {
     setLoginError('');
     try {
       await login(email, password, remember);
     } catch (err: any) {
       setLoginError(err.message || 'Login failed');
-      throw err; // re-throw for shake animation
+      throw err;
     }
   };
 
@@ -117,21 +108,18 @@ const AppContent: React.FC = () => {
     }
   };
 
-  // ─── Show loading spinner while checking saved token ───────
   if (authLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-soft-blue gap-5">
-        <div className="w-20 h-20 rounded-[2rem] bg-white shadow-2xl flex items-center justify-center border border-hospital-border animate-in zoom-in duration-500">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-sky-50 gap-5">
+        <div className="w-20 h-20 rounded-[2.5rem] bg-white shadow-2xl flex items-center justify-center border border-slate-100 animate-in zoom-in duration-500">
           <Hospital size={40} className="text-primary" />
         </div>
         <Loader2 className="w-8 h-8 text-primary animate-spin" />
-        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Initializing System...</p>
+        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Initializing Bios-Grid...</p>
       </div>
     );
   }
 
-  // ─── Authentication Gateway ───────────────────────────────
-  // If not authenticated AND not looking at the Landing Page, force login
   if (!isAuthenticated && activeView !== 'HOME') {
     return (
       <LoginPage
@@ -143,7 +131,6 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // ─── Main app (authenticated) ─────────────────────────────
   const renderView = () => {
     switch (activeView) {
       case 'HOME': return <LandingPage onNavigate={setActiveView} />;
@@ -177,127 +164,99 @@ const AppContent: React.FC = () => {
   const isFullScreen = isHome || isPortal;
 
   return (
-    <div className="flex min-h-screen bg-sky-50 font-sans text-text-body relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(at_0%_0%,rgba(37,99,235,0.1)_0,transparent_50%),radial-gradient(at_50%_0%,rgba(14,165,233,0.1)_0,transparent_50%),radial-gradient(at_100%_0%,rgba(22,163,74,0.1)_0,transparent_50%)] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -mr-64 -mb-64 pointer-events-none" />
+    <div className="flex min-h-screen bg-sky-50 font-sans text-slate-800 relative overflow-hidden">
+      {!isFullScreen && (
+        <Sidebar
+          activeView={activeView}
+          setActiveView={setActiveView}
+          isOpen={isSidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
+      )}
 
-      {!isFullScreen && <Sidebar activeView={activeView} setActiveView={setActiveView} />}
-
-      <main className={`flex-1 h-screen relative flex flex-col overflow-hidden ${isFullScreen ? 'w-full' : ''}`}>
-
-        {/* Demo Mode Banner */}
+      <main className={`flex-1 flex flex-col min-w-0 h-screen relative overflow-hidden ${isFullScreen ? 'w-full' : ''}`}>
+        {/* Banners */}
         {isDemo && (
-          <div className="bg-medical-gradient text-white px-4 py-2 flex justify-between items-center z-50 shadow-xl border-b border-white/10">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3">
-              <Eye size={14} className="animate-pulse" />
-              <span>Secure Demo Session — Sandbox Environment</span>
+          <div className="bg-medical-gradient text-white px-4 py-2 flex justify-between items-center z-50 animate-in slide-in-from-top duration-500">
+            <span className="text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+              <Eye size={12} /> Live Demo Session
             </span>
-            <button
-              onClick={logout}
-              className="text-[9px] font-black uppercase tracking-widest bg-white/20 hover:bg-white/40 text-white px-4 py-1.5 rounded-full border border-white/20 cursor-pointer transition-all active:scale-95"
-            >
-              Terminate Session
-            </button>
+            <button onClick={logout} className="text-[8px] font-black uppercase bg-white/20 px-3 py-1 rounded-full border border-white/20">Exit</button>
           </div>
         )}
 
-        {/* Emergency Override Banner */}
-        {overrideState.active && (() => {
-          const mins = Math.floor(remainingOverrideTime / 60);
-          const secs = remainingOverrideTime % 60;
-          const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-          const isUrgent = remainingOverrideTime < 120;
-          return (
-            <div className={`text-white py-2 px-6 flex justify-between items-center z-[60] shadow-2xl transition-colors ${isUrgent ? 'bg-red-600 animate-pulse' : 'bg-red-700'
-              }`}>
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-4">
-                <span className="flex items-center gap-2"><AlertTriangle size={16} /> SYSTEM OVERRIDE ACTIVE</span>
-                <span className={`font-mono px-3 py-1 rounded-lg text-[11px] bg-white/20 border border-white/20`}>{timeStr}</span>
-              </span>
-              <button
-                onClick={deactivateOverride}
-                className="text-[10px] font-black uppercase tracking-widest bg-white text-red-700 px-6 py-1.5 rounded-full hover:bg-white/90 transition-all shadow-lg active:scale-95"
-              >
-                Exit Emergency Mode
-              </button>
-            </div>
-          );
-        })()}
+        {overrideState.active && (
+          <div className={`bg-red-600 text-white py-2 px-6 flex justify-between items-center z-[60] shadow-xl animate-pulse`}>
+            <span className="text-[9px] font-black uppercase tracking-widest flex items-center gap-2"><AlertTriangle size={14} /> OVERRIDE ACTIVE</span>
+            <button onClick={deactivateOverride} className="text-[8px] font-black uppercase bg-white text-red-600 px-4 py-1 rounded-full">Terminate</button>
+          </div>
+        )}
 
-        {/* Header */}
+        {/* Header - Mobile Responsive */}
         {!isFullScreen && (
-          <header className="sticky top-0 z-40 flex h-20 w-full items-center justify-between bg-white/90 backdrop-blur-xl px-8 shadow-2xl shadow-blue-900/5 relative overflow-hidden">
-            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-medical-gradient opacity-50" />
-            <div className="flex items-center gap-6 relative z-10">
-              <div className="flex items-center gap-4">
-                <div
-                  onClick={() => setActiveView('HOME')}
-                  className="flex items-center gap-3 cursor-pointer group"
-                >
-                  <Logo size={40} className="group-hover:scale-105 transition-transform" />
-                  <span className="text-xl font-black text-slate-900 tracking-tight hidden sm:block">Jeeva Raksha</span>
-                </div>
-                <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-hospital-bg rounded-2xl border border-hospital-border">
-                  <span className="text-[10px] font-black text-text-muted tracking-widest uppercase">System Path</span>
-                  <span className="text-slate-300">/</span>
-                  <span className="text-[10px] font-black text-primary tracking-widest uppercase">{t('', activeView)}</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-success/10 text-success px-4 py-2 rounded-2xl border border-success/20">
-                  <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Network Live</span>
-                </div>
+          <header className="h-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-4 md:px-8 z-40 shrink-0">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="p-2.5 text-slate-500 hover:text-primary active:scale-95 transition-all md:hidden bg-slate-50 rounded-xl border border-slate-100"
+              >
+                <Menu size={20} />
+              </button>
+
+              <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveView('HOME')}>
+                <Logo size={36} className="group-hover:scale-105 transition-transform" />
+                <span className="text-lg font-black text-slate-900 tracking-tighter hidden sm:block">Jeeva Raksha</span>
               </div>
 
+              <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Module</span>
+                <span className="text-slate-200">/</span>
+                <span className="text-[9px] font-black text-primary uppercase tracking-widest">{t('', activeView)}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 md:gap-4">
               {!overrideState.active && (
                 <button
                   onClick={() => setShowOverrideModal(true)}
-                  className="px-6 py-2.5 bg-white text-red-600 border-2 border-red-600 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-red-600 hover:text-white transition-all flex items-center gap-2 shadow-lg shadow-red-600/10"
+                  className="hidden sm:flex px-4 py-2.5 bg-white text-red-600 border border-red-200 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 shadow-sm"
                 >
-                  <AlertTriangle size={14} className="text-red-600 group-hover:text-white" />
-                  <span>Emergency Access Request</span>
+                  <AlertTriangle size={14} /> Emergency
                 </button>
               )}
 
-              <button
-                onClick={() => setActiveView('HOME')}
-                className="w-10 h-10 flex items-center justify-center bg-white text-slate-400 border border-slate-200 rounded-xl hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all active:scale-95 shadow-sm group relative"
-                title="Return Home"
-              >
-                <HomeIcon size={18} />
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-[8px] font-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none uppercase tracking-widest">Home</span>
-              </button>
-
-              <LanguageToggle />
-
-              <div className="flex items-center gap-4 pl-6 border-l border-hospital-border">
-                <div className="text-right hidden md:block">
-                  <p className="text-[11px] font-black text-text-main leading-tight">{user?.name}</p>
-                  <p className={`text-[8px] font-black uppercase tracking-[0.2em] ${isDemo ? 'text-warning' : overrideState.active ? 'text-danger' : 'text-primary'}`}>
-                    {isDemo ? `Demo Access` : `Secure Connection`}
-                  </p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setActiveView('HOME')}
+                  className="w-10 h-10 flex items-center justify-center bg-white text-slate-400 border border-slate-200 rounded-xl hover:text-primary transition-all active:scale-95 shadow-sm"
+                >
+                  <HomeIcon size={18} />
+                </button>
+                <div className="hidden sm:block">
+                  <LanguageToggle />
                 </div>
-                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center text-sm font-black border-2 shadow-xl shrink-0 transition-transform hover:scale-105 cursor-pointer ${isDemo ? 'bg-amber-500 text-white border-amber-200' :
-                  overrideState.active ? 'bg-danger text-white border-red-200 animate-pulse' :
-                    'bg-medical-gradient text-white border-white/20'
-                  }`}>
-                  {user?.name?.split(' ').map(n => n[0]).join('') || '?'}
+              </div>
+
+              <div className="h-8 w-px bg-slate-100 mx-1 hidden md:block" />
+
+              <div className="flex items-center gap-3">
+                <div className="text-right hidden md:block">
+                  <p className="text-[10px] font-black text-slate-900 leading-none truncate max-w-[100px]">{user?.name}</p>
+                  <p className="text-[8px] font-black text-primary uppercase mt-1 tracking-widest">Active</p>
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-xs font-black shadow-lg shadow-primary/20 hover:scale-110 transition-transform cursor-pointer">
+                  {user?.name?.charAt(0) || 'U'}
                 </div>
               </div>
             </div>
           </header>
         )}
-        <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col relative">
-          <div className="p-8 pb-12 flex-1">
+
+        <div className="flex-1 overflow-y-auto custom-scrollbar relative flex flex-col">
+          <div className="flex-1">
             {isLoading && !isHome && (
-              <div className="absolute inset-0 z-50 bg-hospital-bg/50 backdrop-blur-[2px] flex items-center justify-center">
-                <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-2xl shadow-xl border border-hospital-border">
-                  <Loader2 className="w-8 h-8 text-primary animate-spin" />
-                  <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Synchronizing Module...</p>
-                </div>
+              <div className="absolute inset-x-0 top-0 h-1 z-[70] bg-slate-100 overflow-hidden">
+                <div className="h-full bg-primary animate-[loading_1s_infinite_linear]" style={{ width: '40%', position: 'absolute' }}></div>
               </div>
             )}
             {renderView()}
@@ -307,7 +266,17 @@ const AppContent: React.FC = () => {
       </main>
 
       {showOverrideModal && <EmergencyOverride onClose={() => setShowOverrideModal(false)} />}
-    </div >
+
+      <style>{`
+        @keyframes loading {
+            0% { left: -40%; }
+            100% { left: 100%; }
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+      `}</style>
+    </div>
   );
 };
 
