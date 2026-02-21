@@ -117,8 +117,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, on
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <Logo size={48} className="shrink-0 relative z-10" />
           <div className="overflow-hidden relative z-10 flex-1">
-            <h2 className="text-slate-900 font-black text-lg tracking-tighter leading-none group-hover:scale-105 transition-transform">Jeeva Raksha</h2>
-            <p className="text-[10px] font-black text-blue-600 mt-1 font-kannada whitespace-nowrap tracking-[0.2em] uppercase opacity-80 underline decoration-blue-600/20">Universal Health Hub</p>
+            <h2 className="text-slate-900 font-bold text-lg tracking-tight leading-none group-hover:scale-105 transition-transform">Jeeva Raksha</h2>
+            <p className="text-[10px] font-medium text-blue-600 mt-1 font-kannada whitespace-nowrap tracking-[0.2em] uppercase opacity-80 underline decoration-blue-600/20">Universal Health Hub</p>
           </div>
           <button onClick={onClose} className="md:hidden p-2 text-slate-400 hover:text-danger active:scale-95 transition-all">
             <X size={20} />
@@ -128,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, on
         <div className="flex-1 overflow-y-auto custom-scrollbar pt-8 pb-10 bg-gradient-to-b from-white to-blue-50/20">
           {categories.map((cat, idx) => (
             <div key={idx} className="mb-10 px-4">
-              <h3 className="px-5 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2">
+              <h3 className="px-5 mb-4 text-[10px] font-semibold text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2">
                 <span className="w-3 h-0.5 rounded-full bg-blue-600/40"></span>
                 {t(cat.titleKey)}
               </h3>
@@ -148,13 +148,13 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, on
                       className={`w-full group relative flex items-center gap-4 px-5 py-3 rounded-xl transition-all duration-300 ${!accessible
                         ? 'opacity-20 cursor-not-allowed'
                         : isActive
-                          ? 'bg-blue-50 text-blue-600 font-bold'
-                          : 'hover:bg-slate-50 text-slate-500 hover:text-blue-600'
+                          ? 'bg-blue-50 text-blue-600 font-medium'
+                          : 'hover:bg-slate-50 text-slate-500 hover:text-blue-600 font-medium'
                         }`}
                     >
                       {isActive && <div className="absolute left-0 top-2 bottom-2 w-1.5 bg-blue-600 rounded-r-full" />}
                       <span className={`${accessible ? (isActive ? 'text-blue-600' : 'text-blue-500 group-hover:scale-110 transition-transform') : 'grayscale opacity-50'}`}>{item.icon}</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap overflow-hidden flex-1 text-left">
+                      <span className="text-sm font-medium uppercase tracking-wider whitespace-nowrap overflow-hidden flex-1 text-left">
                         {label}
                       </span>
                       {!accessible && (
