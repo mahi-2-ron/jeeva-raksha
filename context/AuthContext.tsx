@@ -8,6 +8,7 @@ import {
   ViewType,
   OVERRIDE_DURATION_SECONDS
 } from '../types.ts';
+import { API_BASE } from '../apiClient';
 
 // ==================== Constants ====================
 
@@ -134,8 +135,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // ==================== Helpers ====================
-
-const API_BASE = (import.meta as any).env?.VITE_API_URL || '/api';
 const generateId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 const SESSION_ID = generateId();
 
