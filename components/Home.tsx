@@ -139,25 +139,25 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               {systemHealth === 'ok' ? 'System Live' : 'Maintenance'}
             </div>
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
+          <h1 className="text-2xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
             {greet()}, <span className="text-primary">{user?.name?.split(' ')[0]}</span>
           </h1>
-          <p className="text-[11px] md:text-sm font-bold text-slate-400 mt-3 font-kannada flex flex-wrap items-center gap-x-3">
-            <span className="text-primary">"ಜೀವ ರಕ್ಷಕ — ಪ್ರತಿ ಕ್ಷಣ ಮುಖ್ಯ"</span>
+          <p className="text-sm font-medium text-slate-400 mt-3 font-kannada flex flex-wrap items-center gap-x-3">
+            <span className="text-primary font-medium">"ಜೀವ ರಕ್ಷಕ — ಪ್ರತಿ ಕ್ಷಣ ಮುಖ್ಯ"</span>
             <span className="w-1 h-1 rounded-full bg-slate-200 hidden md:block" />
-            <span className="uppercase tracking-[0.15em] text-[9px] md:text-[10px]">Guardians of Life — Every Moment Matters</span>
+            <span className="uppercase tracking-widest text-[10px] md:text-xs">Guardians of Life — Every Moment Matters</span>
           </p>
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto no-scrollbar py-1">
           <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hidden md:block text-right">
-            <p className="text-xl font-black text-slate-900 leading-none">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-            <p className="text-[9px] font-black text-slate-400 uppercase mt-1">{currentTime.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}</p>
+            <p className="text-xl font-bold text-slate-900 leading-none">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+            <p className="text-[10px] font-semibold text-slate-400 uppercase mt-1">{currentTime.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}</p>
           </div>
           {!overrideState.active && (
             <button
               onClick={() => (window as any).dispatchSetShowOverrideModal?.(true)}
-              className="flex-1 md:flex-none px-6 py-4 bg-white text-red-600 border border-red-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-xl shadow-red-600/10 flex items-center justify-center gap-3 active:scale-95 whitespace-nowrap"
+              className="flex-1 md:flex-none px-6 py-4 bg-white text-red-600 border border-red-200 rounded-2xl text-xs font-semibold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-xl shadow-red-600/10 flex items-center justify-center gap-3 active:scale-95 whitespace-nowrap"
             >
               <ShieldAlert size={14} />
               <span>Emergency Access</span>
