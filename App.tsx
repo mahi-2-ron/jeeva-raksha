@@ -205,13 +205,13 @@ const AppContent: React.FC = () => {
 
               <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveView('HOME')}>
                 <Logo size={36} className="group-hover:scale-105 transition-transform" />
-                <span className="text-lg font-black text-slate-900 tracking-tighter hidden sm:block">Jeeva Raksha</span>
+                <span className="text-xl font-semibold text-slate-900 tracking-tight hidden sm:block">Jeeva Raksha</span>
               </div>
 
               <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Module</span>
+                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Module</span>
                 <span className="text-slate-200">/</span>
-                <span className="text-[9px] font-black text-primary uppercase tracking-widest">{t('', activeView)}</span>
+                <span className="text-[10px] font-semibold text-primary uppercase tracking-widest">{t('', activeView)}</span>
               </div>
             </div>
 
@@ -219,7 +219,7 @@ const AppContent: React.FC = () => {
               {!overrideState.active && (
                 <button
                   onClick={() => setShowOverrideModal(true)}
-                  className="hidden sm:flex px-4 py-2.5 bg-white text-red-600 border border-red-200 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 shadow-sm"
+                  className="hidden sm:flex px-4 py-2.5 bg-white text-red-600 border border-red-200 rounded-xl text-[10px] font-semibold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 shadow-sm"
                 >
                   <AlertTriangle size={14} /> Emergency
                 </button>
@@ -241,10 +241,10 @@ const AppContent: React.FC = () => {
 
               <div className="flex items-center gap-3">
                 <div className="text-right hidden md:block">
-                  <p className="text-[10px] font-black text-slate-900 leading-none truncate max-w-[100px]">{user?.name}</p>
-                  <p className="text-[8px] font-black text-primary uppercase mt-1 tracking-widest">Active</p>
+                  <p className="text-sm font-semibold text-slate-900 leading-none truncate max-w-[120px]">{user?.name}</p>
+                  <p className="text-[10px] font-semibold text-primary uppercase mt-1 tracking-widest">Active</p>
                 </div>
-                <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-xs font-black shadow-lg shadow-primary/20 hover:scale-110 transition-transform cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-sm font-semibold shadow-lg shadow-primary/20 hover:scale-110 transition-transform cursor-pointer">
                   {user?.name?.charAt(0) || 'U'}
                 </div>
               </div>
