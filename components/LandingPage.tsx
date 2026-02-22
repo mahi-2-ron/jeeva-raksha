@@ -434,7 +434,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <button onClick={() => onNavigate('DASHBOARD')} className="px-10 py-4 bg-white text-blue-700 rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-black/10 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-[0.97]">
-                            Get Started Free →
+                            Get Started Free
                         </button>
                         <button onClick={() => onNavigate('DASHBOARD')} className="px-10 py-4 bg-transparent text-white rounded-2xl text-sm font-black uppercase tracking-widest border-2 border-white/30 hover:border-white/60 hover:-translate-y-1 transition-all active:scale-[0.97]">
                             Request Demo
@@ -448,15 +448,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 <div className="max-w-7xl mx-auto px-6 md:px-10 py-8">
                     <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
                         {[
-                            { icon: '🔒', label: 'AES-256 Encrypted' },
-                            { icon: '⚡', label: 'Real-time Sync' },
-                            { icon: '📋', label: 'Audit-ready Logs' },
-                            { icon: '🛡️', label: 'Role-based RBAC' },
-                            { icon: '🏅', label: 'NABH Compliant' },
-                            { icon: '🏛️', label: 'ABDM Integrated' },
+                            { icon: '', label: 'AES-256 Encrypted' },
+                            { icon: '', label: 'Real-time Sync' },
+                            { icon: '', label: 'Audit-ready Logs' },
+                            { icon: '', label: 'Role-based RBAC' },
+                            { icon: '', label: 'NABH Compliant' },
+                            { icon: '', label: 'ABDM Integrated' },
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-2">
-                                <span className="text-lg">{item.icon}</span>
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
                             </div>
                         ))}
@@ -473,7 +472,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             <Logo size={40} className="shrink-0" />
                             <div>
                                 <p className="text-base font-black text-white tracking-tight">Jeeva Raksha | Unified Digital Shield for Smart Healthcare</p>
-                                <p className="text-[10px] font-medium text-slate-500">Developed by Team SUPRA</p>
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Team SUPRA</p>
                             </div>
                         </div>
 
