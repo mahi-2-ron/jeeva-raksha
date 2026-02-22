@@ -147,7 +147,7 @@ const DoctorPad: React.FC = () => {
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-8 relative z-10">
           <div className="flex items-center gap-4 md:gap-8">
-            <div className="h-16 w-16 md:h-24 md:w-24 bg-white/10 backdrop-blur-xl rounded-2xl md:rounded-[2.5rem] flex items-center justify-center text-3xl md:text-5xl border border-white/20 shadow-2xl shrink-0">👨‍⚕️</div>
+            <div className="h-16 w-16 md:h-24 md:w-24 bg-white/10 backdrop-blur-xl rounded-2xl md:rounded-[2.5rem] flex items-center justify-center text-3xl md:text-5xl border border-white/20 shadow-2xl shrink-0"></div>
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <div className="px-3 py-1 bg-emerald-500 rounded-full text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] shadow-lg shadow-emerald-500/20">Live Session</div>
@@ -168,7 +168,7 @@ const DoctorPad: React.FC = () => {
           <div className="hidden md:flex gap-4">
             {unseenCount > 0 && (
               <div className="bg-warning/10 border border-warning/20 px-6 py-3 rounded-2xl flex items-center gap-3 animate-pulse">
-                <span className="text-warning">⚠️</span>
+                <span className="text-warning"></span>
                 <span className="text-[10px] font-black text-warning uppercase tracking-widest">{unseenCount} Patients Pending Rounds</span>
               </div>
             )}
@@ -318,7 +318,7 @@ const DoctorPad: React.FC = () => {
                       {meds.map((med, i) => (
                         <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 md:p-6 bg-slate-50 rounded-3xl border border-slate-50 group hover:bg-white hover:shadow-xl transition-all gap-4">
                           <div className="flex items-center gap-5">
-                            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">💊</div>
+                            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0"></div>
                             <div>
                               <p className="text-base font-black text-slate-900 leading-tight">{med.name}</p>
                               <p className="text-[10px] font-bold text-slate-500 uppercase mt-1">{med.dose}</p>
@@ -426,7 +426,7 @@ const DoctorPad: React.FC = () => {
       <div className="bg-primary rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-32 md:w-48 h-32 md:h-48 bg-white/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
         <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-10">
-          <div className="w-16 h-16 md:w-20 md:h-20 bg-white/10 rounded-2xl md:rounded-3xl flex items-center justify-center text-3xl md:text-4xl shadow-inner shrink-0">🛡️</div>
+          <div className="w-16 h-16 md:w-20 md:h-20 bg-white/10 rounded-2xl md:rounded-3xl flex items-center justify-center text-3xl md:text-4xl shadow-inner shrink-0"></div>
           <div className="flex-1 space-y-2 md:space-y-3 text-center md:text-left">
             <h3 className="text-lg md:text-xl font-black">Clinical Compliance Protocol</h3>
             <p className="text-[11px] md:text-sm text-white/80 font-medium leading-relaxed font-kannada px-2 md:px-0">
