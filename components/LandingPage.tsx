@@ -263,6 +263,104 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 </div>
             </section>
 
+            {/* ═══════════ OUR FUTURE (ROADMAP) ═══════════ */}
+            <section id="roadmap" className="relative bg-white overflow-hidden py-28">
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+                {/* Decorative background elements */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-50/30 rounded-full blur-[120px] pointer-events-none" />
+
+                <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
+                    <div className="text-center mb-24">
+                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-3">Roadmap</p>
+                        <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                            Our Future Vision
+                        </h2>
+                        <p className="text-base text-slate-500 font-medium max-w-xl mx-auto">
+                            The evolution of Jeeva Raksha—transforming from a hospital shield to a nationwide healthcare network.
+                        </p>
+                    </div>
+
+                    <div className="relative">
+                        {/* Timeline Path (Desktop) */}
+                        <div className="hidden lg:block absolute top-12 left-0 right-0 h-1 bg-slate-100 overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-blue-400 via-blue-600 to-indigo-600 w-[65%] animate-pulse" />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+                            {[
+                                {
+                                    phase: 'Phase 01',
+                                    title: 'Foundation',
+                                    points: ['Core HMS Modules Extraction', 'Real-time Multi-tenant Sync', 'Secure Data Architecture'],
+                                    icon: '🏛️',
+                                    status: 'Completed',
+                                    color: 'border-blue-500',
+                                    bg: 'bg-blue-50'
+                                },
+                                {
+                                    phase: 'Phase 02',
+                                    title: 'Smart Intelligence',
+                                    points: ['AI Clinical Decision Support', 'Predictive Bed Management', 'Integrated Billing Engines'],
+                                    icon: '🧠',
+                                    status: 'Upcoming',
+                                    color: 'border-cyan-500',
+                                    bg: 'bg-cyan-50'
+                                },
+                                {
+                                    phase: 'Phase 03',
+                                    title: 'Connected Ecosystem',
+                                    points: ['Patient Mobile Application', 'IoT Device Synchronization', 'Cloud-Edge Data Relay'],
+                                    icon: '🌐',
+                                    status: 'Planned',
+                                    color: 'border-indigo-500',
+                                    bg: 'bg-indigo-50'
+                                },
+                                {
+                                    phase: 'Phase 04',
+                                    title: 'Nationwide Network',
+                                    points: ['Inter-Hospital Data Bridge', 'National Health Stack Link', 'AI Public Health Insights'],
+                                    icon: '🇮🇳',
+                                    status: 'Vision',
+                                    color: 'border-purple-500',
+                                    bg: 'bg-purple-50'
+                                }
+                            ].map((p, i) => (
+                                <div key={i} className="relative group">
+                                    {/* Vertical path for mobile/tablet */}
+                                    <div className="lg:hidden absolute top-0 left-6 bottom-0 w-0.5 bg-slate-100 -z-10" />
+
+                                    <div className="flex flex-col items-start lg:items-center text-left lg:text-center">
+                                        {/* Point on timeline */}
+                                        <div className={`relative w-12 h-12 lg:w-24 lg:h-24 rounded-2xl ${p.bg} border-2 ${p.color} flex items-center justify-center text-xl lg:text-4xl mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-10`}>
+                                            <span className="drop-shadow-sm">{p.icon}</span>
+                                            {/* Status Badge */}
+                                            <div className="absolute -top-3 -right-3 px-2 py-0.5 bg-white border border-slate-100 rounded-full text-[8px] font-black uppercase tracking-widest text-slate-400 shadow-sm">
+                                                {p.status}
+                                            </div>
+                                        </div>
+
+                                        <div className="pl-4 lg:pl-0">
+                                            <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${p.color.replace('border-', 'text-')}`}>{p.phase}</p>
+                                            <h3 className="text-lg font-black text-slate-900 mb-4">{p.title}</h3>
+
+                                            <ul className="space-y-3">
+                                                {p.points.map((pt, j) => (
+                                                    <li key={j} className="flex items-start lg:justify-center gap-2 group/item">
+                                                        <span className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${p.bg.replace('bg-', 'bg-').replace('-50', '-400')}`} />
+                                                        <span className="text-[11px] font-medium text-slate-500 leading-tight group-hover/item:text-slate-800 transition-colors uppercase tracking-tight">{pt}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* ═══════════ COMPLIANCE BANNER ═══════════ */}
             <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 overflow-hidden">
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
