@@ -8,7 +8,7 @@ import { GoogleGenAI as GenerativeClient, Type } from "@google/genai";
 
 export const aiService = {
     async extractPatientFromID(base64Image: string) {
-        const engine = new GenerativeClient({ apiKey: process.env.API_KEY });
+        const engine = new GenerativeClient({ apiKey: process.env.AI_SERVICE_KEY });
         const processor = await engine.models.generateContent({
             model: 'gemini-3-flash-preview',
             contents: {
@@ -34,7 +34,7 @@ export const aiService = {
     },
 
     async analyzeLabReport(base64Image: string) {
-        const engine = new GenerativeClient({ apiKey: process.env.API_KEY });
+        const engine = new GenerativeClient({ apiKey: process.env.AI_SERVICE_KEY });
         const processor = await engine.models.generateContent({
             model: 'gemini-3-pro-preview',
             contents: {
