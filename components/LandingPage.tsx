@@ -193,6 +193,64 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 </div>
             </section>
 
+            {/* ═══════════ ABOUT US ═══════════ */}
+            <section id="about" className="relative bg-white overflow-hidden py-28">
+                <div className="max-w-7xl mx-auto px-6 md:px-10">
+                    <div className="flex flex-col lg:flex-row gap-20 items-center">
+                        {/* Left Content */}
+                        <div className="flex-1 space-y-8">
+                            <div>
+                                <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-4">About Us</p>
+                                <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-6">
+                                    🏥 Jeeva Raksha — Digital Shield for Modern Hospitals
+                                </h2>
+                                <p className="text-lg text-slate-600 leading-relaxed font-medium">
+                                    Jeeva Raksha is a unified digital hospital management platform designed to streamline clinical, administrative, and financial workflows into one secure system. It enables hospitals to manage patients, doctors, diagnostics, pharmacy, billing, and analytics in real time, giving healthcare teams a complete 360° view of operations and patient care.
+                                </p>
+                            </div>
+
+                            <div className="p-8 bg-blue-50/50 rounded-[2.5rem] border border-blue-100 relative group transition-all duration-500 hover:shadow-2xl hover:shadow-blue-600/5">
+                                <div className="absolute top-0 right-0 p-8 text-4xl opacity-10 group-hover:rotate-12 transition-transform">🚀</div>
+                                <p className="text-sm text-slate-600 leading-relaxed">
+                                    We built Jeeva Raksha to address the challenges hospitals face with fragmented systems, manual paperwork, delayed information flow, and lack of real-time visibility. Our goal is to simplify hospital operations, reduce errors, save time for medical staff, and improve the overall patient experience through a secure and intelligent digital solution.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Right Content: Vision/Mission Cards */}
+                        <div className="flex-1 grid grid-cols-1 gap-6">
+                            {[
+                                {
+                                    title: 'Mission',
+                                    icon: '🎯',
+                                    color: 'from-emerald-500 to-teal-400',
+                                    bg: 'bg-emerald-50',
+                                    desc: 'To provide hospitals with a reliable, secure, and intelligent digital platform that simplifies workflows, improves efficiency, and supports better patient care today.'
+                                },
+                                {
+                                    title: 'Vision',
+                                    icon: '🌍',
+                                    color: 'from-blue-500 to-indigo-400',
+                                    bg: 'bg-blue-50',
+                                    desc: 'To transform healthcare into a fully connected and intelligent ecosystem where technology, data, and AI work together to enable faster decisions, seamless collaboration, and safer patient outcomes in the future.'
+                                }
+                            ].map((item, i) => (
+                                <div key={i} className={`p-10 rounded-[2.5rem] ${item.bg} border-2 border-transparent hover:border-white hover:shadow-2xl transition-all duration-500 relative overflow-hidden group`}>
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`} />
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <span className="text-4xl group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-500">{item.icon}</span>
+                                        <h3 className="text-2xl font-black text-slate-900 group-hover:text-blue-700 transition-colors uppercase tracking-tight">{item.title}</h3>
+                                    </div>
+                                    <p className="text-sm font-semibold text-slate-600 leading-relaxed uppercase tracking-tight">
+                                        {item.desc}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* ═══════════ FEATURES ═══════════ */}
             <section id="features" className="relative bg-white">
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
