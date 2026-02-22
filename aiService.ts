@@ -61,7 +61,7 @@ export const aiService = {
     },
 
     async analyzeRadiologyScan(base64Image: string, modality: string) {
-        const engine = new GenerativeClient({ apiKey: process.env.API_KEY });
+        const engine = new GenerativeClient({ apiKey: process.env.AI_SERVICE_KEY });
         const processor = await engine.models.generateContent({
             model: 'gemini-3-pro-preview',
             contents: {
