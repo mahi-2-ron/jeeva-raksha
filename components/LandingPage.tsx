@@ -51,21 +51,21 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     const stat4 = useCounter(24);
 
     const features = [
-        { icon: '', title: 'OPD & IPD Management', desc: 'Streamlined outpatient and inpatient workflows from registration to discharge.', color: 'from-blue-500 to-cyan-400' },
-        { icon: '', title: 'Emergency & OT Tracking', desc: 'Real-time emergency triage and operation theatre scheduling.', color: 'from-red-500 to-orange-400' },
-        { icon: '', title: 'Electronic Medical Records', desc: 'Digitized, searchable patient records with full audit trails.', color: 'from-violet-500 to-purple-400' },
-        { icon: '', title: 'Laboratory & Radiology', desc: 'Integrated diagnostics with automated result publishing.', color: 'from-emerald-500 to-green-400' },
-        { icon: '', title: 'Pharmacy & Inventory', desc: 'Drug dispensation tracking with blank-level stock management.', color: 'from-amber-500 to-yellow-400' },
-        { icon: '', title: 'Billing & Insurance', desc: 'Multi-payer billing with cashless TPA and claims automation.', color: 'from-teal-500 to-cyan-400' },
-        { icon: '', title: 'AI Clinical Insights', desc: 'Machine-learning driven alerts, predictions, and clinical support.', color: 'from-pink-500 to-rose-400' },
-        { icon: '', title: 'Real-time Analytics', desc: 'Live dashboards with KPIs, trends, and compliance reports.', color: 'from-indigo-500 to-blue-400' },
+        { icon: '🗒️', title: 'OPD & IPD Management', desc: 'Streamlined outpatient and inpatient workflows from registration to discharge.', color: 'from-blue-500 to-cyan-400' },
+        { icon: '🏥', title: 'Emergency & OT Tracking', desc: 'Real-time emergency triage and operation theatre scheduling.', color: 'from-red-500 to-orange-400' },
+        { icon: '📂', title: 'Electronic Medical Records', desc: 'Digitized, searchable patient records with full audit trails.', color: 'from-violet-500 to-purple-400' },
+        { icon: '🔬', title: 'Laboratory & Radiology', desc: 'Integrated diagnostics with automated result publishing.', color: 'from-emerald-500 to-green-400' },
+        { icon: '💊', title: 'Pharmacy & Inventory', desc: 'Drug dispensation tracking with blank-level stock management.', color: 'from-amber-500 to-yellow-400' },
+        { icon: '💳', title: 'Billing & Insurance', desc: 'Multi-payer billing with cashless TPA and claims automation.', color: 'from-teal-500 to-cyan-400' },
+        { icon: '🧠', title: 'AI Clinical Insights', desc: 'Machine-learning driven alerts, predictions, and clinical support.', color: 'from-pink-500 to-rose-400' },
+        { icon: '📊', title: 'Real-time Analytics', desc: 'Live dashboards with KPIs, trends, and compliance reports.', color: 'from-indigo-500 to-blue-400' },
     ];
 
     const workflow = [
-        { step: '01', title: 'Patient Arrives', desc: 'Digital registration with ABHA ID linkage', icon: '' },
-        { step: '02', title: 'Clinical Assessment', desc: 'AI-assisted triage and doctor allocation', icon: '' },
-        { step: '03', title: 'Diagnostics & Treatment', desc: 'Integrated lab, pharmacy, and EMR workflows', icon: '' },
-        { step: '04', title: 'Billing & Discharge', desc: 'Automated billing with insurance settlement', icon: '' },
+        { step: '01', title: 'Patient Arrives', desc: 'Digital registration with ABHA ID linkage', icon: '🚶' },
+        { step: '02', title: 'Clinical Assessment', desc: 'AI-assisted triage and doctor allocation', icon: '🩺' },
+        { step: '03', title: 'Diagnostics & Treatment', desc: 'Integrated lab, pharmacy, and EMR workflows', icon: '🔬' },
+        { step: '04', title: 'Billing & Discharge', desc: 'Automated billing with insurance settlement', icon: '🏥' },
     ];
 
     return (
@@ -168,10 +168,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
                         {[
-                            { ref: stat1.ref, count: stat1.count, suffix: '+', label: 'Patients Served', icon: '' },
-                            { ref: stat2.ref, count: stat2.count, suffix: '+', label: 'Hospital Beds Managed', icon: '' },
-                            { ref: stat3.ref, count: stat3.count, suffix: '.9%', label: 'System Uptime', icon: '' },
-                            { ref: stat4.ref, count: stat4.count, suffix: '/7', label: 'Monitoring', icon: '' },
+                            { ref: stat1.ref, count: stat1.count, suffix: '+', label: 'Patients Served', icon: '👥' },
+                            { ref: stat2.ref, count: stat2.count, suffix: '+', label: 'Hospital Beds Managed', icon: '🛏️' },
+                            { ref: stat3.ref, count: stat3.count, suffix: '.9%', label: 'System Uptime', icon: '⚡' },
+                            { ref: stat4.ref, count: stat4.count, suffix: '/7', label: 'Monitoring', icon: '🛡️' },
                         ].map((s, i) => (
                             <div key={i} ref={s.ref} className="text-center group">
                                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/5 border border-white/10 mb-4 text-2xl group-hover:bg-white/10 group-hover:scale-110 transition-all">{s.icon}</div>
@@ -194,7 +194,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             <div>
                                 <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-4">About Us</p>
                                 <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-6">
-                                    Jeeva Raksha — Digital Shield for Modern Hospitals
+                                    🏥 Jeeva Raksha — Digital Shield for Modern Hospitals
                                 </h2>
                                 <p className="text-lg text-slate-600 leading-relaxed font-medium">
                                     Jeeva Raksha is a unified digital hospital management platform designed to streamline clinical, administrative, and financial workflows into one secure system. It enables hospitals to manage patients, doctors, diagnostics, pharmacy, billing, and analytics in real time, giving healthcare teams a complete 360° view of operations and patient care.
@@ -202,7 +202,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             </div>
 
                             <div className="p-8 bg-blue-50/50 rounded-[2.5rem] border border-blue-100 relative group transition-all duration-500 hover:shadow-2xl hover:shadow-blue-600/5">
-                                <div className="absolute top-0 right-0 p-8 text-4xl opacity-10 group-hover:rotate-12 transition-transform"></div>
+                                <div className="absolute top-0 right-0 p-8 text-4xl opacity-10 group-hover:rotate-12 transition-transform">🚀</div>
                                 <p className="text-sm text-slate-600 leading-relaxed">
                                     We built Jeeva Raksha to address the challenges hospitals face with fragmented systems, manual paperwork, delayed information flow, and lack of real-time visibility. Our goal is to simplify hospital operations, reduce errors, save time for medical staff, and improve the overall patient experience through a secure and intelligent digital solution.
                                 </p>
@@ -214,14 +214,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             {[
                                 {
                                     title: 'Mission',
-                                    icon: '',
+                                    icon: '🎯',
                                     color: 'from-emerald-500 to-teal-400',
                                     bg: 'bg-emerald-50',
                                     desc: 'To provide hospitals with a reliable, secure, and intelligent digital platform that simplifies workflows, improves efficiency, and supports better patient care today.'
                                 },
                                 {
                                     title: 'Vision',
-                                    icon: '',
+                                    icon: '🌏',
                                     color: 'from-blue-500 to-indigo-400',
                                     bg: 'bg-blue-50',
                                     desc: 'To transform healthcare into a fully connected and intelligent ecosystem where technology, data, and AI work together to enable faster decisions, seamless collaboration, and safer patient outcomes in the future.'
@@ -343,7 +343,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                     phase: 'Phase 01',
                                     title: 'Digital Foundation',
                                     desc: 'Build a unified hospital platform that digitizes OPD, IPD, labs, pharmacy, billing, and EMR into one secure system with role-based dashboards and real-time patient tracking.',
-                                    icon: '',
+                                    icon: '🛡️',
                                     status: 'Now',
                                     color: 'border-emerald-500',
                                     textColor: 'text-emerald-600',
@@ -353,7 +353,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                     phase: 'Phase 02',
                                     title: 'Intelligent Healthcare',
                                     desc: 'Introduce AI-driven clinical summaries, early-risk alerts, automated discharge reports, and smart analytics to help doctors make faster, safer decisions and reduce manual workload.',
-                                    icon: '',
+                                    icon: '🧠',
                                     status: 'Next',
                                     color: 'border-blue-500',
                                     textColor: 'text-blue-600',
@@ -363,7 +363,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                     phase: 'Phase 03',
                                     title: 'Connected Patient Experience',
                                     desc: 'Launch patient mobile apps, telemedicine support, online reports & payments, and integrations with labs, insurance, and national health IDs for seamless digital healthcare access.',
-                                    icon: '',
+                                    icon: '📲',
                                     status: 'Upcoming',
                                     color: 'border-purple-500',
                                     textColor: 'text-purple-600',
@@ -373,7 +373,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                     phase: 'Phase 04',
                                     title: 'Smart Healthcare Ecosystem',
                                     desc: 'Scale Jeeva Raksha into a cloud-powered nationwide health network enabling cross-hospital data sharing, predictive population analytics, and AI-assisted treatment insights for future-ready healthcare.',
-                                    icon: '',
+                                    icon: '🌏',
                                     status: 'Vision',
                                     color: 'border-orange-500',
                                     textColor: 'text-orange-600',
@@ -434,7 +434,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <button onClick={() => onNavigate('DASHBOARD')} className="px-10 py-4 bg-white text-blue-700 rounded-2xl text-sm font-black uppercase tracking-widest shadow-xl shadow-black/10 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-[0.97]">
-                            Get Started Free
+                            Get Started Free →
                         </button>
                         <button onClick={() => onNavigate('DASHBOARD')} className="px-10 py-4 bg-transparent text-white rounded-2xl text-sm font-black uppercase tracking-widest border-2 border-white/30 hover:border-white/60 hover:-translate-y-1 transition-all active:scale-[0.97]">
                             Request Demo
@@ -448,14 +448,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 <div className="max-w-7xl mx-auto px-6 md:px-10 py-8">
                     <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
                         {[
-                            { icon: '', label: 'AES-256 Encrypted' },
-                            { icon: '', label: 'Real-time Sync' },
-                            { icon: '', label: 'Audit-ready Logs' },
-                            { icon: '', label: 'Role-based RBAC' },
-                            { icon: '', label: 'NABH Compliant' },
-                            { icon: '', label: 'ABDM Integrated' },
+                            { icon: '🔒', label: 'AES-256 Encrypted' },
+                            { icon: '⚡', label: 'Real-time Sync' },
+                            { icon: '📋', label: 'Audit-ready Logs' },
+                            { icon: '🛡️', label: 'Role-based RBAC' },
+                            { icon: '🏅', label: 'NABH Compliant' },
+                            { icon: '🏛️', label: 'ABDM Integrated' },
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-2">
+                                <span className="text-lg">{item.icon}</span>
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
                             </div>
                         ))}
