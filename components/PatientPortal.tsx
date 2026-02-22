@@ -71,7 +71,6 @@ const PatientPortal: React.FC = () => {
          <div className="flex justify-between items-center py-6 px-4">
             <div className="flex items-center gap-3">
                <div className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center border border-slate-100">
-                  <span className="text-xl">🛡️</span>
                </div>
                <span className="text-lg font-black text-slate-900 tracking-tight">Jeeva Raksha Portal</span>
             </div>
@@ -114,7 +113,7 @@ const PatientPortal: React.FC = () => {
          {/* Quick Action Cards */}
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-               <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center text-3xl mb-6">📅</div>
+               <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center text-3xl mb-6"></div>
                <h3 className="text-xl font-black text-slate-900 mb-2">Book Appointment</h3>
                <p className="text-xs text-slate-500 font-medium mb-6">Schedule your next visit with your preferred specialist.</p>
                <button onClick={handleBookAppointment} disabled={booking} className="w-full py-4 bg-vibrant-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 shadow-lg shadow-blue-500/20 disabled:opacity-50 active:scale-95">
@@ -122,13 +121,13 @@ const PatientPortal: React.FC = () => {
                </button>
             </div>
             <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-               <div className="w-14 h-14 bg-success/5 rounded-2xl flex items-center justify-center text-3xl mb-6">📄</div>
+               <div className="w-14 h-14 bg-success/5 rounded-2xl flex items-center justify-center text-3xl mb-6"></div>
                <h3 className="text-xl font-black text-slate-900 mb-2">View Reports</h3>
                <p className="text-xs text-slate-500 font-medium mb-6">Download and view your latest lab results and imaging.</p>
                <button onClick={handleDownloadReports} className="w-full py-4 bg-vibrant-green text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 shadow-lg shadow-green-500/20 active:scale-95">Access Vault</button>
             </div>
             <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-               <div className="w-14 h-14 bg-warning/5 rounded-2xl flex items-center justify-center text-3xl mb-6">💊</div>
+               <div className="w-14 h-14 bg-warning/5 rounded-2xl flex items-center justify-center text-3xl mb-6"></div>
                <h3 className="text-xl font-black text-slate-900 mb-2">Prescriptions</h3>
                <p className="text-xs text-slate-500 font-medium mb-6">Renew or check dosage for your active medications.</p>
                <button onClick={() => showToast('info', 'Opening prescription manager...')} className="w-full py-4 bg-vibrant-orange text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 shadow-lg shadow-orange-500/20 active:scale-95">Refill Meds</button>
@@ -155,7 +154,7 @@ const PatientPortal: React.FC = () => {
                   <div className="divide-y divide-slate-50">
                      {appointments.map((appt: any) => (
                         <div key={appt.id} className="px-8 py-5 flex items-center gap-5 hover:bg-hospital-bg/50 transition-colors">
-                           <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center text-lg shrink-0">📅</div>
+                           <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center text-lg shrink-0"></div>
                            <div className="flex-1 min-w-0">
                               <p className="text-sm font-black text-slate-800">{appt.doctor || appt.doctor_name || 'Doctor'}</p>
                               <p className="text-[10px] font-bold text-slate-400">{appt.specialty || 'General'} • {appt.date || appt.appointment_date} • {appt.time || appt.appointment_time || ''}</p>
@@ -175,7 +174,7 @@ const PatientPortal: React.FC = () => {
                   <div className="divide-y divide-slate-50">
                      {prescriptions.map((rx: any) => (
                         <div key={rx.id} className="px-8 py-5 flex items-center gap-5 hover:bg-hospital-bg/50 transition-colors">
-                           <div className="w-10 h-10 bg-warning/5 rounded-xl flex items-center justify-center text-lg shrink-0">💊</div>
+                           <div className="w-10 h-10 bg-warning/5 rounded-xl flex items-center justify-center text-lg shrink-0"></div>
                            <div className="flex-1 min-w-0">
                               <p className="text-sm font-black text-slate-800">{rx.medicine || rx.medication_name || 'Medication'}</p>
                               <p className="text-[10px] font-bold text-slate-400">Dosage: {rx.dosage || 'As prescribed'} • By {rx.doctor || rx.prescribed_by || 'Doctor'}</p>
