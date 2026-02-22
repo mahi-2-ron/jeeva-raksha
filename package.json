@@ -1,7 +1,9 @@
 {
-  "name": "jeeva-raksha---unified-hospital-information-system",
+  "name": "jeeva-raksha-his",
+  "description": "Unified Hospital Information System for Smart Healthcare",
+  "author": "Team SUPRA",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
