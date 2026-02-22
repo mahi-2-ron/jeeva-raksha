@@ -80,7 +80,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     </div>
 
                     <nav className="hidden md:flex items-center gap-8">
-                        {['Features', 'Workflow', 'Roadmap', 'Stats'].map(item => (
+                        {['About', 'Stats', 'Features', 'Workflow', 'Roadmap'].map(item => (
                             <a key={item} href={`#${item.toLowerCase()}`} className="text-[11px] font-bold text-slate-500 uppercase tracking-widest hover:text-blue-600 transition-colors">{item}</a>
                         ))}
                     </nav>
