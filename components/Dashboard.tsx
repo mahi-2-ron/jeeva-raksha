@@ -70,8 +70,8 @@ const Dashboard: React.FC = () => {
   ];
 
   const aiInsights = [
-    { id: 1, patient: 'Vikram M.', risk: 'High', factor: 'Sepsis probability (84%)', icon: '🧬' },
-    { id: 2, patient: 'Anjali S.', risk: 'Moderate', factor: 'Readmission probability (42%)', icon: '📈' },
+    { id: 1, patient: 'Vikram M.', risk: 'High', factor: 'Sepsis probability (84%)', icon: '' },
+    { id: 2, patient: 'Anjali S.', risk: 'Moderate', factor: 'Readmission probability (42%)', icon: '' },
   ];
 
   const StatCard = ({ label, value, subtext, icon, trend, colorClass }: any) => (
@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
     return (
       <div className="flex items-center justify-center min-h-[70vh]">
         <div className="text-center animate-in fade-in zoom-in duration-500">
-          <div className="text-6xl animate-bounce mb-6">🏥</div>
+          <div className="text-6xl animate-bounce mb-6"></div>
           <p className="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Synchronizing Command Center...</p>
         </div>
       </div>
@@ -140,11 +140,11 @@ const Dashboard: React.FC = () => {
 
       {/* Primary Clinical KPIs - Single column on mobile, multis on desktop */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6">
-        <StatCard label="Total Census" value={stats?.totalPatients?.toLocaleString() || '0'} subtext="PATIENTS" trend="" icon="📋" colorClass={{ bg: 'bg-primary/5', text: 'text-primary', border: 'border-primary/10' }} />
-        <StatCard label="Admissions" value={stats?.patientsToday?.toLocaleString() || '0'} subtext="TODAY" trend="" icon="👥" colorClass={{ bg: 'bg-indigo-50', text: 'text-indigo-600', border: 'border-indigo-100' }} />
-        <StatCard label="OPD Queue" value={stats?.opdWaiting || '0'} subtext="WAITING" trend="-12%" icon="⏳" colorClass={{ bg: 'bg-warning/5', text: 'text-warning', border: 'border-warning/10' }} />
-        <StatCard label="IPD Load" value={`${stats?.bedOccupancy || 0}%`} subtext="OCCUPIED" trend="Stable" icon="🛌" colorClass={{ bg: 'bg-success/5', text: 'text-success', border: 'border-success/10' }} />
-        <StatCard label="ER STAT" value={String(stats?.emergencyCases || 0).padStart(2, '0')} subtext="ACTIVE" trend="+3" icon="🚨" colorClass={{ bg: 'bg-danger/5', text: 'text-danger', border: 'border-danger/10' }} />
+        <StatCard label="Total Census" value={stats?.totalPatients?.toLocaleString() || '0'} subtext="PATIENTS" trend="" icon="" colorClass={{ bg: 'bg-primary/5', text: 'text-primary', border: 'border-primary/10' }} />
+        <StatCard label="Admissions" value={stats?.patientsToday?.toLocaleString() || '0'} subtext="TODAY" trend="" icon="" colorClass={{ bg: 'bg-indigo-50', text: 'text-indigo-600', border: 'border-indigo-100' }} />
+        <StatCard label="OPD Queue" value={stats?.opdWaiting || '0'} subtext="WAITING" trend="-12%" icon="" colorClass={{ bg: 'bg-warning/5', text: 'text-warning', border: 'border-warning/10' }} />
+        <StatCard label="IPD Load" value={`${stats?.bedOccupancy || 0}%`} subtext="OCCUPIED" trend="Stable" icon="" colorClass={{ bg: 'bg-success/5', text: 'text-success', border: 'border-success/10' }} />
+        <StatCard label="ER STAT" value={String(stats?.emergencyCases || 0).padStart(2, '0')} subtext="ACTIVE" trend="+3" icon="" colorClass={{ bg: 'bg-danger/5', text: 'text-danger', border: 'border-danger/10' }} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -238,7 +238,7 @@ const Dashboard: React.FC = () => {
                 ].map(ot => (
                   <div key={ot.ot} className="p-5 bg-slate-50 rounded-[2rem] border border-slate-100 flex justify-between items-center group hover:bg-white hover:border-primary/20 hover:shadow-lg transition-all active:scale-[0.98]">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-xl shadow-sm border border-slate-100">🔪</div>
+                      <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-xl shadow-sm border border-slate-100"></div>
                       <div>
                         <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">{ot.ot}</p>
                         <p className="text-sm font-bold text-slate-800">{ot.procedure}</p>
@@ -291,7 +291,7 @@ const Dashboard: React.FC = () => {
             <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-white opacity-[0.05] rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
             <div className="relative z-10 space-y-10">
               <div className="flex items-center gap-5">
-                <div className="w-14 h-14 bg-white/10 rounded-2xl backdrop-blur-md flex items-center justify-center text-white text-3xl shadow-xl border border-white/20">🤖</div>
+                <div className="w-14 h-14 bg-white/10 rounded-2xl backdrop-blur-md flex items-center justify-center text-white text-3xl shadow-xl border border-white/20"></div>
                 <div>
                   <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.3em] leading-none">Intelligence Engine</p>
                   <h3 className="text-2xl font-black text-white mt-2">Critical Watchlist</h3>
