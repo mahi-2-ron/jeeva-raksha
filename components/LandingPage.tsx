@@ -197,14 +197,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                     🏥 Jeeva Raksha — Digital Shield for Modern Hospitals
                                 </h2>
                                 <p className="text-lg text-slate-600 leading-relaxed font-medium">
-                                    Jeeva Raksha is a unified digital hospital management platform designed to streamline clinical, administrative, and financial workflows into one secure system. It enables hospitals to manage patients, doctors, diagnostics, pharmacy, billing, and analytics in real time, giving healthcare teams a complete 360° view of operations and patient care.
+                                    Jeeva Raksha, Developed by Team SUPRA, is a unified digital hospital management platform designed to streamline clinical, administrative, and financial workflows into one secure system. It enables hospitals to manage patients, doctors, diagnostics, pharmacy, billing, and analytics in real time, giving healthcare teams a complete 360° view of operations and patient care.
                                 </p>
                             </div>
 
                             <div className="p-8 bg-blue-50/50 rounded-[2.5rem] border border-blue-100 relative group transition-all duration-500 hover:shadow-2xl hover:shadow-blue-600/5">
                                 <div className="absolute top-0 right-0 p-8 text-4xl opacity-10 group-hover:rotate-12 transition-transform">🚀</div>
                                 <p className="text-sm text-slate-600 leading-relaxed">
-                                    We built Jeeva Raksha to address the challenges hospitals face with fragmented systems, manual paperwork, delayed information flow, and lack of real-time visibility. Our goal is to simplify hospital operations, reduce errors, save time for medical staff, and improve the overall patient experience through a secure and intelligent digital solution.
+                                    Team SUPRA built Jeeva Raksha to address the challenges hospitals face with fragmented systems, manual paperwork, delayed information flow, and lack of real-time visibility. Our goal is to simplify hospital operations, reduce errors, save time for medical staff, and improve the overall patient experience through a secure and intelligent digital solution.
                                 </p>
                             </div>
                         </div>
@@ -327,7 +327,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             Our Future Vision
                         </h2>
                         <p className="text-base text-slate-500 font-medium max-w-xl mx-auto">
-                            The evolution of Jeeva Raksha—transforming from a hospital shield to a nationwide healthcare network.
+                            The evolution of Jeeva Raksha—Developed by Team SUPRA—transforming from a hospital shield to a nationwide healthcare network.
                         </p>
                     </div>
 
@@ -372,7 +372,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                 {
                                     phase: 'Phase 04',
                                     title: 'Smart Healthcare Ecosystem',
-                                    desc: 'Scale Jeeva Raksha into a cloud-powered nationwide health network enabling cross-hospital data sharing, predictive population analytics, and AI-assisted treatment insights for future-ready healthcare.',
+                                    desc: 'Scale Jeeva Raksha — Developed by Team SUPRA — into a cloud-powered nationwide health network enabling cross-hospital data sharing, predictive population analytics, and AI-assisted treatment insights for future-ready healthcare.',
                                     icon: '🌏',
                                     status: 'Vision',
                                     color: 'border-orange-500',
