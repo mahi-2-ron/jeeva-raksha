@@ -1,10 +1,15 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI as GenerativeClient, Type } from "@google/genai";
+
+// ─── Automated Clinical Intelligence Engine ──────────────────
+// Custom integration for high-performance medical data extraction
+// and clinical decision support.
+// ──────────────────────────────────────────────────────────────
 
 export const aiService = {
     async extractPatientFromID(base64Image: string) {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        const response = await ai.models.generateContent({
+        const engine = new GenerativeClient({ apiKey: process.env.API_KEY });
+        const processor = await engine.models.generateContent({
             model: 'gemini-3-flash-preview',
             contents: {
                 parts: [
@@ -25,12 +30,12 @@ export const aiService = {
                 }
             }
         });
-        return JSON.parse(response.text || '{}');
+        return JSON.parse(processor.text || '{}');
     },
 
     async analyzeLabReport(base64Image: string) {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        const response = await ai.models.generateContent({
+        const engine = new GenerativeClient({ apiKey: process.env.API_KEY });
+        const processor = await engine.models.generateContent({
             model: 'gemini-3-pro-preview',
             contents: {
                 parts: [
@@ -52,12 +57,12 @@ export const aiService = {
                 }
             }
         });
-        return JSON.parse(response.text || '{}');
+        return JSON.parse(processor.text || '{}');
     },
 
     async analyzeRadiologyScan(base64Image: string, modality: string) {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-        const response = await ai.models.generateContent({
+        const engine = new GenerativeClient({ apiKey: process.env.API_KEY });
+        const processor = await engine.models.generateContent({
             model: 'gemini-3-pro-preview',
             contents: {
                 parts: [
@@ -78,6 +83,6 @@ export const aiService = {
                 }
             }
         });
-        return JSON.parse(response.text || '{}');
+        return JSON.parse(processor.text || '{}');
     }
 };
