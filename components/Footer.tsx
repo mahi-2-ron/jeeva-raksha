@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
               </span>
             </div>
             <p className={`text-[10px] font-bold text-slate-400 uppercase tracking-widest ${language === 'KN' ? 'font-kannada' : ''}`}>
-              Developed by Team SUPRA
+              Team SUPRA
             </p>
           </div>
 
