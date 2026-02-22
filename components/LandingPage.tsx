@@ -284,46 +284,50 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     <div className="relative">
                         {/* Timeline Path (Desktop) */}
                         <div className="hidden lg:block absolute top-12 left-0 right-0 h-1 bg-slate-100 overflow-hidden">
-                            <div className="h-full bg-gradient-to-r from-blue-400 via-blue-600 to-indigo-600 w-[65%] animate-pulse" />
+                            <div className="h-full bg-gradient-to-r from-emerald-400 via-blue-500 to-orange-500 w-[75%] animate-pulse" />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
                             {[
                                 {
                                     phase: 'Phase 01',
-                                    title: 'Foundation',
-                                    points: ['Core HMS Modules Extraction', 'Real-time Multi-tenant Sync', 'Secure Data Architecture'],
-                                    icon: '🏛️',
-                                    status: 'Completed',
-                                    color: 'border-blue-500',
-                                    bg: 'bg-blue-50'
+                                    title: 'Digital Foundation',
+                                    desc: 'Build a unified hospital platform that digitizes OPD, IPD, labs, pharmacy, billing, and EMR into one secure system with role-based dashboards and real-time patient tracking.',
+                                    icon: '🟢',
+                                    status: 'Now',
+                                    color: 'border-emerald-500',
+                                    textColor: 'text-emerald-600',
+                                    bg: 'bg-emerald-50'
                                 },
                                 {
                                     phase: 'Phase 02',
-                                    title: 'Smart Intelligence',
-                                    points: ['AI Clinical Decision Support', 'Predictive Bed Management', 'Integrated Billing Engines'],
-                                    icon: '🧠',
-                                    status: 'Upcoming',
-                                    color: 'border-cyan-500',
-                                    bg: 'bg-cyan-50'
+                                    title: 'Intelligent Healthcare',
+                                    desc: 'Introduce AI-driven clinical summaries, early-risk alerts, automated discharge reports, and smart analytics to help doctors make faster, safer decisions and reduce manual workload.',
+                                    icon: '🔵',
+                                    status: 'Next',
+                                    color: 'border-blue-500',
+                                    textColor: 'text-blue-600',
+                                    bg: 'bg-blue-50'
                                 },
                                 {
                                     phase: 'Phase 03',
-                                    title: 'Connected Ecosystem',
-                                    points: ['Patient Mobile Application', 'IoT Device Synchronization', 'Cloud-Edge Data Relay'],
-                                    icon: '🌐',
-                                    status: 'Planned',
-                                    color: 'border-indigo-500',
-                                    bg: 'bg-indigo-50'
+                                    title: 'Connected Patient Experience',
+                                    desc: 'Launch patient mobile apps, telemedicine support, online reports & payments, and integrations with labs, insurance, and national health IDs for seamless digital healthcare access.',
+                                    icon: '🟣',
+                                    status: 'Upcoming',
+                                    color: 'border-purple-500',
+                                    textColor: 'text-purple-600',
+                                    bg: 'bg-purple-50'
                                 },
                                 {
                                     phase: 'Phase 04',
-                                    title: 'Nationwide Network',
-                                    points: ['Inter-Hospital Data Bridge', 'National Health Stack Link', 'AI Public Health Insights'],
-                                    icon: '🇮🇳',
+                                    title: 'Smart Healthcare Ecosystem',
+                                    desc: 'Scale Jeeva Raksha into a cloud-powered nationwide health network enabling cross-hospital data sharing, predictive population analytics, and AI-assisted treatment insights for future-ready healthcare.',
+                                    icon: '🟠',
                                     status: 'Vision',
-                                    color: 'border-purple-500',
-                                    bg: 'bg-purple-50'
+                                    color: 'border-orange-500',
+                                    textColor: 'text-orange-600',
+                                    bg: 'bg-orange-50'
                                 }
                             ].map((p, i) => (
                                 <div key={i} className="relative group">
@@ -335,27 +339,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                                         <div className={`relative w-12 h-12 lg:w-24 lg:h-24 rounded-2xl ${p.bg} border-2 ${p.color} flex items-center justify-center text-xl lg:text-4xl mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-10`}>
                                             <span className="drop-shadow-sm">{p.icon}</span>
                                             {/* Status Badge */}
-                                            <div className="absolute -top-3 -right-3 px-2 py-0.5 bg-white border border-slate-100 rounded-full text-[8px] font-black uppercase tracking-widest text-slate-400 shadow-sm">
+                                            <div className={`absolute -top-3 -right-3 px-2 py-0.5 bg-white border border-slate-100 rounded-full text-[8px] font-black uppercase tracking-widest ${p.textColor} shadow-sm`}>
                                                 {p.status}
                                             </div>
                                         </div>
 
                                         <div className="pl-4 lg:pl-0">
-                                            <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${p.color.replace('border-', 'text-')}`}>{p.phase}</p>
+                                            <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${p.textColor}`}>{p.phase}</p>
                                             <h3 className="text-lg font-black text-slate-900 mb-4">{p.title}</h3>
 
-                                            <ul className="space-y-3">
-                                                {p.points.map((pt, j) => (
-                                                    <li key={j} className="flex items-start lg:justify-center gap-2 group/item">
-                                                        <span className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${p.bg.replace('bg-', 'bg-').replace('-50', '-400')}`} />
-                                                        <span className="text-[11px] font-medium text-slate-500 leading-tight group-hover/item:text-slate-800 transition-colors uppercase tracking-tight">{pt}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                            <p className="text-[11px] font-medium text-slate-500 leading-relaxed uppercase tracking-tight">
+                                                {p.desc}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             ))}
+                        </div>
+
+                        {/* Closing Statement */}
+                        <div className="mt-24 text-center">
+                            <div className="inline-flex items-center gap-4 px-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                                <span className="text-lg">⭐</span>
+                                <p className="text-xs md:text-sm font-black text-slate-800 uppercase tracking-widest">
+                                    From digitizing hospitals today to building an intelligent healthcare ecosystem tomorrow.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
