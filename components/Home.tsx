@@ -213,7 +213,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               <Calendar size={18} className="text-primary" />
               <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Today's Slate</h3>
             </div>
-            <button onClick={() => onNavigate('OPD')} className="text-xs font-semibold text-primary hover:underline uppercase tracking-wide">Full Schedule →</button>
+            <button onClick={() => onNavigate('OPD')} className="text-xs font-semibold text-primary hover:underline uppercase tracking-wide">Full Schedule</button>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar p-1">
             {(appointments.length > 0 ? appointments : [
